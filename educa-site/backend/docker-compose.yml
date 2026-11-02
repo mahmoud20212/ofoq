@@ -1,0 +1,87 @@
+services:
+
+  cache:
+    image: redis:7.0.4
+    restart: always
+    volumes:
+      - ./data/cache:/data
+
+  db:
+    image: pgvector/pgvector:pg14
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+
+  web:
+    build: .
+    command: start-web.sh
+    restart: always
+    volumes:
+      - .:/code
+    environment:
+      - DJANGO_SETTINGS_MODULE=educa.settings.prod
+      - POSTGRES_DB=
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=
+      - REDIS_URL=
+      - CELERY_BROKER_URL=
+    # depends_on:
+    #   - db
+    #   - cache
+
+  daphne:
+    build: .
+    working_dir: /code/educa/
+    command: start-daphne.sh
+    restart: always
+    volumes:
+      - .:/code
+    environment:
+      - DJANGO_SETTINGS_MODULE=educa.settings.prod
+      - POSTGRES_DB=
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=
+      - REDIS_URL=
+      - CELERY_BROKER_URL=
+    # depends_on:
+    #   - db
+    #   - cache
+
+  celery_worker:
+    build: .
+    working_dir: /code/educa/
+    command: /bin/bash -c "sed -i 's/\r$//' /code/wait-for-it.sh; chmod +x /code/wait-for-it.sh; /code/wait-for-it.sh db:5432 -- celery -A educa worker -l info -P solo"
+    restart: always
+    volumes:
+      - .:/code
+    environment:
+      - DJANGO_SETTINGS_MODULE=educa.settings.prod
+      - POSTGRES_DB=
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=
+      - CELERY_BROKER_URL=
+    # depends_on:
+    #   - db
+    #   - cache
+
+  nginx:
+    image: nginx:1.23.1
+    restart: always
+    volumes:
+      - ./config/nginx:/etc/nginx/templates
+      - .:/code
+    ports:
+      - "80:80"
+      - "443:443"
