@@ -1,0 +1,16 @@
+{
+  "themes": [
+    {
+      "name": "my-account",
+      "types": [
+        "account"
+      ]
+    },
+    {
+      "name": "ofoq-login",
+      "types": [
+        "login"
+      ]
+    }
+  ]
+}

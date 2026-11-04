@@ -1,0 +1,266 @@
+
+/* OFOQ / Keycloak Account UI / PatternFly 5 */
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.account-theme {
+  --pf-v5-global--FontFamily--text: "Alexandria", sans-serif;
+  --pf-v5-global--Color--100: var(--text);
+  --pf-v5-global--Color--200: var(--muted);
+  --pf-v5-global--BackgroundColor--100: var(--surface);
+  --pf-v5-global--BackgroundColor--200: var(--bg);
+  --pf-v5-global--BorderColor--100: var(--border);
+  --pf-v5-global--primary-color--100: var(--primary);
+  --pf-v5-global--link--Color: var(--link);
+}
+
+.account-theme .pf-v5-c-title,
+.account-theme .pf-v5-c-form__label-text,
+.account-theme .pf-v5-c-description-list__term,
+.account-theme .pf-v5-c-description-list__description {
+  color: var(--text);
+  font-family: "Alexandria", sans-serif;
+}
+
+.account-theme .pf-v5-c-card,
+.account-theme .pf-v5-c-panel,
+.account-theme .pf-v5-c-data-list,
+.account-theme .pf-v5-c-data-list__item {
+  /* background: var(--surface); */
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.account-theme .pf-v5-c-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.account-theme .pf-v5-c-table {
+  --pf-v5-c-table--BackgroundColor: var(--surface);
+  --pf-v5-c-table--Color: var(--text);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.account-theme .pf-v5-c-table th,
+.account-theme .pf-v5-c-table td,
+.account-theme .pf-v5-c-table tr {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.account-theme .pf-v5-c-form-control,
+.account-theme .pf-v5-c-text-input-group,
+.account-theme .pf-v5-c-text-input-group__main,
+.account-theme .pf-v5-c-menu-toggle,
+.account-theme .pf-v5-c-select__toggle {
+  background: var(--input-bg);
+  color: var(--text);
+  border-color: var(--border);
+  font-family: "Alexandria", sans-serif;
+}
+
+.account-theme .pf-v5-c-text-input-group__text-input {
+  background: transparent;
+  color: var(--text);
+}
+
+.account-theme input::placeholder,
+.account-theme textarea::placeholder {
+  color: var(--muted);
+}
+
+.account-theme .pf-v5-c-button.pf-m-primary {
+  background: var(--gradient);
+  color: #ffffff;
+  border-radius: var(--radius-control);
+  font-family: "Alexandria", sans-serif;
+}
+
+.account-theme .pf-v5-c-button.pf-m-primary:hover {
+  filter: brightness(1.08);
+}
+
+.account-theme .pf-v5-c-button.pf-m-secondary {
+  background: var(--accent-soft);
+  color: var(--link);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-control);
+  font-family: "Alexandria", sans-serif;
+}
+
+.account-theme .pf-v5-c-button.pf-m-secondary:hover {
+  background: var(--hover);
+}
+
+.account-theme .pf-v5-c-button.pf-m-plain {
+  color: var(--muted);
+  background: transparent;
+}
+
+.account-theme .pf-v5-c-button.pf-m-plain:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.account-theme .pf-v5-c-button.pf-m-link,
+.account-theme a:not([class*="navItem"]) {
+  color: var(--link);
+}
+
+.account-theme .pf-v5-c-toolbar,
+.account-theme .pf-v5-c-toolbar__content,
+.account-theme .pf-v5-c-pagination,
+.account-theme .pf-v5-c-input-group,
+.account-theme .pf-v5-c-input-group__item {
+  /* background: var(--surface); */
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.account-theme .pf-v5-c-input-group__item .pf-v5-c-button {
+  background: var(--input-bg);
+  color: var(--text);
+}
+
+.account-theme .pf-v5-c-menu,
+.account-theme .pf-v5-c-dropdown__menu {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.account-theme .pf-v5-c-menu__item,
+.account-theme .pf-v5-c-menu__list-item {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.account-theme .pf-v5-c-menu__item:hover,
+.account-theme .pf-v5-c-menu__item:focus-visible {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.account-theme .pf-v5-c-menu__item.pf-m-selected {
+  background: var(--accent-soft);
+  color: var(--link);
+}
+
+.account-theme .pf-v5-c-input-group svg,
+.account-theme .pf-v5-c-pagination svg,
+.account-theme .pf-v5-c-menu svg {
+  color: var(--muted);
+}
+
+.account-theme .pf-v5-c-form__helper-text,
+.account-theme .pf-v5-c-helper-text,
+.account-theme .pf-v5-c-content p {
+  color: var(--muted);
+}
+
+.account-theme .pf-v5-c-button:focus-visible,
+.account-theme .pf-v5-c-menu-toggle:focus-visible,
+.account-theme .pf-v5-c-form-control:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+
+/* =====================================
+   OFOQ - Dark / Light Content Fix
+   ===================================== */
+
+.account-theme {
+  --pf-v5-global--BackgroundColor--100: var(--surface);
+  --pf-v5-global--BackgroundColor--200: var(--bg);
+  --pf-v5-global--Color--100: var(--text);
+  --pf-v5-global--Color--200: var(--muted);
+}
+
+/* Main account content */
+.account-theme .content {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Keycloak internal page containers */
+.account-theme .pf-v5-c-page__main,
+.account-theme .pf-v5-c-page__main-section,
+.account-theme .pf-v5-c-page__main-body,
+.account-theme .pf-v5-c-page__main-container {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Cards and content sections */
+.account-theme .pf-v5-c-card,
+.account-theme .pf-v5-c-panel {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+/* Titles */
+.account-theme .pf-v5-c-title,
+.account-theme h1,
+.account-theme h2,
+.account-theme h3 {
+  color: var(--text);
+}
+
+/* Descriptions */
+.account-theme .pf-v5-c-content,
+.account-theme .pf-v5-c-content p {
+  color: var(--muted);
+}
+
+/* Lists */
+.account-theme .pf-v5-c-data-list,
+.account-theme .pf-v5-c-data-list__item,
+.account-theme .pf-v5-c-data-list__item-content {
+  /* background: var(--surface); */
+  color: var(--text);
+}
+
+/* Tables */
+.account-theme .pf-v5-c-table,
+.account-theme .pf-v5-c-table thead,
+.account-theme .pf-v5-c-table tbody,
+.account-theme .pf-v5-c-table tr,
+.account-theme .pf-v5-c-table th,
+.account-theme .pf-v5-c-table td {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* Search and pagination */
+.account-theme .pf-v5-c-toolbar,
+.account-theme .pf-v5-c-pagination,
+.account-theme .pf-v5-c-input-group {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Buttons */
+.account-theme .pf-v5-c-button.pf-m-secondary {
+  background: var(--accent-soft);
+  color: var(--link);
+  border-color: var(--primary);
+}
+
+.account-theme .pf-v5-c-text-input-group:focus-within,
+.account-theme .pf-v5-c-input-group:focus-within {
+  border-color: var(--primary);
+}

@@ -1,0 +1,213 @@
+/* Shared Account UI controls. PatternFly keeps the DOM, validation and events. */
+.account-theme .content :is(.pf-v5-c-form-control, .pf-v5-c-text-input-group, .pf-v5-c-menu-toggle, .pf-v5-c-select__toggle) {
+  min-width: 0;
+  min-height: var(--control-height);
+  border: 1px solid var(--control-border);
+  border-radius: var(--control-radius);
+  background: var(--input-bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.account-theme .content .pf-v5-c-form-control {
+  --pf-v5-c-form-control--Color: var(--text);
+  --pf-v5-c-form-control--m-disabled--Color: var(--muted);
+  --pf-v5-c-form-control__toggle-icon--Color: var(--muted);
+  --pf-v5-c-form-control__icon--Color: var(--muted);
+  align-items: center;
+}
+
+.account-theme .content :is(.pf-v5-c-form-control, .pf-v5-c-menu-toggle, .pf-v5-c-select__toggle)::before,
+.account-theme .content :is(.pf-v5-c-form-control, .pf-v5-c-menu-toggle, .pf-v5-c-select__toggle)::after,
+.account-theme .content .pf-v5-c-text-input-group__text::before,
+.account-theme .content .pf-v5-c-text-input-group__text::after {
+  border: 0;
+}
+
+.account-theme .content .pf-v5-c-form-control > :is(input, select, textarea),
+.account-theme .content .pf-v5-c-text-input-group__text-input {
+  width: 100%;
+  min-width: 0;
+  min-height: calc(var(--control-height) - 2px);
+  padding: 11px 14px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+  font: inherit;
+  box-shadow: none;
+}
+
+.account-theme .content .pf-v5-c-form-control > textarea {
+  min-height: 108px;
+  resize: vertical;
+}
+
+.account-theme .content .pf-v5-c-form-control > input:-webkit-autofill {
+  -webkit-text-fill-color: var(--text);
+  box-shadow: 0 0 0 1000px var(--input-bg) inset;
+}
+
+.account-theme .content .pf-v5-c-form-control:has(select) > select {
+  padding-inline-end: 40px;
+}
+
+.account-theme .content .pf-v5-c-form-control__utilities {
+  padding-block: 12px;
+}
+
+.account-theme .content :is(.pf-v5-c-text-input-group__main, .pf-v5-c-text-input-group__text) {
+  background: transparent;
+  min-width: 0;
+}
+
+.account-theme .content .pf-v5-c-text-input-group__main.pf-m-icon .pf-v5-c-text-input-group__text-input {
+  padding-inline-start: 38px;
+}
+
+.account-theme .content :is(.pf-v5-c-form-control, .pf-v5-c-text-input-group, .pf-v5-c-menu-toggle, .pf-v5-c-select__toggle):hover {
+  border-color: var(--primary);
+}
+
+.account-theme .content :is(.pf-v5-c-form-control, .pf-v5-c-text-input-group, .pf-v5-c-input-group):focus-within,
+.account-theme .content :is(.pf-v5-c-menu-toggle, .pf-v5-c-select__toggle):focus-visible {
+  border-color: var(--primary);
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.account-theme .content .pf-v5-c-form-control > :is(input, select, textarea):focus,
+.account-theme .content .pf-v5-c-text-input-group__text-input:focus {
+  outline: none; /* The enclosing control provides the visible focus ring. */
+}
+
+.account-theme .content .pf-v5-c-form-control:is(.pf-m-error, :has([aria-invalid="true"])) {
+  border-color: var(--control-error);
+}
+
+.account-theme .content :is(.pf-v5-c-helper-text__item.pf-m-error, .pf-v5-c-form__helper-text.pf-m-error) {
+  color: var(--control-error);
+}
+
+.account-theme .content .pf-v5-c-form-control:is(.pf-m-readonly, .pf-m-disabled) {
+  background: var(--surface-alt);
+  border-color: var(--border);
+}
+
+.account-theme .content .pf-v5-c-form-control:has(:disabled),
+.account-theme .content .pf-v5-c-menu-toggle:disabled {
+  opacity: .7;
+  cursor: not-allowed;
+}
+
+.account-theme .content .pf-v5-c-form-control > :disabled {
+  color: var(--muted);
+  -webkit-text-fill-color: var(--muted);
+}
+
+.account-theme .content .pf-v5-c-input-group {
+  min-width: 0;
+  border: 1px solid var(--control-border);
+  border-radius: var(--control-radius);
+  background: var(--input-bg);
+}
+
+.account-theme .content .pf-v5-c-input-group :is(.pf-v5-c-form-control, .pf-v5-c-text-input-group, .pf-v5-c-input-group__item) {
+  min-height: calc(var(--control-height) - 2px);
+  border: 0;
+  background: transparent;
+}
+
+.account-theme .content .pf-v5-c-input-group :is(.pf-v5-c-form-control, .pf-v5-c-text-input-group):focus-within {
+  outline: none;
+}
+
+.account-theme .content .pf-v5-c-button {
+  --pf-v5-c-button--after--BorderRadius: var(--button-radius);
+  --pf-v5-c-button--after--BorderWidth: 0;
+  --pf-v5-c-button--hover--after--BorderWidth: 0;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: var(--button-radius);
+  font: 500 13px/1.5 "Alexandria", sans-serif;
+}
+
+.account-theme .content .pf-v5-c-button.pf-m-primary {
+  min-height: var(--control-height);
+  min-width: 112px;
+  background: var(--gradient);
+  color: #fff;
+}
+
+.account-theme .content .pf-v5-c-button.pf-m-secondary,
+.account-theme .content .pf-v5-c-form__actions .pf-v5-c-button.pf-m-link {
+  min-height: var(--control-height);
+  padding-inline: 20px;
+  border: 1px solid var(--control-border);
+  background: transparent;
+  color: var(--link);
+  text-decoration: none;
+}
+
+.account-theme .content .pf-v5-c-button.pf-m-secondary:hover,
+.account-theme .content .pf-v5-c-form__actions .pf-v5-c-button.pf-m-link:hover {
+  border-color: var(--primary);
+  background: var(--hover);
+}
+
+.account-theme .content .pf-v5-c-button.pf-m-plain {
+  padding: 10px;
+  min-width: 40px;
+  color: var(--muted);
+}
+
+.account-theme .content .pf-v5-c-input-group .pf-v5-c-button {
+  min-height: calc(var(--control-height) - 2px);
+  border: 0;
+  border-radius: var(--control-radius);
+  background: transparent;
+}
+
+.account-theme .content .pf-v5-c-button.pf-m-danger {
+  background: transparent;
+  color: var(--control-error);
+  border: 1px solid var(--control-error);
+}
+
+.account-theme .content .pf-v5-c-button:is(:disabled, .pf-m-disabled, [aria-disabled="true"]) {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  filter: none;
+  cursor: not-allowed;
+}
+
+.account-theme .content .pf-v5-c-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding-block-start: 20px;
+  margin-inline: 0;
+  margin-block-end: 0;
+}
+
+/* PatternFly clips its negative action margins; pill buttons and focus rings
+   need their full bounds after switching the actions to a gap layout. */
+.account-theme .content .pf-v5-c-form__group.pf-m-action {
+  overflow: visible;
+}
+
+.account-theme .content .pf-v5-c-form__actions > .pf-v5-c-button {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .account-theme .content .pf-v5-c-form__actions > .pf-v5-c-button {
+    flex: 1 1 140px;
+  }
+}

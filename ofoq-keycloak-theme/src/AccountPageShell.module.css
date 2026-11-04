@@ -1,0 +1,217 @@
+.page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.4vw, 28px);
+  min-width: 0;
+  color: var(--text);
+  direction: rtl;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.5vw, 16px);
+  min-width: 0;
+}
+
+.headerIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(46px, 4.2vw, 56px);
+  height: clamp(46px, 4.2vw, 56px);
+  flex: 0 0 auto;
+  border-radius: 16px;
+  color: #fff;
+  background: var(--gradient);
+}
+
+.headerCopy {
+  min-width: 0;
+}
+
+.headerCopy h1 {
+  margin: 0 0 7px;
+  color: var(--text);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.headerCopy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(11px, 1vw, 13px);
+  line-height: 1.8;
+}
+
+.card {
+  min-width: 0;
+  padding: clamp(18px, 2.3vw, 30px);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Keycloak supplies the data loading, actions, validation, and page structure. */
+.card :global(.pf-v5-c-page),
+.card :global(.pf-v5-c-page__main),
+.card :global(.pf-v5-c-page__main-section),
+.card :global(.pf-v5-c-page__main-body),
+.card :global(.pf-v5-c-page__main-container) {
+  min-width: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.card :global(.pf-v5-c-page__main-section) {
+  padding-inline: 0;
+}
+
+.card :global(.pf-v5-c-title),
+.card :global(.pf-v5-c-form__label-text),
+.card :global(.pf-v5-c-table__text),
+.card :global(.pf-v5-c-data-list__item-content) {
+  color: var(--text);
+  font-family: inherit;
+}
+
+.card :global(.pf-v5-c-content),
+.card :global(.pf-v5-c-content p),
+.card :global(.pf-v5-c-form__helper-text),
+.card :global(.pf-v5-c-helper-text) {
+  color: var(--muted);
+  font-family: inherit;
+}
+
+.card :global(.pf-v5-c-card),
+.card :global(.pf-v5-c-panel),
+.card :global(.pf-v5-c-data-list),
+.card :global(.pf-v5-c-table),
+.card :global(.pf-v5-c-toolbar),
+.card :global(.pf-v5-c-pagination) {
+  background: var(--surface-alt);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.card :global(.pf-v5-c-card),
+.card :global(.pf-v5-c-panel) {
+  border-radius: 14px;
+}
+
+.card :global(.pf-v5-c-table th),
+.card :global(.pf-v5-c-table td),
+.card :global(.pf-v5-c-table tr),
+.card :global(.pf-v5-c-data-list__item) {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.card :global(.pf-v5-c-form-control),
+.card :global(.pf-v5-c-text-input-group),
+.card :global(.pf-v5-c-menu-toggle),
+.card :global(.pf-v5-c-select__toggle),
+.card :global(.pf-v5-c-input-group) {
+  min-height: 42px;
+  background: var(--input-bg);
+  border-color: var(--border);
+  border-radius: var(--radius-control);
+  color: var(--text);
+  font-family: inherit;
+}
+
+.card :global(input),
+.card :global(textarea),
+.card :global(select),
+.card :global(.pf-v5-c-text-input-group__text-input) {
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+}
+
+.card :global(input:-webkit-autofill),
+.card :global(input:-webkit-autofill:hover),
+.card :global(input:-webkit-autofill:focus) {
+  -webkit-text-fill-color: var(--text);
+  box-shadow: 0 0 0 1000px var(--input-bg) inset;
+}
+
+.card :global(.pf-v5-c-button) {
+  min-height: 40px;
+  border-radius: var(--radius-control);
+  font-family: inherit;
+}
+
+.card :global(.pf-v5-c-button.pf-m-primary) {
+  background: var(--gradient);
+  color: #fff;
+}
+
+.card :global(.pf-v5-c-button.pf-m-link),
+.card :global(a) {
+  color: var(--link);
+}
+
+/* .card :global(.pf-v5-c-jump-links) {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+} */
+
+.card :global(.pf-v5-c-jump-links__label),
+.card :global(.pf-v5-c-jump-links__link),
+.card :global(.pf-v5-c-jump-links__toggle) {
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .card :global(.pf-v5-c-form.pf-m-horizontal) {
+    display: block;
+  }
+
+  .card :global(.pf-v5-c-form__group-control) {
+    margin-block-start: 8px;
+  }
+
+  .card :global(.pf-v5-c-toolbar),
+  .card :global(.pf-v5-c-pagination) {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageHeader {
+    align-items: flex-start;
+  }
+
+  .headerIcon {
+    border-radius: 13px;
+  }
+
+  .card {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .card :global(.pf-v5-c-table) {
+    min-width: 560px;
+  }
+
+  .card :global(.pf-v5-c-table-container) {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+.card > :global(.pf-v5-c-page__main-section:first-child) {
+  display: none;
+}
+

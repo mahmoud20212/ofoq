@@ -1,0 +1,130 @@
+
+/* ==========================================
+   TABLET & MOBILE
+   ========================================== */
+
+@media (max-width: 1024px) {
+  .account-theme .menuButton {
+    display: inline-flex;
+  }
+
+  /* القائمة الجانبية المنزلقة */
+  .account-theme .sidebarWrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    width: min(310px, 85vw);
+    height: 100dvh;
+
+    z-index: 1001;
+    background: var(--sidebar-bg);
+
+    transform: translateX(105%);
+    transition:
+      transform 0.25s ease,
+      visibility 0.25s ease;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    visibility: hidden;
+  }
+
+  /* عند فتح القائمة */
+  .account-theme .sidebarWrapper.sidebarOpen {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .account-theme .sidebar {
+    min-height: 100%;
+    padding: 28px 16px;
+  }
+
+  /* الخلفية خلف القائمة */
+  .account-theme .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    border: 0;
+    background: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+  }
+
+  /* المحتوى */
+  .account-theme .content {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+    padding: 24px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+  }
+}
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 640px) {
+  .account-theme .header {
+    height: 68px;
+    min-height: 68px;
+    padding: 0 16px;
+  }
+
+  .account-theme .brandLogo {
+    width: 44px;
+    height: 44px;
+    /* padding: 6px; */
+    border-radius: 12px;
+  }
+
+  .account-theme .brand strong {
+    font-size: 16px;
+  }
+
+  .account-theme .brand span {
+    font-size: 10px;
+  }
+
+  .account-theme .themeButton {
+    padding: 10px;
+  }
+
+  .account-theme .themeButton span {
+    display: none;
+  }
+
+  .account-theme .content {
+    padding: 16px;
+  }
+
+  .account-theme .pf-v5-c-card {
+    border-radius: 12px;
+  }
+
+  /* الجداول العريضة */
+  .account-theme .pf-v5-c-table {
+    min-width: 540px;
+  }
+}
+
+/* ==========================================
+   ACCESSIBILITY
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .account-theme *,
+  .account-theme *::before,
+  .account-theme *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,205 @@
+
+.profilePage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  direction: rtl;
+}
+
+.pageHeading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.headingIcon {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #6246d9, #2475e9);
+}
+
+.pageHeading h1 {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.pageHeading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.profileCard {
+  min-width: 0;
+  padding: 28px 26px 24px;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background: var(--surface);
+  color: var(--text);
+}
+
+.cardHeading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 24px;
+}
+
+.cardIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  border-radius: 13px;
+  color: var(--primary);
+  background: var(--accent-soft);
+}
+
+.cardHeading h2 {
+  margin: 0 0 5px;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.cardHeading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* PersonalInfo renders two PatternFly page sections: its own heading and the form. */
+.profileCard > :global(.pf-v5-c-page__main-section) {
+  padding-inline: 0;
+  background: transparent;
+}
+
+.profileCard > :global(.pf-v5-c-page__main-section:first-child) {
+  display: none;
+}
+
+.profileCard > :global(.pf-v5-c-page__main-section:last-child) {
+  padding-block: 0;
+}
+
+.profileCard :global(.pf-v5-c-form) {
+  color: var(--text);
+}
+
+.profileCard :global(.pf-v5-c-form__group) {
+  margin-block-end: 20px;
+}
+
+.profileCard :global(.pf-v5-c-form__label-text) {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profileCard :global(.pf-v5-c-form__helper-text),
+.profileCard :global(.pf-v5-c-helper-text) {
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.profileCard :global(.pf-v5-c-form-control),
+.profileCard :global(.pf-v5-c-text-input-group),
+.profileCard :global(.pf-v5-c-menu-toggle),
+.profileCard :global(.pf-v5-c-select__toggle) {
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+/* PatternFly's browser/autofill rules can otherwise force dark text in dark mode. */
+.profileCard :global(input),
+.profileCard :global(textarea),
+.profileCard :global(select),
+.profileCard :global(.pf-v5-c-text-input-group__text-input) {
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+}
+
+.profileCard :global(input:-webkit-autofill),
+.profileCard :global(input:-webkit-autofill:hover),
+.profileCard :global(input:-webkit-autofill:focus) {
+  -webkit-text-fill-color: var(--text);
+  box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  transition: background-color 9999s ease-out;
+}
+
+/* Keep the generated section navigator visually inside the single profile card. */
+/* .profileCard :global(.pf-v5-c-jump-links) {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+} */
+
+.profileCard :global(.pf-v5-c-jump-links__label),
+.profileCard :global(.pf-v5-c-jump-links__link),
+.profileCard :global(.pf-v5-c-jump-links__toggle) {
+  color: var(--text);
+}
+
+.profileCard :global(.pf-v5-c-jump-links__link.pf-m-current) {
+  color: var(--link);
+  border-inline-end-color: var(--primary);
+}
+
+.profileCard :global(.pf-v5-c-form__actions) {
+  margin-block-start: 8px;
+  padding-block-start: 8px;
+  border-block-start: 1px solid var(--border);
+}
+
+@media (max-width: 640px) {
+  .profilePage {
+    gap: 18px;
+  }
+
+  .pageHeading h1 {
+    font-size: 18px;
+  }
+
+  .headingIcon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .profileCard {
+    padding: 18px 14px 14px;
+    border-radius: 14px;
+  }
+
+  .cardHeading {
+    margin-bottom: 18px;
+  }
+
+  .cardHeading h2 {
+    font-size: 15px;
+  }
+
+  .profileCard :global(.pf-v5-c-form.pf-m-horizontal) {
+    display: block;
+  }
+
+  .profileCard :global(.pf-v5-c-form__group-control) {
+    margin-block-start: 8px;
+  }
+}

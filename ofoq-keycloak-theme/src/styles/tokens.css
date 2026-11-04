@@ -1,0 +1,60 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap");
+
+.account-theme {
+  --bg: #080a12;
+  --surface: #111421;
+  --surface-alt: #171a2a;
+  --sidebar-bg: #0d0f1b;
+  --text: #f7f7fb;
+  --muted: #a4a6bd;
+  --border: #292b40;
+  --hover: #1b1c31;
+  --accent-soft: #211b40;
+  --primary: #6246d9;
+  --secondary: #2475e9;
+  --link: #b5a6ff;
+  --input-bg: #141621;
+  --control-height: 46px;
+  --control-border: #2c2d3d;
+  --control-error: #ffb0bd;
+  --control-radius: 11px;
+  --button-radius: 24px;
+  --gradient: linear-gradient(100deg, #5947df, #326bf4);
+
+  --focus-ring: #c9bcff;
+  --radius-card: 16px;
+  --radius-control: 10px;
+
+  color-scheme: dark;
+  font-family: "Alexandria", sans-serif;
+}
+
+.account-theme[data-theme="light"] {
+  --bg: #f7f8fc;
+  --surface: #ffffff;
+  --surface-alt: #f2f3fa;
+  --sidebar-bg: #ffffff;
+  --text: #151729;
+  --muted: #697087;
+  --border: #e4e6f0;
+  --hover: #f0edff;
+  --accent-soft: #eae5ff;
+  --link: #6246d9;
+  --input-bg: #f7f8fc;
+  --control-border: #e4e6f0;
+  --control-error: #a3213c;
+  --focus-ring: #6246d9;
+
+  color-scheme: light;
+}
+
+.account-theme[data-theme="dark"] .brandLogo {
+  background: linear-gradient(
+    135deg,
+    rgba(98, 70, 217, 0.25),
+    rgba(36, 117, 233, 0.18)
+  );
+
+  border-color: rgba(160, 145, 255, 0.15);
+}

@@ -1,0 +1,40 @@
+/* Keycloak's alert provider lives above the page router, via a body portal. */
+:root[data-account-theme] [data-testid="global-alerts"] {
+  position: fixed;
+  inset: 80px 12px auto auto;
+  width: min(444px, calc(100vw - 8px));
+  max-height: calc(100dvh - 96px);
+  overflow-y: auto;
+  z-index: 1200;
+  padding: 16px;
+  direction: rtl;
+}
+:root[data-account-theme] .pf-v5-c-alert {
+  --notice-bg: #1b2540;
+  --notice-fg: #b9cbff;
+  --notice-border: #394f80;
+  background: var(--notice-bg);
+  color: var(--notice-fg);
+  border: 1px solid var(--notice-border);
+  border-inline-start: 4px solid var(--notice-fg);
+  border-radius: 14px;
+  box-shadow: 0 6px 24px -8px rgb(0 0 0 / 14%), 0 2px 8px -4px rgb(0 0 0 / 8%);
+  font: 400 13px/1.8 "Alexandria", sans-serif;
+}
+:root[data-account-theme] .pf-v5-c-alert.pf-m-success { --notice-bg: #123128; --notice-fg: #94e6be; --notice-border: #28634d; }
+:root[data-account-theme] .pf-v5-c-alert.pf-m-danger { --notice-bg: #351c28; --notice-fg: #ffb0bd; --notice-border: #79394d; }
+:root[data-account-theme] .pf-v5-c-alert.pf-m-warning { --notice-bg: #332b1b; --notice-fg: #f4d28b; --notice-border: #756036; }
+:root[data-account-theme="light"] .pf-v5-c-alert { --notice-bg: #edf3ff; --notice-fg: #254b91; --notice-border: #a3bae7; }
+:root[data-account-theme="light"] .pf-v5-c-alert.pf-m-success { --notice-bg: #edf9f1; --notice-fg: #17643f; --notice-border: #9dcfb0; }
+:root[data-account-theme="light"] .pf-v5-c-alert.pf-m-danger { --notice-bg: #fff0f3; --notice-fg: #a3213c; --notice-border: #e6a3b1; }
+:root[data-account-theme="light"] .pf-v5-c-alert.pf-m-warning { --notice-bg: #fff7e5; --notice-fg: #79520b; --notice-border: #d8bd78; }
+:root[data-account-theme] .pf-v5-c-alert__title,
+:root[data-account-theme] .pf-v5-c-alert__icon,
+:root[data-account-theme] .pf-v5-c-alert__description,
+:root[data-account-theme] .pf-v5-c-alert__action .pf-v5-c-button { color: var(--notice-fg); }
+:root[data-account-theme] .pf-v5-c-alert__title { margin: 0; font-size: 13px; line-height: 1.8; }
+:root[data-account-theme] .pf-v5-c-alert__action .pf-v5-c-button { min-width: 40px; min-height: 40px; border-radius: 8px; }
+:root[data-account-theme] .pf-v5-c-alert__action .pf-v5-c-button:focus-visible { outline: 2px solid var(--notice-fg); outline-offset: 2px; }
+@media (max-width: 640px) {
+  :root[data-account-theme] [data-testid="global-alerts"] { inset: 68px 4px auto; }
+}
