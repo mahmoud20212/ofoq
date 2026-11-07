@@ -1,50 +1,61 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap");
 
-.account-theme {
+.account-theme,
+:root[data-account-theme] {
   --bg: #080a12;
+  --bg-soft: #0d0f1b;
   --surface: #111421;
-  --surface-alt: #171a2a;
+  --surface-alt: #171a2b;
   --sidebar-bg: #0d0f1b;
   --text: #f7f7fb;
-  --muted: #a4a6bd;
-  --border: #292b40;
-  --hover: #1b1c31;
+  --text-secondary: #b9b9ca;
+  --muted: #85859d;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-hover: rgba(201, 188, 255, 0.28);
+  --hover: rgba(255,255,255,.075);
   --accent-soft: #211b40;
   --primary: #6246d9;
   --secondary: #2475e9;
-  --link: #b5a6ff;
-  --input-bg: #141621;
-  --control-height: 46px;
-  --control-border: #2c2d3d;
+  --link: #c9bcff;
+  --input-bg: #111421;
+  --control-height: 50px;
+  --control-border: var(--border);
   --control-error: #ffb0bd;
   --control-radius: 11px;
-  --button-radius: 24px;
-  --gradient: linear-gradient(100deg, #5947df, #326bf4);
+  --button-radius: 999px;
+  --gradient: linear-gradient(135deg, #6246d9, #2475e9);
+  --button-secondary-bg: rgba(255,255,255,.04);
+  --button-primary-shadow: 0 12px 35px rgba(72,65,205,.24), inset 0 1px rgba(255,255,255,.18);
+  --button-primary-hover-shadow: 0 16px 42px rgba(72,65,205,.34), inset 0 1px rgba(255,255,255,.25);
 
-  --focus-ring: #c9bcff;
-  --radius-card: 16px;
+  --focus-ring: rgba(145,185,244,.72);
+  --radius-card: 20px;
   --radius-control: 10px;
 
   color-scheme: dark;
   font-family: "Alexandria", sans-serif;
 }
 
-.account-theme[data-theme="light"] {
-  --bg: #f7f8fc;
+.account-theme[data-theme="light"],
+:root[data-account-theme="light"] {
+  --bg: #f4f5fb;
+  --bg-soft: #eceef7;
   --surface: #ffffff;
-  --surface-alt: #f2f3fa;
+  --surface-alt: #f1f2f8;
   --sidebar-bg: #ffffff;
-  --text: #151729;
-  --muted: #697087;
-  --border: #e4e6f0;
-  --hover: #f0edff;
+  --text: #141526;
+  --text-secondary: #505268;
+  --muted: #77798e;
+  --border: rgba(40,42,78,.11);
+  --border-hover: rgba(80,54,184,.28);
+  --hover: rgba(98,70,217,.06);
   --accent-soft: #eae5ff;
   --link: #6246d9;
-  --input-bg: #f7f8fc;
-  --control-border: #e4e6f0;
+  --input-bg: #f4f5fb;
+  --control-border: var(--border);
   --control-error: #a3213c;
-  --focus-ring: #6246d9;
+  --focus-ring: rgba(36,117,233,.7);
 
   color-scheme: light;
 }

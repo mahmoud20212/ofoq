@@ -144,13 +144,6 @@
   transition: background-color 9999s ease-out;
 }
 
-/* Keep the generated section navigator visually inside the single profile card. */
-/* .profileCard :global(.pf-v5-c-jump-links) {
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-} */
-
 .profileCard :global(.pf-v5-c-jump-links__label),
 .profileCard :global(.pf-v5-c-jump-links__link),
 .profileCard :global(.pf-v5-c-jump-links__toggle) {
@@ -195,11 +188,76 @@
     font-size: 15px;
   }
 
-  .profileCard :global(.pf-v5-c-form.pf-m-horizontal) {
-    display: block;
-  }
-
   .profileCard :global(.pf-v5-c-form__group-control) {
     margin-block-start: 8px;
+  }
+}
+
+/* Keep Keycloak navigation intact while placing it beside the form card. */
+.profileCard {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.profileCard :global(form.pf-v5-c-form) {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(200px, 1fr);
+  column-gap: 24px;
+  row-gap: 0;
+  align-items: start;
+}
+.profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-l-grid) { display: contents; }
+.profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-l-grid) > :global(.pf-v5-l-grid__item) {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px 18px 0 0;
+}
+.profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-l-grid) > :global(.pf-v5-l-grid__item):has(:global(.pf-v5-c-jump-links)) {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-c-form__group.pf-m-action) {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0;
+  padding: 0 28px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 0;
+  border-radius: 0 0 18px 18px;
+}
+.profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-c-form__group.pf-m-action) :global(.pf-v5-c-form__actions) {
+  margin: 0;
+  padding-block-start: 20px;
+  border: 0;
+}
+.profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-c-expandable-section) { grid-column: 1; margin-top: 20px; }
+@media (max-width: 768px) {
+  .profileCard :global(form.pf-v5-c-form) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-l-grid) > :global(.pf-v5-l-grid__item):has(:global(.pf-v5-c-jump-links)) {
+    order: -1;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-l-grid) > :global(.pf-v5-l-grid__item):not(:has(:global(.pf-v5-c-jump-links))) {
+    order: 0;
+    width: 100%;
+    padding: 16px;
+  }
+  .profileCard :global(form.pf-v5-c-form) > :global(.pf-v5-c-form__group.pf-m-action) {
+    order: 1;
+    width: 100%;
+    padding: 0 16px 16px;
   }
 }

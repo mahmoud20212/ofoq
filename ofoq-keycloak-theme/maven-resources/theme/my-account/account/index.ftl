@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <base href="${resourceUrl}/">
-    <link rel="icon" type="${properties.favIconType!'image/svg+xml'}" href="${resourceUrl}${properties.favIcon!'/favicon.svg'}">
+    <link rel="icon" type="${properties.favIconType!'image/png'}" href="${resourceUrl}${properties.favIcon!'/ofoq-logo.png'}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="${properties.description!'The account ui is a web-based management interface.'}">
-    <title>${properties.title!'account Management'}</title>
+    <title>${properties.title!'أُفق | مركز الحسابات'}</title>
     <style>
       body {
         margin: 0;

@@ -1,4 +1,5 @@
 import styles from "./AccountPageShell.module.css";
+import panelStyles from "./AccountPanel.module.css";
 
 type AccountPageShellProps = {
   title: string;
@@ -20,7 +21,7 @@ export function AccountPageShell({
         </div>
       </header>
 
-      <section className={styles.card}>{children}</section>
+      <section className={`${styles.card} ${panelStyles.panel}`}>{children}</section>
     </div>
   );
 }

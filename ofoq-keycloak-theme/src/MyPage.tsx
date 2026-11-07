@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import { useEnvironment, type AccountEnvironment } from "@keycloak/keycloak-account-ui";
 import {
   UserRound,
   ShieldCheck,
@@ -35,7 +36,7 @@ const sections = [
   },
   {
     title: "التطبيقات المرتبطة",
-    description: "عرض التطبيقات المتصلة بحساب أُفق",
+    description: "إدارة الخدمات الأخرى المسموح لها بالوصول إلى حسابك",
     path: "../applications",
     icon: Grid2X2,
   },
@@ -57,6 +58,13 @@ const platforms = [
 ];
 
 export const MyPage = () => {
+  const { keycloak } = useEnvironment<AccountEnvironment>();
+  const identity = keycloak.tokenParsed;
+  const displayName = String(
+    identity?.name?.trim() ||
+    [identity?.given_name, identity?.family_name].filter(Boolean).join(" ").trim() ||
+    identity?.preferred_username || "",
+  );
   return (
     <div className={styles.dashboard} dir="rtl">
       {/* Welcome Banner */}
@@ -67,7 +75,7 @@ export const MyPage = () => {
             أُفق | مركز الحسابات
           </span>
 
-          <h1>مرحبًا بك في أُفق</h1>
+          <h1>مرحبًا{displayName ? <>، <bdi>{displayName}</bdi></> : " بك"} في أُفق</h1>
 
           <p>
             حساب واحد يربطك بجميع منصات أُفق.
@@ -159,9 +167,6 @@ export const MyPage = () => {
         </div>
       </section>
 
-      <footer className={styles.dashboardFooter}>
-        <span>أُفق — حساب واحد، آفاق متعددة</span>
-      </footer>
     </div>
   );
 };

@@ -130,10 +130,11 @@
   --pf-v5-c-button--after--BorderRadius: var(--button-radius);
   --pf-v5-c-button--after--BorderWidth: 0;
   --pf-v5-c-button--hover--after--BorderWidth: 0;
-  min-height: 44px;
-  padding: 10px 20px;
+  min-height: 50px;
+  padding: 12px 24px;
   border-radius: var(--button-radius);
-  font: 500 13px/1.5 "Alexandria", sans-serif;
+  font: 700 14px/1.5 "Alexandria", sans-serif;
+  transition: transform .24s, border-color .24s, background .24s, box-shadow .24s;
 }
 
 .account-theme .content .pf-v5-c-button.pf-m-primary {
@@ -141,21 +142,28 @@
   min-width: 112px;
   background: var(--gradient);
   color: #fff;
+  box-shadow: var(--button-primary-shadow);
 }
+
+.account-theme .content .pf-v5-c-button.pf-m-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--button-primary-hover-shadow);
+}
+.account-theme .content .pf-v5-c-button.pf-m-primary:active { transform: translateY(0) scale(.98); }
 
 .account-theme .content .pf-v5-c-button.pf-m-secondary,
 .account-theme .content .pf-v5-c-form__actions .pf-v5-c-button.pf-m-link {
   min-height: var(--control-height);
   padding-inline: 20px;
-  border: 1px solid var(--control-border);
-  background: transparent;
-  color: var(--link);
+  border: 1px solid var(--border);
+  background: var(--button-secondary-bg);
+  color: var(--text);
   text-decoration: none;
 }
 
 .account-theme .content .pf-v5-c-button.pf-m-secondary:hover,
 .account-theme .content .pf-v5-c-form__actions .pf-v5-c-button.pf-m-link:hover {
-  border-color: var(--primary);
+  border-color: var(--border-hover);
   background: var(--hover);
 }
 
@@ -183,6 +191,8 @@
   border: 1px solid var(--border);
   color: var(--muted);
   filter: none;
+  transform: none;
+  box-shadow: none;
   cursor: not-allowed;
 }
 

@@ -220,8 +220,8 @@
 <aside class="ofoq-brand-panel" aria-label="أُفق">
  <div class="ofoq-brand-content">
   <div class="ofoq-brand-mark"><img src="${url.resourcesPath}/img/ofoq-logo.png" alt="" /><strong>أُفق</strong></div>
-  <h2>معرفة تمتد<br>إلى ما هو أبعد.</h2>
-  <p>حساب واحد يجمع رحلتك في مسار ووثوق وصلة.</p>
+  <h2>معرفة تمتد<br>إلى ما هو أبعد</h2>
+  <p>حساب واحد يجمع رحلتك في مسار ووثوق وصلة</p>
  </div>
 </aside>
 </#if>

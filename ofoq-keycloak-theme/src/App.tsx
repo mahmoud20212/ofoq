@@ -2,7 +2,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Spinner } from "@patternfly/react-core";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, House } from "lucide-react";
 import { PageNav } from "./PageNav";
 
 import styles from "./App.module.css";
@@ -11,6 +11,7 @@ import "./styles/keycloak.css";
 import "./styles/responsive.css";
 import "./styles/controls.css";
 import "./styles/notices.css";
+import "./styles/dialogs.css";
 import { useAccountTheme } from "./AccountTheme";
 
 
@@ -59,7 +60,7 @@ function App() {
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
 
-          <div className={styles.brand}>
+          <a className={styles.brand} href={import.meta.env.VITE_LANDING_PAGE_URL || "http://localhost:3000/"} aria-label="أُفق — الصفحة الرئيسية">
             <img
               src={`${import.meta.env.BASE_URL}ofoq-logo.png`}
               alt="شعار أُفق"
@@ -69,9 +70,15 @@ function App() {
               <strong>أُفق</strong>
               <span>مركز الحسابات</span>
             </div>
-          </div>
+          </a>
         </div>
 
+        <div className={styles.headerActions}>
+          <a className={styles.homeLink} href={import.meta.env.VITE_LANDING_PAGE_URL || "http://localhost:3000/"}
+            aria-label="العودة للصفحة الرئيسية" title="العودة للصفحة الرئيسية">
+            <House size={18} aria-hidden="true" />
+            <span>الرئيسية</span>
+          </a>
         <button
           type="button"
           className={`${styles.themeButton} themeButton`}
@@ -87,6 +94,7 @@ function App() {
             {theme === "dark" ? "الوضع الفاتح" : "الوضع الداكن"}
           </span>
         </button>
+        </div>
       </header>
 
       <div className={styles.layout}>
@@ -115,7 +123,7 @@ function App() {
           className={`${styles.content} content`}
           id="main-content"
         >
-          <Suspense
+          <div className={styles.pageContent}><Suspense
             fallback={
               <div className={styles.loading}>
                 <Spinner aria-label="جارٍ التحميل" />
@@ -123,7 +131,12 @@ function App() {
             }
           >
             <Outlet />
-          </Suspense>
+          </Suspense></div>
+          <footer className={styles.footer}>
+            <span>حساب واحد، آفاق متعددة</span>
+            <span>© {new Date().getFullYear()} أُفق. جميع الحقوق محفوظة.</span>
+            {/* <a href={import.meta.env.VITE_LANDING_PAGE_URL || "http://localhost:3000/"}>الصفحة الرئيسية</a> */}
+          </footer>
         </main>
       </div>
     </div>

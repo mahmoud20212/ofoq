@@ -123,8 +123,6 @@ export function PageNav() {
           <span>{signingOut ? "جارٍ تسجيل الخروج…" : "تسجيل الخروج"}</span>
         </button>
         {logoutError && <p className={styles.logoutError} role="alert">{logoutError}</p>}
-        <strong>أُفق</strong>
-        <p>حساب واحد، آفاق متعددة</p>
       </div>
     </aside>
   );

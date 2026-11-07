@@ -1,0 +1,832 @@
+/* .logo img {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 1em #646cff);
+}
+
+.headerLogo img {
+  height: 35px;
+} */
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700&display=swap");
+
+.account {
+  --bg: #080a12;
+  --surface: #111421;
+  --sidebar-bg: #0d0f1b;
+  --text: #f7f7fb;
+  --muted: #a4a6bd;
+  --border: #292b40;
+  --hover: #1b1c31;
+  --accent-soft: #211b40;
+  --primary: #6246d9;
+  --secondary: #2475e9;
+  --gradient: linear-gradient(
+    100deg,
+    #5947df 0%,
+    #326bf4 100%
+  );
+
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Alexandria", sans-serif;
+  direction: rtl;
+}
+
+.account[data-theme="light"] {
+  --bg: #f7f8fc;
+  --surface: #ffffff;
+  --sidebar-bg: #ffffff;
+  --text: #151729;
+  --muted: #697087;
+  --border: #e4e6f0;
+  --hover: #f0edff;
+  --accent-soft: #eae5ff;
+}
+
+.account,
+.account * {
+  box-sizing: border-box;
+}
+
+.header {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandIcon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--gradient);
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.brand strong {
+  display: block;
+  font-size: 19px;
+  color: var(--text);
+}
+
+.brand span {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.themeButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px;
+  background: var(--accent-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.themeButton:hover {
+  background: var(--hover);
+}
+
+.themeButton:focus-visible,
+.navItem:focus-visible {
+  outline: 3px solid #c9bcff;
+  outline-offset: 3px;
+}
+
+.layout {
+  display: flex;
+  min-height: calc(100vh - 76px);
+  align-items: stretch;
+}
+
+.sidebar {
+  width: 270px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 16px;
+  background: var(--sidebar-bg);
+  border-left: 1px solid var(--border);
+}
+
+.sidebarHeading {
+  margin: 0 14px 22px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 16px;
+  border-radius: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.navItem:hover {
+  background: var(--hover);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.navActive {
+  background: var(--accent-soft);
+  color: #b5a6ff;
+  font-weight: 600;
+  border-right: 3px solid var(--primary);
+}
+
+.account[data-theme="light"] .navActive {
+  color: var(--primary);
+}
+
+.navIcon {
+  font-size: 19px;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebarFooter {
+  margin-top: auto;
+  padding: 24px 14px 0;
+  border-top: 1px solid var(--border);
+}
+
+.sidebarFooter span {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.sidebarFooter p {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 32px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.loading {
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+}
+
+/* Keycloak / PatternFly integration */
+
+.account :global(.pf-v5-c-page__main),
+.account :global(.pf-v5-c-page__main-section) {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.account :global(.pf-v5-c-card) {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.account :global(.pf-v5-c-title),
+.account :global(.pf-v5-c-form__label-text) {
+  color: var(--text);
+}
+
+.account :global(.pf-v5-c-button.pf-m-primary) {
+  background: var(--gradient);
+  color: #ffffff;
+  border-radius: 9999px;
+  font-family: "Alexandria", sans-serif;
+}
+
+.account :global(.pf-v5-c-button.pf-m-primary:hover) {
+  filter: brightness(1.08);
+}
+
+.account :global(.pf-v5-c-form-control) {
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .content {
+    padding: 24px;
+  }
+}
+
+.navChevron {
+  margin-inline-start: auto;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.navItem:hover .navChevron,
+.navActive .navChevron {
+  opacity: 1;
+}
+
+.navActive svg {
+  color: var(--primary);
+}
+
+.navItem svg {
+  flex-shrink: 0;
+}
+
+.navItem {
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+
+
+/* Header */
+
+.headerStart {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.brandLogo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Desktop */
+
+.sidebarWrapper {
+  width: 270px;
+  flex-shrink: 0;
+}
+
+.sidebarWrapper .sidebar {
+  width: 100%;
+  height: 100%;
+}
+
+.backdrop {
+  display: none;
+}
+
+/* Tablet & mobile */
+
+@media (max-width: 1024px) {
+  .menuButton {
+    display: flex;
+  }
+
+  .layout {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .sidebarWrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(310px, 85vw);
+    height: 100dvh;
+    z-index: 1001;
+    background: var(--sidebar-bg);
+    transform: translateX(105%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarWrapper .sidebar {
+    width: 100%;
+    min-height: 100%;
+    border-left: 1px solid var(--border);
+    border-bottom: none;
+    padding: 28px 16px;
+  }
+
+  .sidebarWrapper .sidebarHeading,
+  .sidebarWrapper .sidebarFooter {
+    display: block;
+  }
+
+  .sidebarWrapper .navList {
+    flex-direction: column;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .sidebarWrapper .navItem {
+    white-space: normal;
+    padding: 15px 16px;
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+  }
+
+  .content {
+    width: 100%;
+    min-width: 0;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    height: 68px;
+    padding: 0 16px;
+  }
+
+  .brandLogo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand strong {
+    font-size: 16px;
+  }
+
+  .brand span {
+    font-size: 10px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+
+  .themeButton {
+    padding: 10px;
+  }
+}
+
+
+/* ==========================================
+   OFOQ — KEYCLOAK ACCOUNT UI
+   PatternFly v5 overrides
+   ========================================== */
+
+.account {
+  --kc-panel: var(--surface);
+  --kc-panel-hover: var(--hover);
+  --kc-text: var(--text);
+  --kc-muted: var(--muted);
+  --kc-border: var(--border);
+  --kc-link: #a996ff;
+  --kc-input: #171a2a;
+}
+
+.account[data-theme="light"] {
+  --kc-link: #6246d9;
+  --kc-input: #ffffff;
+}
+
+/* Typography */
+
+.account :global(.pf-v5-c-title),
+.account :global(.pf-v5-c-content),
+.account :global(.pf-v5-c-form__label),
+.account :global(.pf-v5-c-form__label-text),
+.account :global(.pf-v5-c-description-list__term),
+.account :global(.pf-v5-c-description-list__description),
+.account :global(.pf-v5-c-data-list__cell) {
+  color: var(--kc-text);
+  font-family: "Alexandria", sans-serif;
+}
+
+.account :global(.pf-v5-c-content p),
+.account :global(.pf-v5-c-form__helper-text),
+.account :global(.pf-v5-c-description-list__description) {
+  color: var(--kc-muted);
+}
+
+/* Cards and panels */
+
+.account :global(.pf-v5-c-card),
+.account :global(.pf-v5-c-data-list),
+.account :global(.pf-v5-c-data-list__item),
+.account :global(.pf-v5-c-panel) {
+  background: var(--kc-panel);
+  color: var(--kc-text);
+  border-color: var(--kc-border);
+}
+
+.account :global(.pf-v5-c-card) {
+  border: 1px solid var(--kc-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.account :global(.pf-v5-c-data-list__item) {
+  border-bottom: 1px solid var(--kc-border);
+}
+
+/* Tables */
+
+.account :global(.pf-v5-c-table) {
+  --pf-v5-c-table--BackgroundColor: var(--kc-panel);
+  --pf-v5-c-table--Color: var(--kc-text);
+  --pf-v5-c-table--BorderColor: var(--kc-border);
+
+  background: var(--kc-panel);
+  color: var(--kc-text);
+}
+
+.account :global(.pf-v5-c-table thead),
+.account :global(.pf-v5-c-table tbody),
+.account :global(.pf-v5-c-table tr),
+.account :global(.pf-v5-c-table th),
+.account :global(.pf-v5-c-table td) {
+  background: var(--kc-panel);
+  color: var(--kc-text);
+  border-color: var(--kc-border);
+}
+
+/* Forms */
+
+.account :global(.pf-v5-c-form-control),
+.account :global(.pf-v5-c-text-input-group__text-input),
+.account :global(.pf-v5-c-select__toggle),
+.account :global(.pf-v5-c-menu-toggle) {
+  background: var(--kc-input);
+  color: var(--kc-text);
+  border-color: var(--kc-border);
+  font-family: "Alexandria", sans-serif;
+}
+
+.account :global(input),
+.account :global(textarea),
+.account :global(select) {
+  color: var(--kc-text);
+  font-family: "Alexandria", sans-serif;
+}
+
+.account :global(input::placeholder),
+.account :global(textarea::placeholder) {
+  color: var(--kc-muted);
+}
+
+/* Buttons and links */
+
+.account :global(.pf-v5-c-button.pf-m-primary) {
+  background: var(--gradient);
+  color: #ffffff;
+  border-radius: 10px;
+  font-family: "Alexandria", sans-serif;
+}
+
+.account :global(.pf-v5-c-button.pf-m-secondary) {
+  color: var(--kc-link);
+  border-color: var(--primary);
+  border-radius: 10px;
+}
+
+.account :global(a:not(.navItem)) {
+  color: var(--kc-link);
+}
+
+.account :global(.pf-v5-c-button.pf-m-link) {
+  color: var(--kc-link);
+}
+
+/* Dropdowns and popovers */
+
+.account :global(.pf-v5-c-menu),
+.account :global(.pf-v5-c-popover),
+.account :global(.pf-v5-c-dropdown__menu) {
+  background: var(--kc-panel);
+  color: var(--kc-text);
+  border: 1px solid var(--kc-border);
+}
+
+.account :global(.pf-v5-c-menu__item) {
+  color: var(--kc-text);
+}
+
+.account :global(.pf-v5-c-menu__item:hover) {
+  background: var(--kc-panel-hover);
+}
+
+/* Responsive content */
+
+.content {
+  overflow-wrap: anywhere;
+}
+
+.content :global(.pf-v5-c-table) {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 16px;
+  }
+
+  .content :global(.pf-v5-c-card) {
+    border-radius: 12px;
+  }
+}
+
+
+/* Account content layout */
+
+.content {
+  width: 100%;
+  min-width: 0;
+}
+
+.content > * {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.content :global(h1),
+.content :global(h2),
+.content :global(h3) {
+  font-family: "Alexandria", sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.content :global(button) {
+  font-family: "Alexandria", sans-serif;
+}
+
+
+/* ======================================
+   OFOQ - Buttons
+   ====================================== */
+
+/* Secondary buttons, including Update */
+.account :global(.pf-v5-c-button.pf-m-secondary) {
+  --pf-v5-c-button--m-secondary--Color: var(--primary);
+  --pf-v5-c-button--m-secondary--BorderColor: var(--primary);
+
+  background: var(--accent-soft);
+  color: var(--kc-link);
+  border: 1px solid var(--primary);
+  border-radius: 10px;
+  font-family: "Alexandria", sans-serif;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.account :global(.pf-v5-c-button.pf-m-secondary:hover) {
+  background: var(--hover);
+  border-color: var(--secondary);
+  color: var(--kc-link);
+}
+
+.account :global(.pf-v5-c-button.pf-m-secondary:focus-visible) {
+  outline: 3px solid #c9bcff;
+  outline-offset: 2px;
+}
+
+/* Primary buttons */
+.account :global(.pf-v5-c-button.pf-m-primary) {
+  background: var(--gradient);
+  color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.account :global(.pf-v5-c-button.pf-m-primary:hover) {
+  filter: brightness(1.1);
+}
+
+
+/* ======================================
+   OFOQ - Toolbar & Pagination
+   ====================================== */
+
+.account :global(.pf-v5-c-toolbar),
+.account :global(.pf-v5-c-toolbar__content),
+.account :global(.pf-v5-c-pagination),
+.account :global(.pf-v5-c-input-group) {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.account :global(.pf-v5-c-toolbar__item),
+.account :global(.pf-v5-c-pagination__nav) {
+  color: var(--text);
+}
+
+.account :global(.pf-v5-c-text-input-group),
+.account :global(.pf-v5-c-text-input-group__main) {
+  background: var(--kc-input);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.account :global(.pf-v5-c-text-input-group__text-input) {
+  background: transparent;
+  color: var(--text);
+}
+
+.account :global(.pf-v5-c-text-input-group__text-input::placeholder) {
+  color: var(--muted);
+}
+
+.account :global(.pf-v5-c-toolbar button),
+.account :global(.pf-v5-c-pagination button) {
+  color: var(--text);
+}
+
+.account :global(.pf-v5-c-toolbar button:hover),
+.account :global(.pf-v5-c-pagination button:hover) {
+  background: var(--hover);
+}
+
+
+/* ======================================
+   OFOQ - Controls
+   ====================================== */
+
+.account :global(.pf-v5-c-menu-toggle),
+.account :global(.pf-v5-c-select__toggle),
+.account :global(.pf-v5-c-dropdown__toggle) {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.account :global(.pf-v5-c-menu-toggle:hover),
+.account :global(.pf-v5-c-select__toggle:hover) {
+  background: var(--hover);
+}
+
+.account :global(.pf-v5-c-button.pf-m-plain) {
+  color: var(--muted);
+  background: transparent;
+}
+
+.account :global(.pf-v5-c-button.pf-m-plain:hover) {
+  color: var(--text);
+  background: var(--hover);
+}
+
+
+/* ======================================
+   OFOQ - Light Mode
+   ====================================== */
+
+.account[data-theme="light"] {
+  --kc-panel: #ffffff;
+  --kc-input: #ffffff;
+  --kc-link: #6246d9;
+}
+
+.account[data-theme="light"]
+  :global(.pf-v5-c-button.pf-m-secondary) {
+  background: #f0edff;
+  color: #6246d9;
+  border-color: #c9bcff;
+}
+
+.account[data-theme="light"]
+  :global(.pf-v5-c-button.pf-m-secondary:hover) {
+  background: #e5ddff;
+}
+
+.account[data-theme="light"]
+  :global(.pf-v5-c-toolbar),
+.account[data-theme="light"]
+  :global(.pf-v5-c-pagination) {
+  background: #ffffff;
+}
+
+
+/* OFOQ - Search controls */
+
+.account :global(.pf-v5-c-input-group) {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.account :global(.pf-v5-c-input-group__item) {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.account :global(.pf-v5-c-input-group__item .pf-v5-c-button) {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.account :global(.pf-v5-c-input-group__item .pf-v5-c-button:hover) {
+  background: var(--hover);
+}
+
+.account :global(.pf-v5-c-text-input-group__icon) {
+  color: var(--muted);
+}
+
+/* OFOQ - Pagination dropdown */
+
+.account :global(.pf-v5-c-menu__list-item) {
+  background: var(--surface);
+}
+
+.account :global(.pf-v5-c-menu__item) {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.account :global(.pf-v5-c-menu__item:hover),
+.account :global(.pf-v5-c-menu__item:focus-visible) {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.account :global(.pf-v5-c-menu__item.pf-m-selected) {
+  background: var(--accent-soft);
+  color: var(--kc-link);
+}
+
+/* Search and pagination icons */
+
+.account :global(.pf-v5-c-input-group svg),
+.account :global(.pf-v5-c-pagination svg),
+.account :global(.pf-v5-c-menu svg) {
+  color: var(--muted);
+}

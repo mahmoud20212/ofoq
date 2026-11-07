@@ -59,6 +59,8 @@
   line-height: 2;
 }
 
+.welcomeBanner h1 { overflow-wrap: anywhere; }
+
 .bannerDecoration {
   position: absolute;
   inset-inline-end: -70px;

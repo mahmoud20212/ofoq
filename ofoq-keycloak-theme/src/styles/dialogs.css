@@ -1,0 +1,96 @@
+/* PatternFly dialogs are portalled to body, outside .account-theme. */
+:root[data-account-theme] .pf-v5-c-backdrop {
+  z-index: 1100;
+  padding: 24px;
+  background: rgb(3 5 12 / 72%);
+  backdrop-filter: blur(6px);
+  direction: rtl;
+  font-family: "Alexandria", sans-serif;
+}
+:root[data-account-theme] .pf-v5-c-modal-box {
+  --pf-v5-c-modal-box--BackgroundColor: var(--surface);
+  --pf-v5-c-modal-box--Color: var(--text);
+  --pf-v5-c-modal-box--BorderRadius: 20px;
+  --pf-v5-c-modal-box__title--Color: var(--text);
+  --pf-v5-c-modal-box__body--Color: var(--muted);
+  --pf-v5-c-modal-box__close--InsetInlineEnd: 16px;
+  width: min(560px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 48px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 35%);
+  text-align: start;
+  font-family: inherit;
+}
+:root[data-account-theme] .pf-v5-c-modal-box__header {
+  padding: 28px 28px 16px;
+  padding-inline-end: 64px;
+}
+:root[data-account-theme] .pf-v5-c-modal-box__title,
+:root[data-account-theme] .pf-v5-c-modal-box__title-text {
+  color: var(--text);
+  font: 700 20px/1.7 "Alexandria", sans-serif;
+}
+:root[data-account-theme] .pf-v5-c-modal-box__body,
+:root[data-account-theme] .pf-v5-c-modal-box__description {
+  padding-inline: 28px;
+  color: var(--muted);
+  font: 400 13px/2 "Alexandria", sans-serif;
+  overflow-wrap: anywhere;
+}
+:root[data-account-theme] .pf-v5-c-modal-box__body { padding-bottom: 24px; overflow-y: auto; }
+:root[data-account-theme] .pf-v5-c-modal-box__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 20px 28px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-alt);
+  border-end-start-radius: inherit;
+  border-end-end-radius: inherit;
+}
+:root[data-account-theme] .pf-v5-c-modal-box .pf-v5-c-button {
+  min-height: 50px;
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--button-radius);
+  font: 700 14px/1.5 "Alexandria", sans-serif;
+  box-shadow: none;
+}
+:root[data-account-theme] .pf-v5-c-modal-box .pf-v5-c-button::after { border: 0; }
+:root[data-account-theme] .pf-v5-c-modal-box .pf-v5-c-button.pf-m-primary {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: var(--button-primary-shadow);
+}
+:root[data-account-theme] .pf-v5-c-modal-box .pf-v5-c-button.pf-m-secondary {
+  background: var(--button-secondary-bg);
+  color: var(--text);
+  border-color: var(--border);
+}
+:root[data-account-theme] .pf-v5-c-modal-box .pf-v5-c-button.pf-m-secondary:hover { background: var(--hover); }
+:root[data-account-theme] .pf-v5-c-modal-box .pf-v5-c-button.pf-m-primary:hover { box-shadow: var(--button-primary-hover-shadow); }
+:root[data-account-theme] .pf-v5-c-modal-box .pf-v5-c-button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+:root[data-account-theme] .pf-v5-c-modal-box__close { top: 16px; inset-inline-end: 16px; inset-inline-start: auto; }
+:root[data-account-theme] .pf-v5-c-modal-box__close .pf-v5-c-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+}
+:root[data-account-theme] .pf-v5-c-modal-box__close .pf-v5-c-button:hover { background: var(--hover); color: var(--text); }
+@media (max-width: 640px) {
+  :root[data-account-theme] .pf-v5-c-backdrop { padding: 16px; }
+  :root[data-account-theme] .pf-v5-c-modal-box__header { padding: 24px 20px 12px; padding-inline-end: 64px; }
+  :root[data-account-theme] .pf-v5-c-modal-box__body,
+  :root[data-account-theme] .pf-v5-c-modal-box__description { padding-inline: 20px; }
+  :root[data-account-theme] .pf-v5-c-modal-box__footer { padding: 16px 20px; }
+  :root[data-account-theme] .pf-v5-c-modal-box__footer .pf-v5-c-button { flex: 1; }
+}

@@ -2,7 +2,6 @@ import type { IndexRouteObject, RouteObject } from "react-router-dom";
 import App from "./App";
 import { environment } from "./environment";
 import {
-  Applications,
   DeviceActivity,
   Groups,
   LinkedAccounts,
@@ -13,6 +12,7 @@ import {
 import { MyPage } from "./MyPage";
 import { ProfilePage } from "./ProfilePage";
 import { AccountPageShell } from "./AccountPageShell";
+import { ConnectedApplications } from "./ConnectedApplications";
 
 export const DeviceActivityRoute: RouteObject = {
   path: "account-security/deviceActivity",
@@ -55,9 +55,9 @@ export const ApplicationsRoute: RouteObject = {
   element: (
     <AccountPageShell
       title="التطبيقات المرتبطة"
-      description="قم بتتبع وإدارة أذونات التطبيقات للوصول إلى حسابك"
+      description="إدارة الخدمات الأخرى التي منحتها صلاحية الوصول إلى حسابك"
     >
-      <Applications />
+      <ConnectedApplications />
     </AccountPageShell>
   ),
 };

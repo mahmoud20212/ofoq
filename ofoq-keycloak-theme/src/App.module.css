@@ -58,11 +58,38 @@
   min-width: 0;
 }
 
+.headerActions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.homeLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--button-radius);
+  background: var(--button-secondary-bg);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.homeLink:hover { background: var(--bg); color: var(--text); text-decoration: none; }
+.homeLink:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+@media (max-width: 480px) {
+  .headerActions { gap: 6px; }
+  .homeLink { padding: 10px; }
+  .homeLink span { display: none; }
+}
+
 /* ==========================================
    BRAND & LOGO
    ========================================== */
 
 .brand {
+  text-decoration: none;
+  color: var(--text);
   position: relative;
   isolation: isolate;
 
@@ -71,6 +98,8 @@
   gap: 14px;
   min-width: 0;
 }
+.brand:hover { color: var(--text); text-decoration: none; }
+.brand:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 5px; border-radius: 8px; }
 
 /* Purple glow behind logo and nearby text */
 .brand::before {
@@ -155,11 +184,11 @@
   justify-content: center;
   gap: 10px;
 
-  background: var(--accent-soft);
+  background: var(--button-secondary-bg);
   color: var(--text);
 
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--button-radius);
 
   font-family: inherit;
   cursor: pointer;
@@ -347,9 +376,9 @@
   margin-bottom: 22px;
   padding: 11px 14px;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--accent-soft);
-  color: var(--link);
+  border-radius: var(--button-radius);
+  background: var(--button-secondary-bg);
+  color: var(--text);
   font: inherit;
   font-size: 12px;
   font-weight: 600;
@@ -383,6 +412,9 @@
    ========================================== */
 
 .content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
   flex: 1;
 
   min-width: 0;
@@ -402,6 +434,27 @@
 
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+}
+
+.pageContent { flex: 1 0 auto; }
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-block: 18px 4px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+.footer a { color: var(--link); text-decoration: none; padding-block: 8px; }
+.footer a:hover { text-decoration: underline; }
+.footer a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
+@media (max-width: 640px) {
+  .footer { flex-direction: column; text-align: center; gap: 8px; }
 }
 
 /* Center inner content */
