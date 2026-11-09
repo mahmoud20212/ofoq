@@ -2,6 +2,8 @@
 
 return [
     'required' => 'حقل :attribute مطلوب.',
+    'in' => 'القيمة المختارة في :attribute غير صالحة.', // ✅ جديد
+    'exists' => 'قيمة :attribute المحددة غير موجودة.', // ✅ جديد
     'email' => 'يجب أن يكون :attribute عنوان بريد إلكتروني صالح.',
     'min' => [
         'string' => 'يجب ألا يقل :attribute عن :min حروف.',
@@ -12,7 +14,7 @@ return [
         'numeric' => 'يجب ألا يزيد :attribute عن :max.',
         'file' => 'يجب ألا يزيد حجم :attribute عن :max كيلوبايت.',
     ],
-    'confirmed' => 'كلمة المرور  وتأكيدها غير متطابقين، يرجى التأكد من إدخال نفس الكلمة.',
+    'confirmed' => 'كلمة المرور وتأكيدها غير متطابقين، يرجى التأكد من إدخال نفس الكلمة.',
     'required_with' => 'حقل :attribute مطلوب عند إدخال :values.',
     'unique' => 'هذا :attribute مستخدم بالفعل.',
     'numeric' => 'يجب أن يكون :attribute رقمًا.',

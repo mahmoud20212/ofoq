@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+        'timezone' => env('APP_TIMEZONE', 'Asia/Gaza'),
 
     /*
     |--------------------------------------------------------------------------

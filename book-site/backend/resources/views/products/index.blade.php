@@ -1,66 +1,72 @@
 @extends('layouts.app')
-@section('title', 'الكتب المتاحة للتبرع')
+@section('title', 'الكتب المتاحة للتبرع — ' . config('app.name'))
 
 @section('content')
 @php
     $totalCount = $products->count();
+    $colors = ['violet', 'blue', 'lavender', 'deep'];
 @endphp
-<div class="products-catalog-page main-content">
-    <div class="container px-3 py-4">
-        <header class="products-catalog__hero text-center">
-            <p class="products-catalog__eyebrow"><i class="fas fa-book-open ms-1" aria-hidden="true"></i> كتب ومراجع</p>
-            <h1 class="products-catalog__title">الكتب المتاحة للتبرع</h1>
+<div class="catalog-page">
+    <div class="glow glow--one" aria-hidden="true"></div>
+    <div class="glow glow--two" aria-hidden="true"></div>
+    <div class="grid-bg" aria-hidden="true"></div>
+
+    <div class="container-ofuq position-relative" style="z-index: 5;">
+        <!-- Header -->
+        <div class="catalog-header text-center">
+            <div class="platform-pill mx-auto mb-3" style="width: fit-content;">
+                <i class="fas fa-book-open text-lavender"></i>
+                <span>كتب ومراجع</span>
+            </div>
+            <h1 class="catalog-title">الكتب المتاحة للتبرع</h1>
             @if($totalCount > 0)
-            <p class="products-catalog__stat"><span class="products-catalog__stat-num">{{ $totalCount }}</span> {{ $totalCount > 1 ? 'كتب' : 'كتاب' }} في المنصة</p>
+            <p class="text-muted fs-6"><span class="text-white fw-bold">{{ $totalCount }}</span> {{ $totalCount > 1 ? 'كتب' : 'كتاب' }} في المنصة</p>
             @endif
-        </header>
+        </div>
 
         @if(session()->has('message'))
-        <div class="alert alert-success products-catalog__alert d-flex align-items-center gap-2" role="alert">
-            <i class="fas fa-check-circle" aria-hidden="true"></i>
+        <div class="alert alert-success d-flex align-items-center gap-2 mx-auto mb-4" style="max-width: 600px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); color: #86efac; border-radius: 14px;">
+            <i class="fas fa-check-circle"></i>
             <span>{{ session()->get('message') }}</span>
         </div>
         @endif
 
         @if($totalCount === 0)
-        <div class="products-catalog__empty-global">
-            <div class="products-catalog__empty-global-icon" aria-hidden="true"><i class="fas fa-box-open"></i></div>
-            <h2 class="h5 fw-bold">لا توجد كتب مضافة بعد</h2>
-            <p class="text-muted mb-3">عندما يضيف الأعضاء كتبهم ومراجعهم ستظهر هنا.</p>
+        <!-- Empty State -->
+        <div class="text-center py-5 glass-card mx-auto" style="max-width: 600px; border-radius: 24px;">
+            <i class="fas fa-box-open fa-4x text-muted mb-3" style="color: var(--lavender) !important; opacity: 0.5;"></i>
+            <h4 class="text-white fw-bold mb-2">لا توجد كتب مضافة بعد</h4>
+            <p class="text-muted small mb-4">عندما يضيف الأعضاء كتبهم ومراجعهم ستظهر هنا.</p>
             @auth
-            <a href="{{ url('/products/create') }}" class="btn btn-primary">إضافة كتاب</a>
+            <a href="{{ url('/products/create') }}" class="button button--primary">
+                <i class="fas fa-plus"></i> إضافة كتاب
+            </a>
             @endauth
         </div>
         @else
-        <section class="products-catalog-board" aria-labelledby="products-catalog-list-title">
-            <div class="products-catalog-board__head">
-                <span class="products-catalog-board__icon" aria-hidden="true"><i class="fas fa-book-open"></i></span>
-                <div class="products-catalog-board__head-text">
-                    <h2 id="products-catalog-list-title" class="products-catalog-board__title">قائمة الكتب</h2>
-                    <p class="products-catalog-board__meta">{{ $totalCount }} {{ $totalCount === 1 ? 'كتاب' : 'كتب' }}</p>
-                </div>
-            </div>
-            <div class="row g-4">
-                @foreach($products as $product)
-                <div class="col-sm-6 col-lg-4">
-                    <article class="card product-catalog-card h-100 border-0 shadow-sm">
-                        <div class="product-catalog-card__img-wrap">
-                            <img src="{{ asset('images/' . $product->image_path) }}" class="card-img-top product-catalog-card__img" alt="{{ $product->name }}">
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="h6 card-title product-catalog-card__name">{{ $product->name }}</h3>
-                            <p class="card-text small text-muted flex-grow-1">{{ \Illuminate\Support\Str::limit($product->description, 100) }}</p>
-                            <a href="{{ url('/products/' . $product->slug) }}" class="btn btn-primary btn-sm mt-2">عرض التفاصيل</a>
-                        </div>
-                    </article>
-                </div>
-                @endforeach
-            </div>
-        </section>
+        <!-- 3D Books Grid -->
+        <div class="catalogue-books mt-5">
+            @foreach($products as $index => $product)
+                @php $color = $colors[$index % 4]; @endphp
+                <article>
+                    <a href="{{ url('/products/' . $product->slug) }}" class="book book--{{ $color }}">
+                        <span class="book__mark">
+                            <img src="{{ asset('images/waraq-logo.png') }}" alt="أُفُق">
+                        </span>
+                        <small>{{ $product->category ?? 'عام' }}</small>
+                        <strong>{{ $product->name }}</strong>
+                        <i></i>
+                        <em>{{ $product->user->name ?? 'مؤلف معتمد' }}</em>
+                    </a>
+                </article>
+            @endforeach
+        </div>
         @endif
 
-        <div class="text-center products-catalog__footer">
-            <a href="{{ route('homePage') }}" class="home-btn"><span>العودة للصفحة الرئيسية</span> <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+        <div class="text-center mt-5">
+            <a href="{{ route('homePage') }}" class="button button--secondary">
+                <span>العودة للصفحة الرئيسية</span> <i class="fas fa-arrow-left"></i>
+            </a>
         </div>
     </div>
 </div>

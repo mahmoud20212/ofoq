@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
-use App\Models\emergencyRequest;
+use App\Models\EmergencyRequest;
 
 class PagesController extends Controller
 {
@@ -14,15 +14,15 @@ class PagesController extends Controller
      */
     public function index()
     {
-        if (Auth::check()) {
-            return redirect()->route('homePage');
+        try {
+            $latestProducts = Product::query()->orderBy('created_at', 'desc')->limit(4)->get();
+            $latestRequests = EmergencyRequest::query()->orderBy('created_at', 'desc')->limit(4)->get();
+        } catch (\Throwable $e) {
+            $latestProducts = collect();
+            $latestRequests = collect();
         }
 
-        return view('index', [
-            'fillViewportHero' => true,
-            'hideNavbar' => true,
-            'hideFooter' => true,
-        ]);
+        return view('homePage', compact('latestProducts', 'latestRequests'));
     }
 
     /**
@@ -32,7 +32,7 @@ class PagesController extends Controller
     {
         try {
             $latestProducts = Product::query()->orderBy('created_at', 'desc')->limit(3)->get();
-            $latestRequests = emergencyRequest::query()->orderBy('created_at', 'desc')->limit(3)->get();
+            $latestRequests = EmergencyRequest::query()->orderBy('created_at', 'desc')->limit(3)->get();
         } catch (\Throwable $e) {
             $latestProducts = collect();
             $latestRequests = collect();

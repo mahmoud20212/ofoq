@@ -21,6 +21,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'location',
+        'image',
+        'is_admin',
+        'is_moderator',
+        'is_author',
+        'is_teacher',
+        'bio',
     ];
 
     /**
@@ -41,9 +49,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        // ✅ تحويل الأدوار لـ Boolean لضمان دقة المقارنات
+        'is_admin' => 'boolean',
+        'is_moderator' => 'boolean',
+        'is_author' => 'boolean',
+        'is_teacher' => 'boolean',
     ];
 
-    // في موديل الـUser
+    // ============================================================
+    // العلاقات (Relationships)
+    // ============================================================
+
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -51,6 +67,55 @@ class User extends Authenticatable
 
     public function emergencyRequests()
     {
-        return $this->hasMany(emergencyRequest::class);
+        return $this->hasMany(EmergencyRequest::class);
+    }
+
+    public function userBooks()
+    {
+        return $this->hasMany(UserBook::class);
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Product::class, 'favorites');
+    }
+
+    public function roleApplications()
+    {
+        return $this->hasMany(RoleApplication::class);
+    }
+
+    public function communityPosts()
+    {
+        return $this->hasMany(CommunityPost::class);
+    }
+
+    public function contentRequests()
+    {
+        return $this->hasMany(ContentRequest::class);
+    }
+
+    // ============================================================
+    // Helper Methods (دوال مساعدة للتحقق من الأدوار)
+    // ============================================================
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin === true;
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->is_moderator === true || $this->isAdmin();
+    }
+
+    public function isAuthor(): bool
+    {
+        return $this->is_author === true || $this->isAdmin();
+    }
+
+    public function isTeacher(): bool
+    {
+        return $this->is_teacher === true || $this->isAdmin();
     }
 }

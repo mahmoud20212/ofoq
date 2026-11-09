@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 use App\Models\Product;
-use App\Models\emergencyRequest;
 
 class ProductsController extends Controller
 {
@@ -27,6 +26,7 @@ class ProductsController extends Controller
         // التحقق من صحة البيانات المدخلة
         $request->validate([
             'name' => 'required',
+            'category' => 'nullable|string|max:100',  // ✅ جديد
             'description' => 'required',
             'quantity' => 'required',
             'location' => 'required',
@@ -34,7 +34,7 @@ class ProductsController extends Controller
             'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'whatsapp.regex' => 'يرجى إدخال رقم واتساب صالح .',
-            'image_path.required' => 'يجب رفع صورة للكتاب.', // رسالة الخطأ الخاصة بالصورة
+            'image_path.required' => 'يجب رفع صورة للكتاب.',
             'image_path.image' => 'الملف يجب أن يكون صورة.',
             'image_path.mimes' => 'الملف يجب أن يكون من نوع: jpeg, png, jpg, gif.',
             'image_path.max' => 'حجم الصورة يجب أن لا يتجاوز 2 ميجابايت.',
@@ -43,7 +43,8 @@ class ProductsController extends Controller
         // إنشاء slug فريد
         $slug = Str::slug($request->name, '-') . '-' . uniqid();
 
-        // معالجة الصورة فقط إذا تم رفعها
+        // ✅ معالجة الصورة مع default قيمة (حماية من undefined)
+        $newImageName = null;
         if ($request->hasFile('image_path')) {
             $newImageName = uniqid() . '-' . $slug . '.' . $request->image_path->extension();
             $request->image_path->move(public_path('images'), $newImageName);
@@ -53,12 +54,12 @@ class ProductsController extends Controller
         Product::create([
             'name' => $request->input('name'),
             'slug' => $slug,
-            'category' => 'عام',
+            'category' => $request->input('category', 'عام'),  // ✅ من الفورم
             'description' => $request->input('description'),
             'quantity' => $request->input('quantity'),
             'location' => $request->input('location'),
             'whatsapp' => $request->input('whatsapp'),
-            'image_path' => $newImageName, // تأكد من أنه يجب رفع صورة
+            'image_path' => $newImageName,
             'user_id' => auth()->user()->id
         ]);
 
@@ -68,12 +69,26 @@ class ProductsController extends Controller
 
     public function show($slug)
     {
-        return view('products.show')->with('product', Product::where('slug', $slug)->first());
+        $product = Product::where('slug', $slug)->first();
+
+        // ✅ حماية: لو المنتج مش موجود، صفحة 404 نظيفة بدل 500
+        if (!$product) {
+            abort(404);
+        }
+
+        return view('products.show')->with('product', $product);
     }
 
     public function edit($slug)
     {
-        return view('products.edit')->with('product', Product::where('slug', $slug)->first());
+        $product = Product::where('slug', $slug)->firstOrFail();
+
+        // ✅ Ownership check — مالك الكتاب أو أدمن
+        if (auth()->id() !== $product->user_id && !auth()->user()->is_admin) {
+            abort(403, 'ليس لديك صلاحية لتعديل هذا الكتاب');
+        }
+
+        return view('products.edit')->with('product', $product);
     }
 
     public function update(Request $request, $slug)
@@ -81,14 +96,15 @@ class ProductsController extends Controller
         // جلب المنتج
         $product = Product::where('slug', $slug)->firstOrFail();
 
-        // التحقق من صلاحيات المستخدم
-        if (auth()->user()->id !== $product->user_id) {
-            return redirect()->back()->with('error', 'ليس لديك صلاحية لتعديل هذا الكتاب');
+        // ✅ Ownership check — مالك الكتاب أو أدمن
+        if (auth()->id() !== $product->user_id && !auth()->user()->is_admin) {
+            abort(403, 'ليس لديك صلاحية لتعديل هذا الكتاب');
         }
 
         // التحقق من صحة البيانات المدخلة
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'category' => 'nullable|string|max:100',  // ✅ جديد
             'description' => 'required|string',
             'quantity' => 'required|integer|min:1',
             'location' => 'required|string|max:255',
@@ -116,11 +132,14 @@ class ProductsController extends Controller
             $request->image_path->move(public_path('images'), $newImageName);
         }
 
+        // ✅ slug فريد: نضيف ID المنتج عشان ما يتعارضش مع منتج تاني بنفس الاسم
+        $newSlug = Str::slug($request->input('name'), '-') . '-' . $product->id;
+
         // تحديث بيانات المنتج
         $updated = $product->update([
             'name' => $request->input('name'),
-            'slug' => Str::slug($request->input('name'), '-'),
-            'category' => $product->category,
+            'slug' => $newSlug,  // ✅ فريد
+            'category' => $request->input('category', $product->category),  // ✅ من الفورم
             'description' => $request->input('description'),
             'quantity' => $request->input('quantity'),
             'location' => $request->input('location'),
@@ -137,15 +156,23 @@ class ProductsController extends Controller
 
     public function destroy($slug)
     {
-        Product::where('slug', $slug)->delete();
+        $product = Product::where('slug', $slug)->firstOrFail();
+
+        // ✅ Ownership check — مالك الكتاب أو أدمن
+        if (auth()->id() !== $product->user_id && !auth()->user()->is_admin) {
+            abort(403, 'ليس لديك صلاحية لحذف هذا الكتاب');
+        }
+
+        $product->delete();
+
         return redirect('/products')->with('message', 'تم حذف الكتاب');
     }
 
     public function showUserData()
     {
-        $user = auth()->user(); // الحصول على المستخدم الحالي
-        $products = $user->products; // جلب المنتجات الخاصة بالمستخدم
-        $emergencyRequests = $user->emergencyRequests; // جلب الطلبات الطارئة الخاصة بالمستخدم
+        $user = auth()->user();
+        $products = $user->products;
+        $emergencyRequests = $user->emergencyRequests;
 
         return view('user.myProducts', compact('products', 'emergencyRequests'));
     }

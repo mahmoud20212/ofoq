@@ -2,30 +2,23 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Redirect;
 use App\Models\EmergencyRequest;
-
 
 class NotificationController extends Controller
 {
     public function index()
     {
-        $emergancyRequests = EmergencyRequest::all();  // أو استخدم الاستعلام المناسب للحصول على الطلبات
-
-        // الحصول على الإشعارات غير المقروءة للمستخدم
+        // ✅ تحسين: جلب الإشعارات غير المقروءة فقط
         $notifications = auth()->user()->unreadNotifications;
 
-        return view('notification.index', compact('notifications', 'emergancyRequests'));
+        return view('notification.index', compact('notifications'));
     }
 
-    // في NotificationController
     public function showAndMarkAsRead($notificationId)
     {
-        // العثور على الإشعار
-        $notification = auth()->user()->notifications->find($notificationId);
+        // ✅ تحسين: query builder بدل تحميل الكل في الذاكرة
+        $notification = auth()->user()->notifications()->find($notificationId);
 
         if (!$notification) {
             return redirect()->route('notification.index')->with('error', 'الإشعار غير موجود.');
@@ -35,7 +28,7 @@ class NotificationController extends Controller
         $notification->markAsRead();
 
         // جلب الطلب المرتبط بالإشعار
-        $emergencyRequest = EmergencyRequest::find($notification->data['emergency_request_id']);
+        $emergencyRequest = EmergencyRequest::find($notification->data['emergency_request_id'] ?? null);
 
         // التأكد من أن الطلب ما زال موجودًا
         if (!$emergencyRequest) {
@@ -48,8 +41,13 @@ class NotificationController extends Controller
 
     public function destroy($id)
     {
-        // العثور على الإشعار
-        $notification = Auth::user()->notifications->find($id);
+        // ✅ تحسين: query builder + null check
+        $notification = Auth::user()->notifications()->find($id);
+
+        // إذا لم يتم العثور على الإشعار (مثلاً تم حذفه مسبقاً)
+        if (!$notification) {
+            return redirect()->route('notification.index')->with('error', 'الإشعار غير موجود أو تم حذفه مسبقاً.');
+        }
 
         // حذف الإشعار
         $notification->delete();
@@ -62,11 +60,8 @@ class NotificationController extends Controller
     {
         $user = Auth::user();
 
-        // التأكد من وجود إشعارات للمستخدم
-        if ($user->notifications->count() > 0) {
-            // حذف كل إشعار على حدة باستخدام each
-            $user->notifications->each->delete();
-        }
+        // ✅ تحسين: حذف مباشر بـ query builder بدل تحميل الكل (أسرع وأخف)
+        $user->notifications()->delete();
 
         return back()->with('success', 'تم حذف جميع الإشعارات بنجاح.');
     }

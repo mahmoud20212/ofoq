@@ -2,19 +2,19 @@
 
 namespace App\Notifications;
 
-use App\Models\emergencyRequest;
+use App\Models\EmergencyRequest;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldQueue; // ✅ إضافة
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class EmergencyNotification extends Notification
+class EmergencyNotification extends Notification implements ShouldQueue // ✅ implements
 {
     use Queueable;
 
     protected $emergencyRequest;
 
-    public function __construct(emergencyRequest $emergencyRequest)
+    public function __construct(EmergencyRequest $emergencyRequest)
     {
         $this->emergencyRequest = $emergencyRequest;
     }
@@ -32,9 +32,8 @@ class EmergencyNotification extends Notification
             'description' => $this->emergencyRequest->description,
             'location' => $this->emergencyRequest->location,
             'whatsapp' => $this->emergencyRequest->whatsapp,
-            'link' => "/emergancyRequest/{$this->emergencyRequest->id}",  // استخدم الـ ID هنا
-            'emergency_request_id' => $this->emergencyRequest->id,  // يتم تضمين الـ ID في البيانات
-
+            'link' => "/emergancyRequest/{$this->emergencyRequest->id}",
+            'emergency_request_id' => $this->emergencyRequest->id,
         ];
     }
 }

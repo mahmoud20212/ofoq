@@ -2269,26 +2269,25 @@ footer.app-footer {
     filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
 }
 
-/* صفحة الترحيل: الهيرو يملأ الشاشة تحت الهيدر — بدون تمرير للصفحة */
+/* صفحة الترحيل: انسيابية طبيعية وقابلة للتمرير */
 html.landing-viewport-lock {
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
+    height: auto;
+    max-height: none;
+    overflow-y: auto;
 }
 
 html.landing-viewport-lock body.page-landing-index {
-    height: 100%;
-    max-height: 100%;
+    height: auto;
+    max-height: none;
     margin: 0;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 body.page-landing-index #app {
-    height: 100%;
-    max-height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    height: auto;
+    max-height: none;
+    display: block;
+    overflow: visible;
 }
 
 body.page-landing-index .navbar {
@@ -2300,19 +2299,17 @@ body.page-landing-index footer.app-footer {
 }
 
 body.page-landing-index main.content {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+    display: block;
 }
 
 body.page-landing-index .home-hero-section {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    flex: none;
+    min-height: auto;
+    display: block;
+    overflow: visible;
 }
 
 body.page-landing-index .hero-modern {
@@ -2637,7 +2634,6 @@ body.page-landing-index .hero-icon-pill p {
     height: clamp(140px, 28vw, 180px);
     border-radius: 50%;
     object-fit: cover;
-    object-position: center 38%;
     border: 4px solid #fff;
 }
 
@@ -3335,7 +3331,6 @@ body.page-landing-index .hero-icon-pill p {
     height: clamp(120px, 22vw, 160px);
     border-radius: 50%;
     object-fit: cover;
-    object-position: center 38%;
     border: 3px solid #fff;
 }
 
@@ -3407,50 +3402,4 @@ body.page-landing-index .hero-icon-pill p {
     .profile-edit-page__layout {
         grid-template-columns: 1fr;
     }
-}
-
-/* صفحة نتائج البحث */
-.search-results-page .search-results-section {
-    background-color: var(--app-surface-elevated);
-    padding: clamp(1.25rem, 3vw, 2rem);
-    border-radius: 10px;
-    margin-top: 2rem;
-    margin-bottom: 2.5rem;
-    clear: both;
-    overflow: hidden;
-}
-
-.search-results-page .search-results-section--books {
-    margin-top: clamp(2.5rem, 5vh, 4rem);
-}
-
-.search-results-page .search-results-section--urgent {
-    margin-top: 0;
-}
-
-.search-results-page .search-results-section h2 {
-    color: var(--app-primary);
-    font-weight: bold;
-    font-size: clamp(1.35rem, 3vw, 2rem);
-    line-height: 1.4;
-    margin: 0 0 1.75rem;
-    font-family: "Lato", sans-serif;
-}
-
-.search-results-page .search-results-section--urgent h2 {
-    color: #dc3545;
-}
-
-.search-results-page .search-results-empty {
-    margin: 1.5rem 0 0;
-    font-size: 1.1rem;
-}
-
-.search-results-page .search-results-section .card {
-    max-width: none;
-}
-
-.search-results-page__footer {
-    margin-top: 1rem;
-    margin-bottom: 3rem;
 }

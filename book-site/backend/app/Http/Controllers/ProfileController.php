@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -38,27 +37,25 @@ class ProfileController extends Controller
      */
     public function show()
     {
-        $user = Auth::user();  // استرجاع بيانات المستخدم
-        return view('profile.show', compact('user'));  // تمرير بيانات المستخدم إلى الـ view
+        $user = Auth::user();
+        return view('profile.show', compact('user'));
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit()
     {
-        return view('profile.edit', ['user' => Auth::user()]);  // تمرير بيانات المستخدم إلى الصفحة
+        return view('profile.edit', ['user' => Auth::user()]);
     }
-
 
     /**
      * Update the specified resource in storage.
+     * ✅ المستخدم بيتحدد من الجلسة، مش من URL
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = User::findOrFail($id);
+        $user = Auth::user();
 
         // التحقق من البيانات المدخلة
         $request->validate([
@@ -68,7 +65,7 @@ class ProfileController extends Controller
             'location' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'current_password' => 'nullable|string',
-            'new_password' => 'nullable|string|min:8|confirmed', // لا تجعلها `required_with`
+            'new_password' => 'nullable|string|min:8|confirmed',
         ]);
 
         // تحديث البيانات الأساسية
@@ -84,7 +81,7 @@ class ProfileController extends Controller
             }
 
             if (!Hash::check($request->current_password, $user->password)) {
-                return back()->withErrors(['current_password' => ' كلمة المرور التي ادخلتها غير صحيحة، تأكد أنك أدخلتها بشكل صحيح']);
+                return back()->withErrors(['current_password' => 'كلمة المرور التي ادخلتها غير صحيحة، تأكد أنك أدخلتها بشكل صحيح']);
             }
 
             // تحديث كلمة المرور بعد التحقق
@@ -111,8 +108,6 @@ class ProfileController extends Controller
 
         return redirect()->route('profile.show')->with('success', 'تم تحديث بروفايلك بنجاح!');
     }
-
-
 
     public function destroy(string $id)
     {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\EmergencyRequest;
 use App\Notifications\EmergencyNotification;
 use App\Models\User;
+use Illuminate\Support\Facades\Notification; // ✅ إضافة
 
 class EmergencyRequestsController extends Controller
 {
@@ -43,13 +44,13 @@ class EmergencyRequestsController extends Controller
             'user_id' => auth()->user()->id
         ]);
 
-        // إرسال إشعارات لجميع المستخدمين
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->notify(new EmergencyNotification($emergencyRequest));
-        }
+        // ✅ تحسين: إرسال إشعارات للمستخدمين الآخرين فقط (استبعاد صاحب الطلب)
+        $users = User::where('id', '!=', auth()->id())->get();
+        
+        // ✅ استخدام Notification::send بدل اللوب (أسرع للذاكرة)
+        Notification::send($users, new EmergencyNotification($emergencyRequest));
 
-        return redirect('/emergancyRequest')->with('message', 'تم إضافة الطلب الطارىء بنجاح!');;
+        return redirect('/emergancyRequest')->with('message', 'تم إضافة الطلب الطارىء بنجاح!');
     }
 
     public function show($id)
@@ -60,13 +61,27 @@ class EmergencyRequestsController extends Controller
 
     public function edit($id)
     {
+        $emergencyRequest = EmergencyRequest::findOrFail($id);
+
+        // ✅ Ownership check — صاحب الطلب أو أدمن
+        if (auth()->id() !== $emergencyRequest->user_id && !auth()->user()->is_admin) {
+            abort(403, 'ليس لديك صلاحية لتعديل هذا الطلب');
+        }
+
         return view('emergancyRequest.edit')
-            ->with('emergancyRequest', EmergencyRequest::where('id', $id)->first());
+            ->with('emergancyRequest', $emergencyRequest);
     }
 
     public function update(Request $request, string $id)
     {
-        // التحقق من صحة البيانات المدخلة أثناء التحديث
+        $emergencyRequest = EmergencyRequest::findOrFail($id);
+
+        // ✅ Ownership check — صاحب الطلب أو أدمن
+        if (auth()->id() !== $emergencyRequest->user_id && !auth()->user()->is_admin) {
+            abort(403, 'ليس لديك صلاحية لتعديل هذا الطلب');
+        }
+
+        // التحقق من صحة البيانات المدخلة
         $request->validate(
             [
                 'description' => 'required',
@@ -78,14 +93,12 @@ class EmergencyRequestsController extends Controller
             ]
         );
 
-        // تحديث الطلب الطارئ (الحقل type يُترك كما هو إن وُجد سابقًا)
-        EmergencyRequest::where('id', $id)
-            ->update([
-                'description' => $request->input('description'),
-                'location' => $request->input('location'),
-                'whatsapp' => $request->input('whatsapp'),
-                'user_id' => auth()->user()->id,
-            ]);
+        // تحديث الطلب (بدون تغيير user_id — صاحب الطلب الأصلي يبقى)
+        $emergencyRequest->update([
+            'description' => $request->input('description'),
+            'location' => $request->input('location'),
+            'whatsapp' => $request->input('whatsapp'),
+        ]);
 
         return redirect('/emergancyRequest/' . $id)
             ->with('message', 'تم تعديل الطلب بنجاح');
@@ -93,7 +106,15 @@ class EmergencyRequestsController extends Controller
 
     public function destroy(string $id)
     {
-        EmergencyRequest::where('id', $id)->delete();
+        $emergencyRequest = EmergencyRequest::findOrFail($id);
+
+        // ✅ Ownership check — صاحب الطلب أو أدمن
+        if (auth()->id() !== $emergencyRequest->user_id && !auth()->user()->is_admin) {
+            abort(403, 'ليس لديك صلاحية لحذف هذا الطلب');
+        }
+
+        $emergencyRequest->delete();
+
         return redirect('/emergancyRequest')
             ->with('message', 'تم حذف الطلب بنجاح');
     }
