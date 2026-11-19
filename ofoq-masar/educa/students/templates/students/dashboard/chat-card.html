@@ -1,0 +1,10 @@
+<section class="student-course-help student-course-chat" aria-labelledby="student-course-chat-title">
+  <h2 id="student-course-chat-title">مساحة النقاش والتفاعل</h2>
+  <div class="student-course-help-body">
+    <p>مساحة للنقاش مع زملائك في الدورة.</p>
+    <a class="button small" href="{% url 'chat:course_chat_room' course.pk %}">
+      {% load static %}<svg class="icon lucide-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#comments" width="24" height="24"/></svg>
+      انضم للنقاش
+    </a>
+  </div>
+</section>

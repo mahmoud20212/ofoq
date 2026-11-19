@@ -1,0 +1,9 @@
+<form method="post" action="{{ request.get_full_path }}" class="teacher-form teacher-organized-form teacher-popup-form assessment-settings" data-content-editor-form>
+{% csrf_token %}<div role="alert" class="teacher-editor-error" data-editor-error hidden></div>
+{{ form.non_field_errors }}
+<div class="teacher-form-columns">{% include 'instructor/field.html' with field=form.title %}{% include 'instructor/field.html' with field=form.module %}</div>
+{% include 'instructor/field.html' with field=form.instructions %}
+<div class="teacher-form-columns">{% include 'instructor/field.html' with field=form.pass_percentage %}{% include 'instructor/field.html' with field=form.max_attempts %}</div>
+<p class="teacher-note">كل محاولة يبدأها الطالب تُحتسب ضمن الحد، ويمكنه استكمال المحاولة النشطة دون استهلاك محاولة أخرى</p>
+<div class="teacher-popup-save"><button type="button" class="student-outline-button" data-editor-close>إلغاء</button><button type="submit" class="button small">{% include 'students/dashboard/icon.html' with name='file' %}حفظ المسودة</button></div>
+</form>

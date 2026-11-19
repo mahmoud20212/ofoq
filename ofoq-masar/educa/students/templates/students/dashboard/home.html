@@ -1,0 +1,22 @@
+{% extends 'students/dashboard/base.html' %}
+{% block student_content %}
+<header class="student-page-heading"><h1>أهلًا، {{ request.user.first_name|default:request.user.username }}</h1></header>
+<section class="student-dashboard-stats student-progress-stats" aria-label="إحصائيات التعلّم">
+  <dl class="student-stat-grid">
+    <div class="student-panel student-stat-card"><dt>{% include 'students/dashboard/icon.html' with name='book' %}الدورات الملتحق بها</dt><dd>{{ learning_summary.enrolled_course_count }}</dd></div>
+    <div class="student-panel student-stat-card"><dt>{% include 'students/dashboard/icon.html' with name='cap' %}مكتملة المحتوى</dt><dd>{{ learning_summary.content_complete_course_count }}</dd></div>
+    <div class="student-panel student-stat-card"><dt>{% include 'students/dashboard/icon.html' with name='play' %}بدأتها ولم تكملها</dt><dd>{{ learning_summary.started_incomplete_course_count }}</dd></div>
+    <div class="student-panel student-stat-card"><dt>{% include 'students/dashboard/icon.html' with name='dashboard' %}المحتويات المكتملة</dt><dd>{{ learning_summary.completed_available_content_count }}</dd></div>
+  </dl>
+</section>
+<section class="student-panel student-resume-card" aria-labelledby="student-resume-title">
+  <span class="student-resume-icon" aria-hidden="true">{% include 'students/dashboard/icon.html' with name='play' %}</span>
+  {% if resume_card %}
+  <div class="student-resume-content"><h2 id="student-resume-title">استئناف التعلم</h2><p class="student-resume-course">{{ resume_card.course.title }}</p><p>المحتوى: {{ resume_card.content.item.title }}</p>{% include 'students/dashboard/progress.html' with course=resume_card.course progress=resume_card.progress %}</div>
+  <a class="button small" href="{% url 'student_lesson' resume_card.course.pk resume_card.content.pk %}" data-dashboard-resume>استئناف التعلم {% include 'students/dashboard/icon.html' with name='play' %}</a>
+  {% else %}
+  <div><h2 id="student-resume-title">تابع التعلّم</h2><p>لا توجد زيارة سابقة لدورة غير مكتملة متاحة للمتابعة. اختر ما تريد تعلّمه من دوراتك</p></div>
+  <a class="button small" href="{% url 'student_course_list' %}">اذهب إلى دوراتي {% include 'courses/arrow-icon.html' %}</a>
+  {% endif %}
+</section>
+{% endblock %}

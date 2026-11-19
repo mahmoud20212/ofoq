@@ -1,0 +1,24 @@
+{% extends 'students/dashboard/base.html' %}{% load static %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/chat.css' %}"><script src="{% static 'js/chat.js' %}" defer></script>{% endblock %}
+{% block student_content %}
+<div class="masar-chat" dir="rtl" data-chat-room>
+  <section class="student-panel chat-panel" aria-label="محادثة الدورة">
+    <header class="chat-heading"><h1>مساحة النقاش والتفاعل</h1><span class="chat-connection" data-connection role="status">جارٍ الاتصال…</span></header>
+    <div class="chat-toolbar"><button type="button" class="student-outline-button" data-older {% if not chat_config.has_older %}hidden{% endif %}>تحميل رسائل أقدم</button><button type="button" class="student-outline-button" data-reconnect hidden>إعادة الاتصال</button><a class="text-link" href="{% url 'sso_login' %}?next={{ request.path|urlencode }}" data-login hidden>تسجيل الدخول مجددًا</a></div>
+    <div class="chat-thread">
+      <div class="chat-log" role="log" aria-label="رسائل الدورة" aria-live="polite" aria-relevant="additions" tabindex="0" data-log><div class="chat-empty" data-empty>{% load static %}<svg class="icon lucide-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#comments" width="24" height="24"/></svg><p>لا توجد رسائل بعد. ابدأ النقاش مع زملائك.</p></div></div>
+      <button type="button" class="button small chat-jump" data-jump hidden>رسائل جديدة</button>
+    </div>
+    <form class="chat-composer" data-composer>
+      <label class="sr-only" for="chat-message">رسالتك</label>
+      <div class="chat-input-wrap">
+        <textarea id="chat-message" name="message" rows="1" maxlength="2000" dir="rtl" placeholder="اكتب رسالتك…" aria-describedby="chat-send-status" data-input></textarea>
+        <button type="submit" class="button chat-send-button" aria-label="إرسال الرسالة" title="إرسال الرسالة" data-send disabled>{% load static %}<svg class="icon lucide-icon" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#arrow-up" width="24" height="24"/></svg></button>
+      </div>
+      <div class="chat-composer-actions"><span id="chat-send-status" class="chat-send-status" data-send-status role="status"></span><button type="button" class="student-outline-button" data-retry hidden>إعادة الإرسال</button></div>
+    </form>
+  </section>
+</div>
+{{ initial_messages|json_script:'chat-initial-messages' }}
+{{ chat_config|json_script:'chat-config' }}
+{% endblock %}

@@ -1,0 +1,1 @@
+{% if readiness_errors %}<details class="assessment-readiness" open><summary>نواقص الجاهزية <span>{{ readiness_errors|length }}</span></summary><ul>{% for error in readiness_errors %}<li>{{ error }}</li>{% endfor %}</ul></details>{% else %}<p class="assessment-ready">جاهز للمراجعة · الإتاحة للطلاب بعد اعتماد الدورة</p>{% endif %}

@@ -1,0 +1,6 @@
+<div class="student-learning-progress" data-course-progress="{{ course.pk }}">
+  {% if progress.available_content_count %}
+  <div class="student-progress-label"><span data-progress-count>{{ progress.completed_content_count }} من {{ progress.available_content_count }} محتوى مكتمل</span><bdi data-progress-percent>{{ progress.completion_percentage }}%</bdi></div>
+  <progress max="100" value="{{ progress.completion_percentage }}" aria-label="تقدم محتوى الدورة" data-progress-bar>{{ progress.completion_percentage }}%</progress>
+  {% else %}<p class="student-progress-empty">لا توجد محتويات متاحة لاحتساب التقدّم حاليًا</p>{% endif %}
+</div>

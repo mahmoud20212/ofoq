@@ -1,0 +1,83 @@
+.course-favorite-form{display:inline-flex;margin:0;flex-shrink:0}.course-favorite-button{display:grid;place-items:center;box-sizing:border-box;padding:0;line-height:1;appearance:none;width:40px;height:40px;border:1px solid var(--border);border-radius:50%;background:var(--surface,#fff);color:var(--secondary);cursor:pointer}.course-favorite-button[aria-pressed=true]{color:var(--link,#286ccc)}.course-favorite-button[aria-pressed=true] svg{fill:currentColor}.course-favorite-button:focus-visible{outline:2px solid var(--link);outline-offset:3px}.course-favorite-button:disabled{opacity:.6;cursor:pointer}.favorite-host{position:relative}.favorite-host>.course-favorite-form{position:absolute;top:12px;inset-inline-end:12px;z-index:3}/* Compact course cards keep favorites aligned with the dashboard. */
+.student-favorites-page{width:100%;min-width:0}
+.favorite-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+.favorite-card{position:relative;display:grid;grid-template-columns:34% minmax(0,1fr);min-width:0;overflow:hidden;border-radius:18px}
+.favorite-card>.student-course-cover{width:100%;height:auto;min-height:210px;align-self:stretch;border-radius:0}
+.favorite-card>.student-course-cover>.icon{width:44px;height:44px}
+.favorite-card-body{min-width:0;padding:20px;display:flex;flex-direction:column;gap:12px}
+.favorite-card-top{display:flex;align-items:center;gap:12px;min-height:40px;padding-inline-end:44px}.favorite-card-top .course-favorite-form{position:absolute;top:16px;inset-inline-end:16px}
+.favorite-card-top .student-kicker{font-size:10px;line-height:1.8;margin:0}
+.favorite-card-top .course-favorite-button{width:40px;height:40px}
+.favorite-card h2{font-size:16px;line-height:1.85;overflow-wrap:anywhere;margin:0}
+.favorite-teacher{font-size:11px;color:var(--secondary);margin:0;overflow-wrap:anywhere}
+.favorite-card-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:auto;padding-top:8px}.favorite-facts{display:flex;align-items:flex-start;flex-direction:column;gap:6px;font-size:12px}
+.favorite-card .button{align-self:start;min-height:40px;font-size:11px;gap:8px;padding:9px 16px;margin-top:0}
+.favorite-count{display:inline-grid;place-items:center;min-width:28px;height:28px;padding-inline:7px;border:1px solid var(--border);border-radius:9px;vertical-align:middle;font-size:12px;font-weight:500;color:var(--secondary)}
+[data-favorites-empty][hidden],[data-favorite-card][hidden]{display:none}
+@media(max-width:1199px){.favorite-grid{grid-template-columns:minmax(0,1fr)}.favorite-card{grid-template-columns:30% minmax(0,1fr)}}
+@media(max-width:600px){.favorite-grid{gap:16px}.favorite-card{grid-template-columns:28% minmax(0,1fr)}.favorite-card-body{padding:16px;gap:10px}.favorite-card-footer{gap:12px}.favorite-card-top .course-favorite-form{top:12px;inset-inline-end:12px}.favorite-card h2{font-size:14px}.favorite-card>.student-course-cover{min-height:210px}.favorite-card>.student-course-cover>.icon{width:34px;height:34px}.favorite-card .button{max-width:100%;padding-inline:12px;font-size:10px}}
+
+.app-alert [data-alert-action]{border:0;background:none;color:inherit;font:inherit;font-size:12px;text-decoration:underline;cursor:pointer;margin-top:8px;padding:0}.app-alert [data-alert-action]:disabled{opacity:.6}
+
+.course-favorite-button>svg{display:block;width:20px;height:20px;margin:0;pointer-events:none}
+
+@media(max-width:480px){.course-favorite-button,.favorite-card-top .course-favorite-button{width:34px;height:34px}.favorite-card-top{min-height:34px}}
+
+.joined-card-links{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px}.joined-card-links>.text-link{font-size:10px;min-height:40px;display:inline-flex;align-items:center}.favorite-card-footer>.favorite-facts{flex-shrink:0}
+
+.student-enrolled-list.favorite-grid{align-items:stretch}.student-enrolled-list>.favorite-card{height:100%;box-sizing:border-box}.student-enrolled-list .favorite-card-body{align-self:stretch}.student-enrolled-list .favorite-card-footer{margin-top:auto}
+
+.detail-course-actions{display:flex;align-items:center;gap:12px;margin-top:24px}.detail-course-actions>.button{flex:1;min-width:0;min-height:44px;margin:0;padding:10px 16px;font-size:12px;justify-content:center}.detail-course-actions>.course-favorite-form{width:auto;margin:0;flex:none}.detail-course-actions .course-favorite-button{width:44px;height:44px}
+
+.joined-card-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;color:var(--secondary);font-size:10px}.student-enrolled-list .favorite-card-footer{padding-top:8px}.student-enrolled-list .joined-card-links{width:100%;justify-content:flex-end;gap:10px 14px}
+.detail-enrollment-actions{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:12px;align-items:center}
+.detail-enrollment-actions>.enrollment-status{grid-column:1 / -1;grid-row:3;text-align:center;font-size:10px;color:var(--secondary);margin:0}
+.detail-enrollment-actions>.enrollment-status:first-child{grid-row:1}
+.detail-enrollment-actions>:is(.button,form:not(.course-favorite-form)){grid-column:1;grid-row:2}
+.detail-enrollment-actions>form:not(.course-favorite-form){min-width:0;margin:0}
+.detail-enrollment-actions>form:not(.course-favorite-form)>.button{width:100%;min-height:44px;margin:0;padding:10px 12px;justify-content:center;font-size:11px;line-height:1.8}
+.detail-enrollment-actions>.button{font-size:11px;line-height:1.8;padding-inline:12px}
+.detail-enrollment-actions>.course-favorite-form{grid-column:2;grid-row:2;width:44px;margin:0}
+.detail-enrollment-actions:not(:has(>.enrollment-status:first-child))>:is(.button,form){grid-row:1}
+.detail-enrollment-actions:not(:has(>.enrollment-status:first-child))>.enrollment-status{grid-row:2}
+.detail-enrollment-actions>.enrollment-price{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:start;margin-bottom:4px}
+.enrollment-price>span{font-size:12px;color:var(--secondary)}
+.detail-enrollment-actions .enrollment-price>strong{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;color:var(--text);font-size:30px;font-weight:700;line-height:1.6}
+.enrollment-price strong>small{font-size:13px;font-weight:500;color:var(--secondary)}
+
+/* Enrolled courses: vertical cards, sized by the available workspace. */
+.student-courses-page{container-type:inline-size;container-name:enrolled-courses}
+.student-courses-page .student-enrolled-list.favorite-grid{grid-template-columns:minmax(0,1fr);gap:24px;align-items:stretch}
+.student-courses-page .student-enrolled-list>.favorite-card{display:flex;flex-direction:column;border-radius:20px;min-width:0;height:100%;border:1px solid var(--border)}
+.student-courses-page .favorite-card>.student-course-cover{height:185px;min-height:185px;flex-shrink:0;width:100%;border-radius:0}
+.student-courses-page .favorite-card>.student-course-cover>.icon{width:58px;height:58px}
+.student-courses-page .favorite-card-body{padding:22px;gap:12px;flex:1;width:100%;box-sizing:border-box}
+.student-courses-page .favorite-card-top{padding-inline-end:0;min-height:24px}
+.student-courses-page .favorite-card-top .student-kicker{font-size:11px;line-height:1.8}
+.student-courses-page .favorite-card-top .course-favorite-form{top:12px;inset-inline-end:12px}
+.student-courses-page .favorite-card h2{font-size:15px;line-height:1.9;min-height:3.8em;margin:0}
+.student-courses-page .favorite-card h2 a{text-decoration:none}
+.student-courses-page .joined-card-meta{display:grid;gap:8px;font-size:11px;line-height:1.8}
+.student-courses-page .joined-card-meta p,.student-courses-page .joined-card-meta>span{display:flex;align-items:center;gap:8px;margin:0;overflow-wrap:anywhere}
+.student-courses-page .joined-card-meta svg{width:16px;height:16px;flex-shrink:0}
+.student-courses-page .favorite-card-footer{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:auto;padding-top:16px}
+.student-courses-page .student-card-progress-text{margin:0;padding-top:12px;border-top:1px solid var(--border);font-size:12px;min-height:30px}
+.student-courses-page .joined-card-links{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;width:100%}
+.student-courses-page .joined-card-links .student-learning-action{grid-column:1/-1;width:100%;box-sizing:border-box;min-height:44px;justify-content:center;font-size:12px;padding:10px 16px;align-self:stretch}
+.student-courses-page .joined-card-links .student-learning-empty{grid-column:1/-1;font-size:12px;line-height:1.8}
+.student-courses-page .joined-card-links>.text-link{font-size:11px;min-height:44px;gap:8px;justify-content:center;line-height:1.8}
+.student-courses-page .favorite-card :is(a,button):focus-visible{outline:2px solid var(--link);outline-offset:3px}
+@container enrolled-courses (min-width:640px){.student-courses-page .student-enrolled-list.favorite-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container enrolled-courses (min-width:1024px){.student-courses-page .student-enrolled-list.favorite-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.student-courses-page .student-enrolled-list.favorite-grid{gap:16px}.student-courses-page .favorite-card-body{padding:16px}.student-courses-page .favorite-card h2{min-height:0}}
+@media(prefers-reduced-motion:reduce){.student-courses-page .course-card{transition:none}.student-courses-page .course-card:hover{transform:none}}
+.student-courses-page .favorite-card-top{justify-content:space-between;gap:8px}
+.joined-card-menu{position:relative;flex-shrink:0;margin-inline-start:auto}
+.joined-card-menu>summary{display:grid;place-items:center;list-style:none;width:40px;height:40px;border:1px solid transparent;border-radius:50%;color:var(--secondary);cursor:pointer}
+.joined-card-menu>summary::-webkit-details-marker{display:none}
+.joined-card-menu>summary:hover,.joined-card-menu[open]>summary{background:var(--surface-alt);border-color:var(--border);color:var(--link)}
+.joined-card-menu-panel{position:absolute;top:calc(100% + 6px);inset-inline-end:0;z-index:5;width:175px;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 8px #0000000d}
+.joined-card-menu-panel a{display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 10px;font-size:11px;border-radius:7px;text-decoration:none}
+.joined-card-menu-panel a:hover{background:var(--surface-alt);color:var(--link)}
+.joined-card-menu-panel svg{width:18px;height:18px;flex-shrink:0}
+.joined-card-menu :focus-visible{outline:2px solid var(--link);outline-offset:2px}

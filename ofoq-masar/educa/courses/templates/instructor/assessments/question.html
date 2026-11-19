@@ -1,0 +1,16 @@
+{% extends 'instructor/assessments/base.html' %}
+{% block assessment_title %}{% if form.instance.pk %}تعديل السؤال{% else %}إضافة سؤال{% endif %}{% endblock %}
+{% block manager_title %}{% if form.instance.pk %}تعديل السؤال{% else %}إضافة سؤال{% endif %}{% endblock %}
+{% block assessment_content %}
+<form method="post" action="{{ request.get_full_path }}" class="teacher-form assessment-question-editor" data-option-editor>{% csrf_token %}
+  <section class="student-panel assessment-panel assessment-question-sheet">{{ form.non_field_errors }}<div class="assessment-question-fields">{% include 'instructor/field.html' with field=form.text %}<div class="assessment-points">{% include 'instructor/field.html' with field=form.points %}</div></div>
+  <div class="assessment-options-heading"><div><h2>الخيارات</h2><p class="teacher-note">اختر الإجابة الصحيحة من الدائرة بجانب الخيار</p></div><button type="submit" class="student-outline-button" name="editor_action" value="add_option" data-add-option formnovalidate>{% include 'students/dashboard/icon.html' with name='plus' %}إضافة خيار</button></div>
+    {{ options.management_form }}{{ options.non_form_errors }}
+    <p class="assessment-validation-error" data-option-validation role="alert" hidden></p>
+    <div class="assessment-options" data-options>{% for option in options %}{% include 'instructor/assessments/option.html' with option_form=option %}{% endfor %}</div>
+    <template data-option-template>{% include 'instructor/assessments/option.html' with option_form=options.empty_form %}</template>
+    <span class="sr-only" data-option-status role="status" aria-live="polite"></span>
+  </section>
+  <footer class="assessment-actions"><a class="student-outline-button" href="{% url 'instructor:assessment' revision.pk version.pk %}">إلغاء</a><button type="submit" class="button small">حفظ</button></footer>
+</form>
+{% endblock %}

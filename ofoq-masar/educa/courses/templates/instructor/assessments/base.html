@@ -1,0 +1,13 @@
+{% extends assessment_layout|default:'instructor/base.html' %}{% load static %}
+{% block extra_head %}{{ block.super }}{% endblock %}
+{% block teacher_content %}
+{% if curriculum_tabs_page %}<div data-curriculum-page data-revision-id="{{ revision.pk }}" data-content-tab-url="{% url 'instructor:revision' revision.pk %}?step=curriculum" data-assessment-tab-url="{% url 'instructor:assessments' revision.pk %}">{% endif %}
+{% if not assessment_dialog %}
+<header class="teacher-heading"><div><p class="eyebrow">{{ revision.title }} · النسخة {{ revision.number }}</p><h1>{% block assessment_title %}اختبارات الدورة{% endblock %}</h1></div>{% if version or form %}<a class="student-outline-button" href="{% url 'instructor:assessments' revision.pk %}">{% include 'students/dashboard/icon.html' with name='file' %}اختبارات النسخة</a>{% endif %}</header>
+{% include 'instructor/setup-steps.html' %}
+{% include 'instructor/assessments/tabs.html' %}
+{% else %}<span data-manager-page-title hidden>{% block manager_title %}إدارة الأسئلة — {{ version.title|default:'اختبار بلا عنوان' }}{% endblock %}</span>{% if form %}<div class="assessment-manager-heading"><a class="text-link assessment-manager-back" href="{% url 'instructor:assessment' revision.pk version.pk %}">{% load static %}<svg class="icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#chevron-right" width="24" height="24"/></svg><span><small>العودة إلى الأسئلة</small><strong>{{ version.title|default:'اختبار بلا عنوان' }}</strong></span></a></div>{% endif %}{% endif %}
+{% if not can_edit %}<p class="assessment-locked" role="status">{% include 'students/dashboard/icon.html' with name='lock' %}{{ revision.get_status_display }} · هذه النسخة للقراءة فقط</p>{% endif %}
+{% block assessment_content %}{% endblock %}
+{% if curriculum_tabs_page %}{% include 'instructor/curriculum-navigation.html' %}</div>{% endif %}
+{% endblock %}

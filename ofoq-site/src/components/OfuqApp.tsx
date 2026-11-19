@@ -173,7 +173,11 @@ function useRoute(initialPath: string) {
     return () => window.removeEventListener('popstate', update)
   }, [])
   const navigate = (next: string) => {
-    if (next.startsWith('/auth/')) { window.location.assign(next); return }
+    if (next.startsWith('/auth/')) {
+      const target = new URL(next, window.location.origin)
+      if (['/auth/login', '/auth/register'].includes(target.pathname) && !target.searchParams.has('next')) target.searchParams.set('next', window.location.pathname + window.location.search + window.location.hash)
+      window.location.assign(target.href); return
+    }
     if (next.includes('/dashboard') || next.startsWith('/account')) { window.location.assign('/auth/my-page'); return }
     if (next !== '/' && next !== '/privacy' && next !== '/terms') {
       const section = next.startsWith('/masar') ? 'courses' : next.startsWith('/waraq') ? 'books' : next.includes('assistant') ? 'assistant' : next.startsWith('/sila') ? 'community' : 'platforms'
@@ -1789,7 +1793,7 @@ function Dashboard({ path, navigate }: { path: string; navigate: (path: string) 
               <div className="grid gap-4">
                 <label>الاسم الكامل<input readOnly value={user?.name || ''} /></label>
                 <label>البريد الإلكتروني<input readOnly value={user?.email || ''} type="email" /></label>
-                <a className="button button--primary" href={accountUrl || '/auth/login'}>إدارة الحساب في Keycloak</a>
+                <a className="button button--primary" href={accountUrl || '/auth/login'}>إدارة حساب أُفُق</a>
               </div>
             </section>
           )}

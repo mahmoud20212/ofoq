@@ -1,0 +1,20 @@
+{% extends 'instructor/base.html' %}
+{% block teacher_content %}
+<header class="teacher-heading"><div><p class="eyebrow">{% if course_form %}إعداد الدورة{% else %}إعداد المحتوى{% endif %}</p><h1>{{ page_title }}</h1>{% if course_form and revision %}<p class="teacher-edit-course-name">{{ revision.title }}</p>{% endif %}</div></header>
+{% include 'instructor/setup-steps.html' %}
+<form class="teacher-form teacher-organized-form" method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.non_field_errors }}
+{% if course_form %}
+<fieldset class="student-panel teacher-form-section"><legend>البيانات الأساسية</legend><header class="teacher-form-section-heading"><h2>البيانات الأساسية</h2><p>عرّف دورتك بعنوان واضح ووصف يساعد الطالب على الاختيار</p></header><div class="teacher-form-columns">{% include 'instructor/field.html' with field=form.title %}{% include 'instructor/field.html' with field=form.subject %}</div>{% include 'instructor/field.html' with field=form.cover %}{% include 'instructor/field.html' with field=form.short_description %}{% include 'instructor/field.html' with field=form.overview %}</fieldset>
+<fieldset class="student-panel teacher-form-section"><legend>أهداف الدورة والجمهور</legend><header class="teacher-form-section-heading"><h2>أهداف الدورة والجمهور</h2><p>وضّح النتائج المتوقعة وما يحتاجه الطالب للبدء</p></header>{% include 'instructor/field.html' with field=form.learning_outcomes %}<label class="teacher-no-experience">{{ form.no_experience }} {{ form.no_experience.label }}</label>{% include 'instructor/field.html' with field=form.requirements %}{% include 'instructor/field.html' with field=form.target_audience %}</fieldset>
+<fieldset class="student-panel teacher-form-section teacher-pricing-section"><legend>التسعير</legend>
+<div class="teacher-pricing-heading"><div><h2 id="teacher-pricing-title">دورة مدفوعة</h2><p id="teacher-pricing-status" data-pricing-status aria-live="polite">{% if form.is_paid.value %}حدّد السعر بالدولار{% else %}الدورة مجانية{% endif %}</p></div><label class="teacher-pricing-switch" for="{{ form.is_paid.id_for_label }}">{{ form.is_paid }}<span aria-hidden="true"></span></label></div>
+{{ form.is_paid.errors }}
+<div class="teacher-field teacher-pricing-price" data-field="price" id="teacher-pricing-price"><label for="{{ form.price.id_for_label }}">{{ form.price.label }} <span class="teacher-required-star" aria-hidden="true">*</span><span class="sr-only"> (مطلوب للدورة المدفوعة)</span></label><div class="teacher-price-input">{{ form.price }}<span aria-hidden="true">دولار أمريكي</span></div>{{ form.price.errors }}</div>
+</fieldset>
+{% else %}<div class="student-panel teacher-form-section">{% for field in form %}{% include 'instructor/field.html' %}{% endfor %}</div>{% endif %}
+<nav class="teacher-step-footer teacher-form-navigation" aria-label="التنقل بين خطوات إعداد الدورة">
+<a class="teacher-step-previous" href="{% if course_form and revision %}{% url 'instructor:course' revision.course_id %}{% elif course_form %}{% url 'instructor:courses' %}{% else %}{{ back_url }}{% endif %}">{% load static %}<svg class="teacher-back-icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#arrow-right" width="24" height="24"/></svg>{% if course_form and revision %}العودة إلى إدارة الدورة{% elif course_form %}العودة إلى دوراتي{% else %}العودة إلى المنهج{% endif %}</a>
+<button class="button small teacher-form-next" type="submit">{% if course_form %}حفظ والمتابعة للمنهج{% else %}حفظ والعودة للمنهج{% endif %}{% include 'courses/arrow-icon.html' %}</button>
+<!-- <span class="teacher-form-save-note">التعديلات تُحفظ كمسودة ولا تُنشر مباشرة</span> -->
+</nav></form>
+{% endblock %}

@@ -1,0 +1,16 @@
+/* Lucide 0.468.0 SVG icons, hosted locally. */
+html body.academy-landing svg.lucide-icon{display:inline-block;flex-shrink:0;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+svg.lucide-icon>use{fill:inherit;stroke:inherit}
+.lucide-icon .lucide-heart-filled{display:none}
+[aria-pressed=true]>.lucide-icon .lucide-heart-outline{display:none}
+[aria-pressed=true]>.lucide-icon .lucide-heart-filled{display:inline}
+.feedback-stars .lucide-icon,.feedback-review-stars .lucide-icon{width:1em;height:1em}
+.feedback-stars label>span[aria-hidden]{display:inline-flex;align-items:center;justify-content:center}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:checked:not(:indeterminate)::before{content:none}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:checked:not(:indeterminate)::after{mask-image:url('../vendor/lucide/circle-check.svg');-webkit-mask-image:url('../vendor/lucide/circle-check.svg');animation:masar-lucide-check .2s ease-out both}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:indeterminate{background-image:url('../vendor/lucide/minus.svg')}
+@keyframes masar-lucide-check{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]::after{animation:none!important}}
+
+[aria-pressed=true]>.lucide-icon .lucide-heart-filled{fill:currentColor}
+.feedback-stars label.is-filled .lucide-icon,.feedback-review-stars .lucide-icon{fill:currentColor}

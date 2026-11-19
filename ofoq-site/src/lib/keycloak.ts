@@ -42,7 +42,7 @@ export type AuthRecord = {
   expires: number
 }
 type BrowserSession = { id?: string }
-type AuthFlow = { verifier?: string; state?: string; nonce?: string; expires?: number }
+type AuthFlow = { verifier?: string; state?: string; nonce?: string; expires?: number; next?: string }
 
 export async function browserSession() {
   const { site, password } = authSettings()

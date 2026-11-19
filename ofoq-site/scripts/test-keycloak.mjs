@@ -33,7 +33,7 @@ const request = async (url, options = {}) => {
 }
 const decode = (s) => s.replaceAll('&amp;', '&').replaceAll('&#x3d;', '=').replaceAll('&#x2f;', '/')
 const login = async () => {
-  const start = await request('/auth/login?returnTo=https://evil.example')
+  const start = await request('/auth/login?next=%2F%3Fauth-test%3D1%23welcome')
   assert.equal(start.status, 303)
   const target = new URL(start.headers.get('location'))
   assert.equal(target.searchParams.get('code_challenge_method'), 'S256')
@@ -51,7 +51,7 @@ const login = async () => {
   assert.equal(callbackUrl.pathname, '/auth/callback')
   const callback = await request(callbackUrl)
   assert.equal(callback.status, 303)
-  assert.equal(callback.headers.get('location'), `${process.env.KEYCLOAK_ISSUER}/account/myPage`, 'Login must always reach the configured Keycloak myPage, ignoring external returnTo')
+  assert.equal(callback.headers.get('location'), `${site}/?auth-test=1#welcome`, 'Login must return to the original internal destination')
   assert(callback.headers.getSetCookie().some((s) => s.startsWith('ofoq-session=') && s.includes('HttpOnly')))
   const response = await request('/auth/session')
   const session = await response.json()
@@ -65,7 +65,11 @@ const login = async () => {
   for (const route of ['login', 'register', 'forgot-password', 'reset-password']) {
     const guarded = await request(`/auth/${route}`)
     assert.equal(guarded.status, 303)
-    assert.equal(guarded.headers.get('location'), `${process.env.KEYCLOAK_ISSUER}/account/myPage`)
+    assert.equal(guarded.headers.get('location'), `${site}/`)
+  }
+  for (const next of ['https://evil.example', '//evil.example', '/\\evil.example', '/auth/login']) {
+    const rejected = await request(`/auth/login?next=${encodeURIComponent(next)}`)
+    assert.equal(rejected.headers.get('location'), `${site}/`)
   }
   console.log('PASS authenticated visitors bypass login, registration, and password recovery pages')
   return callbackUrl

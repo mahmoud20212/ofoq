@@ -1,0 +1,8 @@
+{% if previous_curriculum_item or next_curriculum_item %}
+<footer class="student-lesson-footer">
+  <nav class="student-lesson-navigation" aria-label="التنقّل في منهج الدورة">
+    {% if previous_curriculum_item %}<a class="student-lesson-step student-lesson-step--previous" href="{{ previous_curriculum_item.url }}">{% include 'courses/icon.html' with name='chevron-right' %}<span><small>{% if previous_curriculum_item.kind == 'assessment' %}الاختبار السابق{% else %}المحتوى السابق{% endif %}</small><strong>{{ previous_curriculum_item.title }}</strong></span></a>{% endif %}
+    {% if next_curriculum_item %}<a class="student-lesson-step student-lesson-step--next" href="{{ next_curriculum_item.url }}"><span><small>{% if next_curriculum_item.kind == 'assessment' %}الانتقال إلى الاختبار{% else %}المحتوى التالي{% endif %}</small><strong>{{ next_curriculum_item.title }}</strong></span>{% include 'courses/icon.html' with name='chevron-left' %}</a>{% endif %}
+  </nav>
+</footer>
+{% endif %}

@@ -1,0 +1,19 @@
+{% extends 'students/dashboard/base.html' %}{% load static %}
+{% block extra_head %}<script src="{% static 'js/student-assessments.js' %}" defer></script>{% if assessment_solving %}<script src="{% static 'js/instructor-assessment-preview.js' %}" defer></script>{% endif %}{% endblock %}
+{% block student_content %}
+<script src="{% static 'js/student-assessment-history.js' %}" defer></script>
+<dialog class="student-assessment-dialog student-assessment-history-dialog" data-assessment-history-dialog aria-labelledby="assessment-history-title">
+  <header><h2 id="assessment-history-title">سجل المحاولات</h2><button type="button" class="student-icon-button" data-assessment-history-close aria-label="إغلاق">{% include 'students/dashboard/icon.html' with name='close' %}</button></header>
+  <p role="status" aria-live="polite" data-history-status></p>
+  <button type="button" class="text-link assessment-history-back" data-history-back hidden>{% include 'courses/icon.html' with name='chevron-right' %}العودة إلى السجل</button>
+  <div data-history-content></div>
+  <button type="button" class="student-icon-button history-retry-button" data-history-retry aria-label="إعادة تحميل سجل المحاولات" title="إعادة التحميل" hidden>{% include 'courses/icon.html' with name='arrows-rotate' %}</button>
+</dialog>
+{% if not assessment_solving %}<div class="learning-workspace" data-learning-workspace><div class="learning-sidebar-stack">{% include 'students/dashboard/curriculum.html' %}</div><div class="learning-content-column student-assessment-page">{% else %}<div class="student-assessment-page student-assessment-solving">{% endif %}
+{% block assessment_heading %}<header class="student-assessment-heading"><div><p class="eyebrow">{% include 'students/assessments/icon.html' %}اختبار تعليمي</p><h1>{{ test.title|default:page_title }}</h1></div>{% if assessment_solving %}<a class="text-link" href="{{ assessment_url }}">العودة إلى الاختبار</a>{% else %}{% include 'students/dashboard/curriculum-trigger.html' %}{% endif %}</header>{% endblock %}
+{% block assessment_content %}{% endblock %}
+</div>{% if not assessment_solving %}</div>
+<dialog class="learning-curriculum-dialog" id="learning-curriculum-dialog" data-curriculum-dialog aria-label="منهج الدورة"></dialog>
+<dialog class="learning-help-dialog" id="learning-help-dialog" aria-labelledby="learning-help-title"><header><h2 id="learning-help-title">تحتاج مساعدة؟</h2><button type="button" class="student-icon-button" data-close-help aria-label="إغلاق">{% include 'students/dashboard/icon.html' with name='close' %}</button></header><p>للاستفسار عن الاختبار، يمكنك التواصل مع المعلّم في مساحة النقاش</p><a class="student-outline-button" href="{% url 'chat:course_chat_room' course.pk %}">النقاش والتفاعل</a></dialog>
+{% endif %}
+{% endblock %}

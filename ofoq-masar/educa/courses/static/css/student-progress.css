@@ -1,0 +1,54 @@
+.student-learning-progress { margin-block: 0 24px; padding: 16px 20px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); min-width: 0; }
+.student-progress-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: var(--secondary); font-size: 13px; line-height: 1.8; }
+.student-progress-label bdi { color: var(--link); font-weight: 600; flex: none; }
+.student-learning-progress progress { appearance: none; display: block; width: 100%; height: 7px; border: 0; border-radius: 999px; overflow: hidden; background: var(--border); color: var(--link); direction: rtl; }
+.student-learning-progress progress::-webkit-progress-bar { background: var(--border); border-radius: 999px; }
+.student-learning-progress progress::-webkit-progress-value { background: var(--link); border-radius: 999px; }
+.student-learning-progress progress::-moz-progress-bar { background: var(--link); border-radius: 999px; }
+.student-learning-progress progress.student-progress-native{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;opacity:0!important;pointer-events:none;white-space:nowrap}
+.student-progress-track{position:relative;display:block;width:100%;height:7px;overflow:hidden;border-radius:999px;background:var(--border);direction:rtl;isolation:isolate}
+.student-progress-fill{position:absolute;inset-block:0;inset-inline-start:0;display:block;width:0;height:100%;border-radius:inherit;background:var(--link);transition:width .4s cubic-bezier(.22,.65,.3,1)}
+@media(prefers-reduced-motion:reduce){.student-progress-fill{transition:none}}
+@media(forced-colors:active){.student-progress-track{background:Canvas;border:1px solid CanvasText}.student-progress-fill{background:Highlight;forced-color-adjust:none}}
+.student-progress-empty { margin: 0; font-size: 13px; color: var(--secondary); line-height: 1.9; }
+.student-completion-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--link); white-space: nowrap; }
+.student-completion-badge svg { flex: none; }
+.student-unit-lesson-title .student-completion-badge { display: flex; margin-top: 4px; }
+.student-unit-lesson-tags a { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.student-completion-panel { margin-block: 20px 0; padding-block: 20px 0; border-top: 1px solid var(--border); }
+.student-completion-panel form { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; }
+.student-content-state { font-size: 13px; color: var(--secondary); margin: 0; }
+.student-completion-panel .student-completion-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 16px; font: inherit; font-size: 13px; }
+.student-completion-button[aria-pressed=true] { border-color: var(--link); color: var(--link); }
+.student-completion-button:disabled { opacity: .65; cursor: wait; }
+.student-completion-panel :is(button,a):focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+.student-progress-message { flex-basis: 100%; font-size: 13px; line-height: 1.9; margin: 0; color: var(--text); overflow-wrap: anywhere; }
+.student-progress-message:empty { display: none; }
+.student-progress-hint { font-size: 12px; line-height: 1.9; color: var(--secondary); }
+.student-media-error { padding: 16px; border: 1px dashed var(--border); border-radius: 10px; color: var(--secondary); font-size: 14px; line-height: 1.9; }
+.student-completion-panel [hidden], .student-lesson-content [hidden] { display: none !important; }
+.student-progress-stats .student-stat-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+.student-progress-stats .student-stat-card { min-width: 0; padding: 20px; }
+.student-progress-stats .student-stat-card dt { font-size: 13px; line-height: 1.8; }
+.student-enrolled-list .favorite-card-footer { display: grid; gap: 14px; }
+.student-enrolled-list .student-learning-progress { margin: 0; padding: 12px; background: var(--bg); border-radius: 10px; }
+.student-enrolled-list .student-progress-label { font-size: 12px; }
+.student-player-layout > .student-learning-progress { margin: 0; }
+@media(max-width:1100px) { .student-progress-stats .student-stat-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media(max-width:600px) {
+  .student-learning-progress { padding: 14px 16px; margin-bottom: 16px; }
+  .student-progress-label { font-size: 12px; gap: 8px; }
+  .student-completion-panel .student-completion-button { width: 100%; }
+  .student-progress-stats .student-stat-card { padding: 16px; }
+  .student-progress-stats .student-stat-card dt { font-size: 12px; }
+}
+.student-resume-content { flex: 1; min-width: 0; }
+.student-resume-content .student-resume-course { color: var(--text); font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+.student-resume-content .student-learning-progress { margin: 12px 0 0; padding: 0; border: 0; background: transparent; }
+.student-learning-empty { margin: 0; font-size: 12px; color: var(--secondary); line-height: 1.9; }
+.joined-card-links .student-learning-action { min-height: 44px; }
+@media(max-width:600px) {
+  .student-resume-content { flex-basis: calc(100% - 70px); }
+  .student-resume-card [data-dashboard-resume] { width: 100%; }
+  .joined-card-links .student-learning-action { width: 100%; }
+}

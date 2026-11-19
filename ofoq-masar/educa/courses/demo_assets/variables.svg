@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">المتغيّر: اسم ثابت وقيمة قابلة للتغيير</title><desc id="desc">المتغيّر score يحمل القيمة 10 ثم تصبح قيمته 15 بعد تحديثها.</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#163558"/><stop offset="1" stop-color="#10243e"/></linearGradient></defs>
+  <rect width="1200" height="680" rx="28" fill="url(#bg)"/>
+  <g font-family="Tahoma,Arial,sans-serif" text-anchor="middle">
+    <text x="600" y="88" font-size="34" fill="#eff6ff" direction="rtl">المتغيّر: اسم ثابت وقيمة تتغيّر</text>
+    <text x="600" y="138" font-size="22" fill="#b0cff9" direction="rtl">نحتفظ بالقيمة داخل اسم، ثم نحدّثها عند الحاجة</text>
+    <rect x="700" y="210" width="330" height="245" rx="24" fill="#1e4775" stroke="#629bed" stroke-width="2"/>
+    <text x="865" y="265" font-size="24" fill="#b0cff9" direction="rtl">قبل التحديث</text>
+    <text x="865" y="332" font-size="34" fill="#fff">score</text><text x="865" y="415" font-size="60" fill="#91b9f4">10</text>
+    <path d="M650 333H550m30-24-30 24 30 24" fill="none" stroke="#91b9f4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="170" y="210" width="330" height="245" rx="24" fill="#1e4775" stroke="#629bed" stroke-width="2"/>
+    <text x="335" y="265" font-size="24" fill="#b0cff9" direction="rtl">بعد التحديث</text>
+    <text x="335" y="332" font-size="34" fill="#fff">score</text><text x="335" y="415" font-size="60" fill="#91b9f4">15</text>
+    <text x="600" y="540" font-size="28" fill="#fff">score = 15</text>
+    <text x="600" y="600" font-size="21" fill="#b0cff9" direction="rtl">جرّب: كيف تغيّر القيمة إلى عشرين؟</text>
+    <text x="600" y="647" font-size="16" fill="#91b9f4" direction="rtl">أُفُق مَسار · مادة تجريبية</text>
+  </g>
+</svg>

@@ -1,0 +1,18 @@
+{% extends 'students/dashboard/base.html' %}
+{% load static %}
+{% block student_content %}
+<link rel="stylesheet" href="{% static 'css/teacher-application.css' %}?v=3">
+<header class="student-page-heading"><p class="eyebrow">شارك خبرتك</p><h1>طلب الانضمام كمعلم</h1></header>
+<section class="student-panel teacher-application-panel">
+{% if applicant_is_teacher or application.status == 'approved' %}<h2>أهلًا بك في مساحة المعلّم</h2><p>يمكنك إنشاء دوراتك وإرسالها للمراجعة.</p><a class="button" href="{% url 'instructor:dashboard' %}">الانتقال إلى مساحة المعلّم</a>
+{% else %}
+{% if application %}<div class="application-status"><h2>{{ application.get_status_display }}</h2><p>تاريخ التقديم: {{ application.created|date:'Y/m/d' }}</p>{% if application.status == 'rejected' %}<p>سبب الرفض: {{ application.rejection_reason }}</p>{% endif %}<a class="text-link" href="{% url 'student_teacher_application_cv' application.pk %}">تنزيل السيرة الذاتية: {{ application.cv_name }}</a></div>{% endif %}
+{% if can_apply %}<p>عرّفنا بخبرتك والدورات التي ترغب بتقديمها. ستراجع الإدارة طلبك قبل تفعيل مساحة المعلّم.</p>
+<form method="post" enctype="multipart/form-data" class="teacher-application-form" data-feedback-confirm="هل تؤكد إرسال طلب الانضمام كمعلم للمراجعة؟ لن تتمكن من تعديل الطلب أثناء مراجعته.">{% csrf_token %}
+<div class="application-identity"><div><span>الاسم</span><strong>{{ request.user.get_full_name|default:request.user.username }}</strong></div><div><span>البريد الإلكتروني</span><strong class="application-email" dir="ltr">{{ request.user.email|default:'غير مسجل' }}</strong></div></div>
+{{ form.non_field_errors }}
+{% for field in form %}<div class="application-field"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="application-required" aria-hidden="true">*</span>{% endif %}</label>{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{{ field.errors }}</div>{% endfor %}
+<button type="submit" class="button">{% if application %}إعادة تقديم الطلب{% else %}إرسال الطلب{% endif %}</button>
+</form>{% else %}<p>طلبك قيد المراجعة. سنرسل لك إشعارًا عند صدور القرار.</p><dl><dt>التخصص</dt><dd>{{ application.specialty }}</dd><dt>الخبرة</dt><dd>{{ application.experience|linebreaksbr }}</dd><dt>الدورات المقترحة</dt><dd>{{ application.topics|linebreaksbr }}</dd>{% if application.portfolio %}<dt>رابط معرض الأعمال</dt><dd><a class="text-link" href="{{ application.portfolio }}" rel="noopener noreferrer" target="_blank">{{ application.portfolio }}</a></dd>{% endif %}</dl>{% endif %}
+{% endif %}</section>
+{% endblock %}

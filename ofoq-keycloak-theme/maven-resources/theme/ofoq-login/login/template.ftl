@@ -48,12 +48,8 @@
             <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
         </#list>
     </#if>
-    <title>${title!}</title>
-    <#if themeResources?? && themeResources.favicons?has_content>
-        <@themeResourceTags.renderFavicons themeResources.favicons url.resourcesPath />
-    <#else>
-        <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
-    </#if>
+    <title><#if ofoqReauth>${msg("ofoqReauthTitle")}<#elseif ofoqTitles[pageId!""]??>${msg(ofoqTitles[pageId])}<#else>حساب أُفُق</#if> | أُفُق</title>
+    <link rel="icon" type="image/png" href="${url.resourcesPath}/img/ofoq-logo.png?v=ofoq" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="${url.resourcesPath}/js/auth-theme.js"></script>
     <#if themeResources?? && themeResources.styles?has_content>
@@ -157,6 +153,13 @@
             </#if>
         <#if (pageId!"") == "login-otp"><p class="ofoq-step-label">${msg("ofoqOtpStage")}</p></#if>
         <h1 id="kc-page-title"><#if ofoqReauth>${msg("ofoqReauthTitle")}<#elseif ofoqTitles[pageId!""]??>${msg(ofoqTitles[pageId])}<#else><#nested "header"></#if></h1>
+        <#if ofoqSplit && client??>
+          <#if (client.clientId!"") == "ofoq-masar">
+            <p class="ofoq-page-description">تابع إلى أكاديمية أُفُق مَسار باستخدام حساب أُفُق الموحّد. سنعيدك إلى الأكاديمية بعد المتابعة.</p>
+          <#elseif (client.clientId!"") == "ofoq-site">
+            <p class="ofoq-page-description">تابع إلى أُفُق باستخدام حسابك الموحّد، ثم عد إلى الصفحة التي كنت تتصفحها.</p>
+          </#if>
+        </#if>
         <p id="ofoq-page-description" class="ofoq-page-description">${msg(ofoqDescriptionKey)}</p>
         <#if displayRequiredFields>
             <p class="subtitle"><span class="required">*</span> ${msg("requiredFields")}</p>

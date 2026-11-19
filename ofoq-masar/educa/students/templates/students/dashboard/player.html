@@ -1,0 +1,50 @@
+{% extends 'students/dashboard/base.html' %}
+{% block extra_head %}<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">{% endblock %}
+{% block student_content %}
+
+<div class="learning-workspace" data-learning-workspace>
+<div class="learning-sidebar-stack">
+{% include 'students/dashboard/curriculum.html' %}
+</div>
+<div class="learning-content-column">
+{% if not lesson %}<header class="student-page-heading learning-content-heading"><h1>محتوى الدورة قيد الإعداد</h1>{% include 'students/dashboard/curriculum-trigger.html' %}</header>{% endif %}
+<div class="learning-feedback"><p class="student-progress-message" role="status" aria-live="polite" aria-atomic="true" data-learning-feedback></p><a class="text-link" href="{% url 'sso_login' %}?next={{ request.path|urlencode }}" data-learning-login hidden>تسجيل الدخول مجددًا</a></div>
+<section class="student-panel student-lesson-panel{% if lesson %} learning-material{% endif %}{% if lesson.content_type.model == 'text' %} learning-reading{% elif lesson.content_type.model == 'image' %} learning-image{% endif %}" {% if lesson %}aria-labelledby="learning-material-title"{% else %}aria-label="محتوى الدرس"{% endif %}>
+{% if lesson %}
+<header class="learning-material-header">
+  <p class="learning-material-kind">{% include 'students/dashboard/lesson-icon.html' %}{% if lesson.content_type.model == 'text' %}محتوى للقراءة{% elif lesson.content_type.model == 'image' %}صورة تعليمية{% elif lesson.content_type.model == 'video' %}فيديو{% else %}ملف تدريبي{% endif %}<span aria-hidden="true">·</span><span class="learning-material-unit">{{ selected_module.title }}</span></p>
+  <h1 id="learning-material-title">{{ lesson.item.title }}</h1>
+  {% include 'students/dashboard/curriculum-trigger.html' %}
+</header>
+<div class="student-lesson-content">
+{% if lesson.content_type.model == 'text' %}<div class="student-prose learning-reading-body">{{ lesson.item.content|linebreaks }}</div>
+{% elif lesson.content_type.model == 'image' %}{% if lesson_media_available %}<figure class="learning-image-stage"><img class="student-lesson-image" src="{{ lesson.item.file.url }}" alt="{{ lesson.item.title }}" data-learning-image><p class="student-media-error" role="status" data-media-error hidden>تعذّر تحميل الصورة. أعد تحميل الصفحة أو حاول لاحقًا</p><div class="learning-image-tools"><a class="student-outline-button" href="{{ lesson.item.file.url }}" target="_blank" rel="noopener" data-image-open aria-label="تكبير الصورة">{% load static %}<svg class="icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#expand" width="24" height="24"/></svg></a></div></figure>{% else %}<p class="student-media-error" role="status">ملف الصورة غير متاح حاليًا</p>{% endif %}
+{% elif lesson.content_type.model == 'file' %}{% if lesson_media_available %}<div class="student-file-preview">{% include 'students/dashboard/icon.html' with name='file' %}<a class="button" href="{{ lesson.item.file.url }}" target="_blank" rel="noopener">فتح الملف {% include 'courses/arrow-icon.html' %}</a><p>يفتح الملف في علامة تبويب جديدة</p></div>{% else %}<p class="student-media-error" role="status">الملف غير متاح حاليًا</p>{% endif %}
+{% elif lesson.content_type.model == 'video' %}{% load embed_video_tags %}{% video lesson.item.url 'large' is_secure=True %}{% endif %}</div>
+{% include 'students/dashboard/completion-form.html' %}
+{% else %}<div class="student-empty">{% include 'students/dashboard/icon.html' with name='book' %}<h2>{% if selected_module %}لا توجد دروس في هذه الوحدة بعد{% else %}محتوى الدورة قيد الإعداد{% endif %}</h2><p>يمكنك العودة إلى تفاصيل الدورة لاستعراض الوحدات.</p></div>{% endif %}
+</section>
+{% if lesson %}<footer class="student-lesson-footer" aria-label="إكمال المحتوى والتنقّل">
+{% if previous_lesson or next_lesson or next_assessment %}
+<nav class="student-lesson-navigation" aria-label="التنقّل بين الدروس">
+  {% if previous_lesson %}<a class="student-lesson-step student-lesson-step--previous" href="{% url 'student_lesson' course.pk previous_lesson.pk %}">{% load static %}<svg class="icon lucide-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#chevron-right" width="24" height="24"/></svg><span><small>المحتوى السابق</small><strong>{{ previous_lesson.item.title }}</strong></span></a>{% endif %}
+  {% if next_module %}<a class="student-lesson-step student-lesson-step--next" href="{% url 'student_lesson' course.pk next_lesson.pk %}"><span><small>أول محتوى في الوحدة التالية: {{ next_module.title }}</small><strong>{{ next_lesson.item.title }}</strong></span>{% load static %}<svg class="icon lucide-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#chevron-left" width="24" height="24"/></svg></a>
+  {% elif next_lesson %}<a class="student-lesson-step student-lesson-step--next" href="{% url 'student_lesson' course.pk next_lesson.pk %}"><span><small>المحتوى التالي</small><strong>{{ next_lesson.item.title }}</strong></span>{% load static %}<svg class="icon lucide-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#chevron-left" width="24" height="24"/></svg></a>{% endif %}
+{% if next_assessment %}<a class="student-lesson-step student-lesson-step--next" href="{% url 'student_assessment_page' course.pk next_assessment.id %}"><span><small>الانتقال إلى الاختبار</small><strong>{{ next_assessment.title }}</strong></span>{% include 'courses/icon.html' with name='chevron-left' %}</a>{% endif %}
+</nav>
+{% endif %}
+</footer>{% endif %}
+{% if lesson %}{% include 'students/dashboard/lesson-comments.html' %}{% endif %}
+</div>
+</div>
+<dialog class="learning-curriculum-dialog" id="learning-curriculum-dialog" aria-labelledby="learning-curriculum-title" data-curriculum-dialog></dialog>
+{% if lesson.content_type.model == 'image' and lesson_media_available %}<dialog class="learning-image-dialog" data-image-dialog aria-labelledby="learning-image-dialog-title">
+  <header><h2 id="learning-image-dialog-title">{{ lesson.item.title }}</h2><button type="button" class="student-icon-button" data-image-close aria-label="إغلاق الصورة">{% include 'students/dashboard/icon.html' with name='close' %}</button></header>
+  <img src="{{ lesson.item.file.url }}" alt="{{ lesson.item.title }}">
+</dialog>{% endif %}
+<dialog class="learning-help-dialog" id="learning-help-dialog" aria-labelledby="learning-help-title">
+  <header><h2 id="learning-help-title">تحتاج مساعدة؟</h2><button type="button" class="student-icon-button" data-close-help aria-label="إغلاق المساعدة">{% include 'students/dashboard/icon.html' with name='close' %}</button></header>
+  <p>راجع شرح المحتوى، أو اطرح سؤالك في التعليقات ليجيب عنه المعلّم</p>
+  {% if lesson %}<a class="student-outline-button learning-help-action" href="#lesson-comments-title" data-help-comments>{% include 'students/dashboard/icon.html' with name='comments' %}اذهب إلى التعليقات</a>{% endif %}
+</dialog>
+{% endblock %}

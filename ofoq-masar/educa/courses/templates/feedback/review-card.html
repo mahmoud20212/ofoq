@@ -1,0 +1,20 @@
+<article class="student-review"{% if review.pk == own_review.pk %} data-own-review{% endif %}>
+  <header class="feedback-author">
+    <span class="review-avatar" aria-hidden="true">{{ review.author.first_name|first|default:review.author.username|first }}</span>
+    <div><h3>{{ review.author.get_full_name|default:review.author.username }}</h3><span class="feedback-review-stars" aria-label="{{ review.rating }} من 5">{% for number in '12345' %}<span{% if forloop.counter > review.rating %} class="star-muted"{% endif %} aria-hidden="true">{% load static %}<svg class="icon lucide-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#star" width="24" height="24"/></svg></span>{% endfor %}</span></div>
+    <time datetime="{{ review.created|date:'c' }}">{{ review.created|date:'j M Y' }}{% if review.edited_at %} · معدّل{% endif %}</time>
+  </header>
+  {% if review.text %}<div class="feedback-text">{{ review.text|linebreaks }}</div>{% endif %}
+  {% if review.pk == own_review.pk and can_review %}
+    <div class="review-owner-actions">
+      <details class="review-edit"{% if review_form_invalid %} open{% endif %}>
+        <summary class="student-outline-button">{% include 'students/dashboard/icon.html' with name='edit' %} تعديل التقييم</summary>
+        {% include 'feedback/review-form.html' %}
+      </details>
+      <form method="post" action="{% url 'course_review_action' course.pk 'delete' %}" data-feedback-confirm="هل تريد حذف تقييمك للدورة؟">
+        {% csrf_token %}<input type="hidden" name="surface" value="{{ review_surface|default:'student' }}">
+        <button class="student-outline-button feedback-danger" type="submit">{% include 'students/dashboard/icon.html' with name='trash' %} حذف التقييم</button>
+      </form>
+    </div>
+  {% endif %}
+</article>

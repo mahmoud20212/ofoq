@@ -1,0 +1,59 @@
+{% extends 'students/dashboard/base.html' %}{% load static %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/lab-solve.css' %}?v=workbench-4"><script src="{% static 'js/lab-solve.js' %}?v=workbench-4" defer></script>{% endblock %}
+{% block student_content %}
+<div class="lab-solve" id="lab-solve">
+  <header class="lab-topbar" aria-label="أدوات مساحة الحل">
+    <div class="lab-topbar-meta"><a class="lab-back" href="{% url 'student_challenges' %}" aria-label="العودة إلى التحديات">‹ <span>التحديات</span></a><span class="lab-language" dir="ltr">{{ editor_config.draft.language.name }} {{ editor_config.draft.language.version }}</span><span class="lab-save-state" data-save-state role="status" aria-live="polite">{% if editor_config.draft.saved %}تم الحفظ{% else %}كود البداية · لم يُحفظ بعد{% endif %}</span></div>
+    <div class="lab-tools">
+      <button type="button" class="lab-run-button" data-run {% if not editor_config.run_enabled or not problem.examples %}disabled{% endif %} aria-label="تشغيل المثال" data-tooltip="تشغيل المثال"><span class="lab-icon">{% include 'courses/icon.html' with name='play' %}</span><span>تشغيل المثال</span></button>
+      <button type="button" data-verify disabled>{% include 'courses/icon.html' with name='circle-check' %}تحقّق من الحل</button>
+      <button type="button" data-copy aria-label="نسخ الكود" title="نسخ الكود" data-tooltip="نسخ الكود"><span class="lab-icon">{% include 'courses/icon.html' with name='copy' %}</span></button>
+      <button type="button" data-reset aria-label="إعادة كود البداية" title="إعادة كود البداية" data-tooltip="إعادة كود البداية"><span class="lab-icon">{% include 'courses/icon.html' with name='arrows-rotate' %}</span></button>
+      <button type="button" data-save aria-label="حفظ الكود الآن" title="حفظ الكود الآن" data-tooltip="حفظ الكود الآن"><span class="lab-icon">{% include 'courses/icon.html' with name='file' %}</span></button>
+      <button type="button" data-fullscreen aria-label="ملء الشاشة" title="ملء الشاشة" data-tooltip="ملء الشاشة"><span class="lab-icon">{% include 'courses/icon.html' with name='expand' %}</span></button>
+    </div>
+  </header>
+  <noscript><p class="lab-no-script">يتطلب المحرر والحفظ والتشغيل تفعيل JavaScript. يمكنك قراءة المسألة والأمثلة أدناه.</p></noscript>
+  <div class="lab-mobile-tabs" role="tablist" aria-label="مساحة الحل">
+    <button id="tab-problem" role="tab" aria-controls="lab-problem" aria-selected="true" data-tab="problem">المسألة</button><button id="tab-code" role="tab" aria-controls="lab-coding" aria-selected="false" tabindex="-1" data-tab="code">الكود</button><button id="tab-results" role="tab" aria-controls="lab-coding" aria-selected="false" tabindex="-1" data-tab="results">النتائج</button>
+  </div>
+  <div class="lab-workspace">
+    <section class="lab-problem" id="lab-problem" aria-label="المسألة">
+      <div class="lab-problem-scroll"><p class="lab-kicker">التحدي البرمجي</p><h1>{{ problem.title }}</h1><div class="lab-problem-copy">{{ problem.description|linebreaksbr }}</div>
+        {% if problem.input_format %}<section><h2>المدخلات</h2><p>{{ problem.input_format|linebreaksbr }}</p></section>{% endif %}
+        {% if problem.output_format %}<section><h2>المخرجات</h2><p>{{ problem.output_format|linebreaksbr }}</p></section>{% endif %}
+        {% if problem.constraints %}<section><h2>القيود</h2><p>{{ problem.constraints|linebreaksbr }}</p></section>{% endif %}
+        {% if problem.examples %}<section class="lab-examples"><h2>أمثلة</h2>{% for example in problem.examples %}<article class="lab-example"><h3>مثال {{ forloop.counter }}</h3><span>المدخلات</span><pre dir="ltr">{{ example.stdin }}</pre><span>المخرجات المتوقعة</span><pre dir="ltr">{{ example.expected_output }}</pre>{% if example.explanation %}<p>{{ example.explanation }}</p>{% endif %}</article>{% endfor %}</section>{% endif %}
+      </div>
+    </section>
+    <div class="lab-splitter" role="separator" tabindex="0" aria-label="تغيير عرض شريط المسألة" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="45" aria-valuenow="34"></div>
+    <div class="lab-coding" id="lab-coding">
+      <section class="lab-code" id="lab-code" aria-label="محرر الكود">
+        <header class="lab-code-toolbar"><span class="lab-file-tab" dir="ltr">solution.{{ editor_config.file_extension }}</span><div class="lab-history-tools"><button type="button" data-undo aria-label="تراجع" title="تراجع" data-tooltip="تراجع">↶</button><button type="button" data-redo aria-label="إعادة" title="إعادة" data-tooltip="إعادة">↷</button></div></header>
+        <div class="lab-editor" dir="ltr"><pre class="lab-lines" aria-hidden="true">1</pre><div class="lab-source"><pre class="lab-highlight" aria-hidden="true"><code></code></pre><textarea id="lab-source" aria-label="محرر الكود" dir="ltr" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off">{{ editor_config.draft.code }}</textarea></div></div>
+        <div class="lab-conflict" hidden><p>توجد نسخة محفوظة أحدث. احتفظنا بكودك الحالي.</p><button type="button" data-copy>نسخ كودي</button><button type="button" data-reload>تحميل النسخة المحفوظة</button></div>
+      </section>
+      <div class="lab-horizontal-splitter" role="separator" tabindex="0" aria-label="تغيير ارتفاع لوحة المدخلات والنتائج" aria-orientation="horizontal" aria-valuemin="20" aria-valuemax="60" aria-valuenow="34"></div>
+      <section class="lab-results" id="lab-results" aria-label="المدخلات والنتائج">
+        <header class="lab-results-toolbar"><div class="lab-io-tabs"><button type="button" data-io-tab="output" aria-selected="true" role="tab">المخرجات</button><button type="button" data-custom data-io-tab="input" aria-selected="false" role="tab">جرّب بقيم أخرى</button></div><button type="button" data-resume hidden>استرجاع الحالة</button></header>
+        <div class="lab-input-pane" data-io-pane="input" hidden>
+          <label for="lab-stdin">مدخلات مخصّصة</label>
+          <textarea id="lab-stdin" dir="ltr" rows="2"></textarea>
+          <button type="button" data-run-custom>تشغيل القيم</button>
+        </div>
+        <div class="lab-output-pane" data-io-pane="output">
+          <div class="lab-run-feedback" data-run-feedback hidden role="alert">
+            {% include 'courses/icon.html' with name='circle-info' %}
+            <span data-run-message></span>
+            <a href="{{ editor_config.login_url }}" data-run-login hidden>تسجيل الدخول</a>
+          </div>
+          <p class="lab-run-state" data-run-state role="status">سيظهر الناتج هنا بعد تشغيل الكود</p>
+          <p class="lab-run-state" data-hidden-summary></p>
+          <pre class="lab-output" dir="ltr" tabindex="0" aria-label="ناتج التشغيل" data-output></pre>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="lab-notice" role="alert" hidden>{% include 'courses/icon.html' with name='circle-info' %}<span data-notice></span><a href="{{ editor_config.login_url }}" data-login hidden>تسجيل الدخول</a><button type="button" data-dismiss aria-label="إغلاق">{% include 'courses/icon.html' with name='close' %}</button></div>
+  <form hidden>{% csrf_token %}</form>{{ editor_config|json_script:'lab-config' }}
+</div>{% endblock %}

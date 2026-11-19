@@ -1,0 +1,22 @@
+<section class="section container lab-section" id="lab" aria-labelledby="lab-title">
+  <div>
+    <p class="eyebrow">{% include 'courses/lab-icon.html' %} مختبر البرمجة</p>
+    <h2 id="lab-title">من الفكرة<br>إلى <span>أول سطر كود.</span></h2>
+    <p class="lead">حوّل ما تتعلّمه إلى تطبيق عملي. حلّ تحديات برمجية، واكتب الكود في مختبر مَسار، وشاهد النتيجة فورًا.</p>
+  </div>
+  <figure class="lab-editor" aria-label="معاينة محرّر بايثون">
+    <figcaption class="lab-editor-header" dir="ltr">
+      <span class="lab-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <bdi>main.py</bdi><span>Python</span>
+    </figcaption>
+    <pre dir="ltr" tabindex="0" aria-label="مثال بايثون لحساب متوسط الدرجات"><code><span class="lab-line" aria-hidden="true">1</span><span class="lab-typing" style="--line-delay:0ms">scores = [80, 90, 100, 86]</span>
+<span class="lab-line" aria-hidden="true">2</span><span class="lab-typing" style="--line-delay:390ms">average = <span class="lab-function">sum</span>(scores) / <span class="lab-function">len</span>(scores)</span>
+<span class="lab-line" aria-hidden="true">3</span><span class="lab-typing" style="--line-delay:780ms"> </span>
+<span class="lab-line" aria-hidden="true">4</span><span class="lab-typing" style="--line-delay:1170ms"><span class="lab-function">for</span> score <span class="lab-function">in</span> scores:</span>
+<span class="lab-line" aria-hidden="true">5</span><span class="lab-typing" style="--line-delay:1560ms">    <span class="lab-function">if</span> score &gt;= 90:</span>
+<span class="lab-line" aria-hidden="true">6</span><span class="lab-typing" style="--line-delay:1950ms">        <span class="lab-function">print</span>(f"Excellent: {score}")</span>
+<span class="lab-line" aria-hidden="true">7</span><span class="lab-typing" style="--line-delay:2340ms"> </span>
+<span class="lab-line" aria-hidden="true">8</span><span class="lab-typing" style="--line-delay:2730ms"><span class="lab-function">print</span>(f"Average: {average:.1f}")</span></code></pre>
+    <div class="lab-result"><h3>النتيجة</h3><samp dir="ltr">Excellent: 90<br>Excellent: 100<br>Average: 89.0</samp></div>
+  </figure>
+</section>

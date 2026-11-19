@@ -1,0 +1,5 @@
+<form class="teacher-form teacher-organized-form teacher-popup-form" method="post" enctype="multipart/form-data" action="{{ request.get_full_path }}" data-content-editor-form>
+{% csrf_token %}<div role="alert" class="teacher-editor-error" data-editor-error hidden></div>
+{% for field in form %}{% include 'instructor/field.html' %}{% endfor %}
+<div class="teacher-popup-save"><button type="button" class="student-outline-button" data-editor-close>إلغاء</button><button class="button small" type="submit">حفظ {% include 'courses/arrow-icon.html' %}</button></div>
+</form>

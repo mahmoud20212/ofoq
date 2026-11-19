@@ -1,0 +1,15 @@
+{% extends 'students/dashboard/base.html' %}
+{% block student_content %}
+<header class="student-page-heading"><h1 id="student-units-title">وحدات الدورة</h1><p>{{ modules|length }} وحدة · {{ lesson_count }} درس ومادة</p></header>
+<section class="student-units-section" id="course-modules" aria-labelledby="student-units-title">
+<div class="student-panel student-unit-rows">
+{% for module in modules %}<article class="student-unit-row"><div class="student-unit-row-content">
+<h3><a href="{% url 'student_module' course.pk module.pk %}">{{ module.title }}</a></h3>
+<ul class="student-unit-lesson-tags" aria-label="دروس {{ module.title }}">
+{% for content in module.lesson_rows %}<li><a href="{% url 'student_lesson' course.pk content.pk %}">{{ content.item.title }}{% include 'students/dashboard/completion-badge.html' %}</a></li>{% empty %}<li class="student-unit-no-lessons">لم تُضف دروس إلى هذه الوحدة بعد.</li>{% endfor %}
+{% for test in module.assessment_rows %}<li class="student-unit-test-tag" data-assessment-row="{{ test.id }}"><a href="{% url 'student_assessment_page' course.pk test.id %}">{% include 'students/assessments/icon.html' %}اختبار · {{ test.title }} <small>{% include 'students/assessments/state.html' %}</small></a></li>{% endfor %}
+</ul></div><a class="student-unit-total" href="{% url 'student_module' course.pk module.pk %}" aria-label="عرض دروس {{ module.title }}، {{ module.lesson_rows|length }} درس ومادة"><strong>{{ module.lesson_rows|length }}</strong><span>درس ومادة</span></a></article>
+{% empty %}<div class="student-empty"><h3>الوحدات قيد الإعداد</h3><p>لم تُضف وحدات تعليمية إلى هذه الدورة بعد.</p></div>{% endfor %}
+</div></section>
+{% include 'students/assessments/list.html' with assessment_rows=course_assessment_rows assessment_heading='اختبارات الدورة' %}
+{% endblock %}

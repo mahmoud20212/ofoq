@@ -1,0 +1,169 @@
+/* Assessment presentation never changes Content progress. */
+.student-assessment-page{min-width:0;display:grid;align-content:start;gap:20px}
+.student-assessment-page>.student-lesson-footer .student-lesson-navigation{margin-top:0}
+.student-assessment-heading{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.student-assessment-heading h1{font-size:clamp(21px,2.3vw,29px);margin:6px 0 0;line-height:1.7;overflow-wrap:anywhere}
+.student-assessment-heading .eyebrow{display:flex;align-items:center;gap:8px;margin:0}
+.student-assessment-panel{padding:24px;min-width:0}
+.student-assessment-panel h2,.student-assessment-list h2{font-size:18px;margin:0 0 16px}
+.student-assessment-panel>.button,.student-assessment-panel>form{margin-top:20px}
+.student-assessment-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0;padding:20px 0;border-block:1px solid var(--border)}
+.student-assessment-facts dt{font-size:11px;color:var(--secondary);margin-bottom:6px}
+.student-assessment-facts dd{margin:0;font-size:17px;font-weight:600;overflow-wrap:anywhere}
+.student-assessment-note{color:var(--secondary);font-size:12px;line-height:1.9;margin:0}
+.student-assessment-introduction .assessment-introduction-instructions{max-width:68ch;margin:0;font-size:16px;line-height:2;text-align:start}
+.student-assessment-introduction .student-assessment-facts{margin:20px 0;padding:20px 0}
+.assessment-introduction-tools{grid-column:2;grid-row:1/3;display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px}
+.assessment-introduction-tools :is(.student-outline-button,.learning-open-curriculum){display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:11px;min-height:40px;padding:8px 12px;white-space:nowrap}
+.assessment-introduction-tools svg{width:16px;height:16px}
+.assessment-introduction-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:0;padding:24px 24px 16px;border-top:1px solid var(--border);background:var(--surface)}
+.assessment-introduction-actions form{margin:0}.assessment-introduction-actions>.student-assessment-note{flex-basis:100%;text-align:center}
+.assessment-introduction-actions .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px}
+.student-assessment-introduction .student-assessment-facts{border-bottom:0;margin-bottom:0;padding-bottom:4px}
+.student-assessment-introduction .assessment-introduction-footer{justify-content:space-between;padding:16px 24px;gap:12px 20px}
+.student-assessment-introduction .assessment-introduction-footer>.student-assessment-note{flex:1 1 240px;text-align:start}
+.assessment-introduction-footer>form,.assessment-introduction-footer>.button{flex-shrink:0}
+.assessment-attempts-exhausted{display:flex;align-items:center;gap:12px;min-width:0;color:var(--secondary)}
+.assessment-attempts-exhausted>svg{width:20px;height:20px;flex:none}
+.assessment-attempts-exhausted strong{display:block;color:var(--text);font-size:13px;font-weight:500}
+.assessment-attempts-exhausted p{margin:4px 0 0;font-size:12px;line-height:1.9}
+.assessment-result-summary{display:grid;justify-items:center;gap:8px;padding:8px 0 24px;text-align:center;--result-accent:var(--secondary)}
+.assessment-result-summary.is-passed{--result-accent:#72c5a4}
+html[data-theme=light] .assessment-result-summary.is-passed{--result-accent:#247458}
+.assessment-result-symbol{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;color:var(--result-accent);background:color-mix(in srgb,var(--result-accent) 10%,transparent)}
+.assessment-result-symbol svg{width:26px;height:26px}
+.assessment-result-status{font-size:15px;font-weight:600;color:var(--result-accent)}
+.assessment-result-score{display:flex;align-items:baseline;justify-content:center;flex-wrap:wrap;gap:8px;font-size:34px;font-weight:700;line-height:1.6;color:var(--text)}
+.assessment-result-score small{font-size:13px;font-weight:400;color:var(--secondary)}
+.assessment-result-material .assessment-result-facts{margin:0;padding:20px 0 4px;border-bottom:0;text-align:center}
+.assessment-result-actions>.student-outline-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;font-size:12px}
+@media(max-width:600px){.assessment-result-material .learning-material-header{grid-template-columns:minmax(0,1fr)}.assessment-result-material .assessment-result-facts{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.assessment-result-facts dt{font-size:10px}.assessment-introduction-actions,.student-assessment-introduction .assessment-introduction-footer{padding-inline:16px}.assessment-result-summary{padding-top:4px}}
+.student-assessment-notice{padding:14px 16px;border:1px solid var(--border);background:var(--surface-alt);border-radius:12px;font-size:13px;line-height:1.9}
+.student-assessment-notice.is-error{border-color:#c8515144}
+.student-assessment-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+.student-assessment-actions form{margin:0}
+.student-assessment-actions :is(.button,.student-outline-button){display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;font-size:12px}
+.student-assessment-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.student-assessment-section-heading h2{margin:0}
+.assessment-attempt-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 16px;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
+.assessment-attempt-details{display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px;font-size:12px;color:var(--secondary)}
+.assessment-attempt-details>span{display:inline-flex;align-items:center;gap:8px}
+.assessment-attempt-details strong{color:var(--text);font-weight:600}
+.assessment-attempt-toolbar>.student-outline-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;font-size:11px;flex-shrink:0}
+.assessment-attempt-toolbar svg{width:16px;height:16px}
+@media(max-width:600px){.assessment-attempt-toolbar{padding:12px;gap:12px;flex-wrap:wrap}.assessment-attempt-details{gap:8px 16px}.assessment-attempt-toolbar>.student-outline-button{margin-inline-start:auto}}
+.student-assessment-history ol{list-style:none;margin:16px 0 0;padding:0}
+.student-assessment-history li{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;border-top:1px solid var(--border);padding:16px 0;font-size:12px}
+.student-assessment-history li>div{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.student-assessment-history li>div:first-child{align-items:flex-start;flex-direction:column;gap:6px}
+.student-assessment-history small{color:var(--secondary);direction:ltr;font-size:11px}
+.student-assessment-form{display:grid;gap:20px;min-width:0}
+.student-assessment-savebar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:12px;color:var(--secondary);padding:12px 0;border-bottom:1px solid var(--border)}
+.student-assessment-question{padding:20px;min-width:0}
+.student-assessment-question legend{padding:0 8px;font-size:12px;color:var(--secondary)}
+.student-assessment-question h2{margin:0 0 20px;font-size:17px;line-height:1.95;white-space:pre-wrap;overflow-wrap:anywhere}
+.student-assessment-option{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;min-height:48px;border:1px solid var(--border);border-radius:10px;margin-top:10px;cursor:pointer}
+.student-assessment-option:has(input:checked){border-color:var(--link);background:var(--surface-alt)}
+.student-assessment-option span{min-width:0;overflow-wrap:anywhere;white-space:pre-wrap;font-size:14px;line-height:1.9}
+.student-assessment-option input,.student-assessment-clear input{width:18px;height:18px;flex:none;margin-top:4px;accent-color:var(--link)}
+.student-assessment-clear{display:flex;align-items:center;gap:8px;min-height:44px;margin-top:12px;font-size:12px;color:var(--secondary);cursor:pointer}
+.student-assessment-option:focus-within,.student-assessment-clear:focus-within{outline:2px solid var(--link);outline-offset:3px}
+.student-assessment-outcome{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--link);font-size:15px}
+.student-assessment-result{text-align:center}
+.student-assessment-result .student-assessment-actions{justify-content:center}
+.student-assessment-score{font-size:34px;font-weight:700;margin:20px 0}
+.student-assessment-score small{font-size:16px;color:var(--secondary);font-weight:400}
+.student-assessment-dialog{padding:24px;border:1px solid var(--border);border-radius:16px;background:var(--surface);color:var(--text);width:min(460px,calc(100% - 32px));max-height:calc(100dvh - 32px);overflow:auto;box-shadow:0 5px 18px #0002}
+.student-assessment-dialog::backdrop{background:#10182877}
+.student-assessment-history-link{display:flex;justify-content:flex-end}
+.student-assessment-history-link :is(a,button){display:inline-flex;align-items:center;gap:8px}
+.student-assessment-history-dialog{width:min(720px,calc(100% - 32px))}
+.student-assessment-history-dialog .student-assessment-history{padding:0;border:0;box-shadow:none;background:transparent}
+.student-assessment-history-dialog [data-history-status]:empty{display:none}
+.student-assessment-history-dialog .history-retry-button{display:grid;place-items:center;width:48px;height:48px;margin:20px auto;border:1px solid var(--border);border-radius:50%;background:var(--surface-alt);color:var(--secondary)}
+.student-assessment-history-dialog .history-retry-button[hidden]{display:none}
+.student-assessment-history-dialog .history-retry-button:hover{color:var(--link);border-color:var(--link)}
+.student-assessment-history-dialog .history-retry-button:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+.student-assessment-history-dialog [data-history-status]{text-align:center}
+.student-assessment-history-dialog .assessment-history-back{display:inline-flex;align-items:center;gap:8px;min-height:40px;margin:12px 0;padding:4px 0;border:0;background:transparent;color:var(--link);font:inherit;font-size:12px}
+.student-assessment-history-dialog .assessment-history-back[hidden]{display:none}
+.assessment-history-back svg{width:16px;height:16px}
+.student-assessment-history-dialog .assessment-result-material{padding:0;border:0;box-shadow:none;background:transparent}
+.student-assessment-history-dialog:has(.assessment-result-material){width:min(560px,calc(100% - 32px))}
+.student-assessment-history-dialog .assessment-result-material .learning-material-header{display:block;padding:0 0 12px;border:0}
+.student-assessment-history-dialog .assessment-result-material .learning-material-kind{display:none}
+.student-assessment-history-dialog .assessment-result-material h1{font-size:14px;font-weight:500;line-height:1.8}
+.student-assessment-history-dialog .assessment-result-body{padding:16px}
+.student-assessment-history-dialog .assessment-result-summary{grid-template-columns:36px minmax(0,1fr) auto;align-items:center;justify-items:start;gap:10px;padding:0;text-align:start}
+.student-assessment-history-dialog .assessment-result-summary p{margin:0}
+.student-assessment-history-dialog .assessment-result-symbol{width:36px;height:36px}
+.student-assessment-history-dialog .assessment-result-symbol svg{width:20px;height:20px}
+.student-assessment-history-dialog .assessment-result-status{font-size:14px}
+.student-assessment-history-dialog .assessment-result-score{font-size:24px;gap:6px}
+.student-assessment-history-dialog .assessment-result-score small{font-size:11px}
+.student-assessment-history-dialog .assessment-result-facts{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 0;padding:12px 0 0}
+.student-assessment-history-dialog .assessment-result-facts dt{font-size:10px;margin-bottom:4px}
+.student-assessment-history-dialog .assessment-result-facts dd{font-size:16px}
+@media(max-width:420px){.student-assessment-history-dialog .assessment-result-summary{grid-template-columns:32px minmax(0,1fr)}.student-assessment-history-dialog .assessment-result-score{grid-column:2;font-size:22px}.student-assessment-history-dialog .assessment-result-facts{gap:8px}}
+.student-assessment-dialog header{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.student-assessment-dialog h2{font-size:18px;margin:0}
+.student-assessment-dialog p{font-size:13px;line-height:1.9;margin:16px 0}
+.student-assessment-list{padding:20px 24px;margin-top:24px}
+.student-assessment-link{display:flex;align-items:center;gap:12px;padding:16px 0;border-top:1px solid var(--border);text-decoration:none!important;font-size:13px}
+.student-assessment-link>span:first-of-type{flex:1;min-width:0;overflow-wrap:anywhere}
+.student-assessment-link small{display:block;margin-top:4px;color:var(--secondary)}
+.student-assessment-state{color:var(--secondary);font-size:11px}
+.learning-assessment-row a{padding:12px}
+.learning-assessment-row strong{font-weight:500}
+.learning-assessment-row small{display:block;font-size:10px;color:var(--secondary);margin-top:3px}
+.learning-assessment-row small svg,.student-assessment-state svg{width:12px;height:12px;vertical-align:middle;margin-inline-end:4px}
+.learning-course-assessments{border-top:1px solid var(--border);padding:12px 0 0}
+.learning-course-assessments h3{font-size:12px;padding-inline:8px}
+.learning-course-assessments ul{list-style:none;margin:0;padding:0}
+.student-unit-test-tag a{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border)}
+.student-unit-test-tag .icon{width:16px;height:16px;flex:none}.student-unit-test-tag small{font-size:10px;color:var(--secondary)}
+.student-assessment-page [hidden],.student-assessment-form [hidden]{display:none!important}
+.student-assessment-form[aria-busy=true] [data-assessment-submit]{opacity:.65}
+.student-assessment-solving{width:100%;max-width:none}
+.student-assessment-pager{grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+.student-assessment-index{grid-column:2;grid-row:1;position:sticky;top:100px;min-width:0;padding:24px}
+.student-assessment-index h2{margin:0 0 16px;font-size:15px}
+.student-assessment-numbers{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:8px}
+.student-app .student-assessment-numbers>a.student-outline-button{display:inline-flex;align-items:center;justify-content:center;min-width:0;min-height:44px;padding:8px;border-radius:50%;font-size:12px;text-decoration:none}
+.student-app .student-assessment-numbers>a.student-outline-button[data-answered=true]:not([aria-current]){border-color:var(--border);background:color-mix(in srgb,var(--link) 18%,var(--surface));color:var(--text)}
+.student-app .student-assessment-numbers>a.student-outline-button[aria-current=step],.student-app .student-assessment-numbers>a.student-outline-button[aria-current=step]:hover{background:var(--link);border:2px solid var(--link);color:#fff;font-weight:700;box-shadow:0 0 0 3px var(--surface-alt)}
+.student-assessment-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;color:var(--secondary);font-size:10px}
+.student-assessment-legend>span{display:inline-flex;align-items:center;gap:6px}
+.student-assessment-legend>span::before{content:'';width:8px;height:8px;border:1px solid var(--secondary);border-radius:50%}
+.student-assessment-legend>.is-answered::before{border-color:var(--border);background:color-mix(in srgb,var(--link) 18%,var(--surface))}
+.student-assessment-position{font-size:11px;color:var(--secondary);margin:16px 0 0}
+.student-assessment-index .student-assessment-savebar{display:grid;gap:6px;border-bottom:0;border-top:1px solid var(--border);margin-top:16px;padding:16px 0;font-size:11px}
+.student-assessment-index .student-outline-button,.student-assessment-index .button{width:100%;justify-content:center;font-size:12px;min-height:44px}
+.student-assessment-index .student-assessment-save-actions{display:grid;gap:8px;margin-top:16px}
+.student-assessment-save-actions>[data-assessment-submit]{grid-column:1/-1}
+.student-assessment-stage{grid-column:1;grid-row:1;min-width:0;padding:24px}
+.student-assessment-stage .student-assessment-question{border:0;padding:0;margin:0;min-width:0}
+.student-assessment-stage .student-assessment-question:not(:first-child){margin-top:24px}
+.student-assessment-stage .student-assessment-question legend{margin-bottom:16px;padding:0}
+.student-assessment-pager.is-paged-preview .student-assessment-question{margin:0}
+.student-assessment-question-navigation{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border)}
+.student-assessment-question-navigation button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;font-size:12px}
+.student-assessment-question-navigation button:disabled{cursor:default;opacity:.5;box-shadow:none}
+.student-assessment-pager>noscript{grid-column:1/-1}
+.student-assessment-instructions{font-size:14px;line-height:2;overflow-wrap:anywhere}
+@media(max-width:1000px){
+ .student-assessment-pager{grid-template-columns:minmax(0,1fr);gap:16px}
+ .student-assessment-index{grid-column:1;grid-row:1;position:static;padding:16px}
+ .student-assessment-stage{grid-column:1;grid-row:2;padding:16px}
+ .student-assessment-numbers{grid-template-columns:repeat(auto-fill,44px)}
+ .student-assessment-index .student-assessment-save-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .student-assessment-save-actions>[data-assessment-recover]{grid-column:1/-1}
+}
+@media(max-width:600px){
+ .student-assessment-introduction .learning-material-header{grid-template-columns:minmax(0,1fr)}
+ .assessment-introduction-tools{grid-column:1;grid-row:3;justify-content:flex-start;margin-top:12px}
+ .student-assessment-panel,.student-assessment-question,.student-assessment-list{padding:16px}
+ .student-assessment-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+ .student-assessment-actions{gap:8px}.student-assessment-actions>button{flex:1 1 140px}
+ .student-assessment-history li>div{width:100%}.student-assessment-option{padding:12px}.student-assessment-option span{font-size:13px}
+}

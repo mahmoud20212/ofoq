@@ -1,0 +1,1 @@
+<span data-assessment-lock{% if test.is_unlocked %} hidden{% endif %}>{% include 'courses/icon.html' with name='lock' %}</span><span data-assessment-state-label>{% if not test.is_unlocked %}مقفل{% else %}{{ test.state_label }}{% endif %}</span>

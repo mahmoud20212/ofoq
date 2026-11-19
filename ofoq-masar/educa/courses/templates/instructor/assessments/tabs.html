@@ -1,0 +1,5 @@
+<nav class="assessment-tabs" aria-label="محتوى نسخة الدورة">
+  <a data-curriculum-tab href="{% url 'instructor:revision' revision.pk %}?step=curriculum"{% if not assessment_workspace and not lab_workspace %} aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='book' %}المحتوى التعليمي</a>
+  <a data-curriculum-tab href="{% url 'instructor:assessments' revision.pk %}"{% if assessment_workspace %} aria-current="page"{% endif %}>{% include 'students/assessments/icon.html' %}الاختبارات</a>
+  <a href="{% url 'instructor:challenges' revision.pk %}"{% if lab_workspace %} aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='code' %}تحديات البرمجة</a>
+</nav>

@@ -1,0 +1,9 @@
+<section class="student-completion-panel student-completion-compact" aria-label="إكمال المحتوى">
+  <form method="post" action="{% if lesson.is_completed %}{% url 'student_content_incomplete' course.pk lesson.pk %}{% else %}{% url 'student_content_complete' course.pk lesson.pk %}{% endif %}" data-completion-form data-course-id="{{ course.pk }}" data-content-id="{{ lesson.pk }}" data-completed="{{ lesson.is_completed|yesno:'true,false' }}" data-complete-url="{% url 'student_content_complete' course.pk lesson.pk %}" data-incomplete-url="{% url 'student_content_incomplete' course.pk lesson.pk %}" data-login-url="{% url 'sso_login' %}?next={{ request.path|urlencode }}">
+    {% csrf_token %}<input type="hidden" name="response_format" value="html">
+    <button type="submit" class="student-outline-button student-completion-button{% if lesson.is_completed %} is-completed{% endif %}" aria-pressed="{{ lesson.is_completed|yesno:'true,false' }}" aria-label="{% if lesson.is_completed %}مكتمل{% else %}تحديد المحتوى كمكتمل{% endif %}" data-completion-button>{% load static %}<svg class="icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#circle-check" width="24" height="24"/></svg><span data-completion-label>{% if lesson.is_completed %}مكتمل{% else %}تحديد كمكتمل{% endif %}</span></button>
+    <p class="student-progress-message" role="status" aria-live="polite" aria-atomic="true" data-progress-message></p>
+    <a class="text-link" href="{% url 'sso_login' %}?next={{ request.path|urlencode }}" data-progress-login hidden>تسجيل الدخول مجددًا</a>
+    <noscript><p class="student-progress-hint">سيُحفظ التغيير وتُعاد الصفحة بعد الإرسال</p></noscript>
+  </form>
+</section>

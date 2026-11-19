@@ -1,0 +1,20 @@
+{% extends 'students/dashboard/base.html' %}{% load static %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/student-challenges.css' %}">{% endblock %}
+{% block student_content %}<div class="student-challenges">
+<header class="student-page-heading"><div><p class="eyebrow">مساحتك التعليمية</p><h1>التحديات البرمجية</h1><p class="challenges-intro">استكشف تحديات عامة لتطبيق ما تتعلّمه</p></div></header>
+<form method="get" class="student-panel challenges-filters" aria-label="البحث وتصفية التحديات">
+<div class="challenges-search">{{ filter_form.q.as_field_group }}</div>
+<div class="challenges-filter-options"><div>{{ filter_form.language.as_field_group }}</div><div>{{ filter_form.difficulty.as_field_group }}</div><div>{{ filter_form.tag.as_field_group }}</div><div>{{ filter_form.state.as_field_group }}</div></div>
+<div class="challenges-filter-actions"><button class="button" type="submit">{% include 'students/dashboard/icon.html' with name='magnifying-glass' %}بحث وتصفية</button>{% if has_filters %}<a class="text-link" href="{% url 'student_challenges' %}">مسح الفلاتر</a>{% endif %}</div>
+</form>
+{% if challenges %}<div class="challenges-result-heading"><p>{{ filtered_count }} تحدٍّ</p></div>
+<div class="challenges-grid">{% for challenge in challenges %}<article class="student-panel challenge-card" aria-labelledby="challenge-title-{{ challenge.id }}">
+<header class="challenge-card-top"><span class="challenge-type-icon" aria-hidden="true">{% include 'students/dashboard/icon.html' with name='code' %}</span><span class="challenge-state challenge-state--{{ challenge.state }}">{% if challenge.state == 'solved' %}{% include 'students/dashboard/icon.html' with name='check' %}{% elif challenge.state == 'in_progress' %}{% include 'students/dashboard/icon.html' with name='pen-to-square' %}{% endif %}{{ challenge.state_label }}</span></header>
+<div class="challenge-meta"><span>{{ challenge.difficulty_label }}</span><span dir="ltr">{{ challenge.language }}</span></div>
+<h2 id="challenge-title-{{ challenge.id }}">{{ challenge.title }}</h2><p class="challenge-summary">{{ challenge.description|truncatechars:180 }}</p>
+{% if challenge.tags %}<ul class="challenge-tags" aria-label="وسوم التحدي">{% for tag in challenge.tags %}<li>{{ tag }}</li>{% endfor %}</ul>{% endif %}
+<a class="student-outline-button" href="{% url 'student_challenge_solve' challenge.challenge_id %}">{% if challenge.state == 'not_started' %}ابدأ الحل{% elif challenge.state == 'in_progress' %}تابع الحل{% else %}افتح التحدي{% endif %}</a>
+</article>{% endfor %}</div>
+{% if page.has_other_pages %}<nav class="challenges-pagination" aria-label="صفحات التحديات">{% if previous_url %}<a class="student-outline-button" href="{{ previous_url }}" rel="prev">السابق</a>{% endif %}<span aria-current="page">الصفحة {{ page.number }} من {{ page.paginator.num_pages }}</span>{% if next_url %}<a class="student-outline-button" href="{{ next_url }}" rel="next">التالي</a>{% endif %}</nav>{% endif %}
+{% else %}<section class="student-panel student-empty challenges-empty"><span aria-hidden="true">{% include 'students/dashboard/icon.html' with name='code' %}</span>{% if total_available %}<h2>لا توجد تحديات تطابق بحثك</h2><p>جرّب كلمات أخرى أو غيّر الفلاتر</p><a class="student-outline-button" href="{% url 'student_challenges' %}">عرض كل التحديات</a>{% else %}<h2>لا توجد تحديات منشورة حاليًا</h2><p>ستظهر هنا التحديات العامة بعد اعتمادها وإتاحتها</p>{% endif %}</section>{% endif %}
+</div>{% endblock %}

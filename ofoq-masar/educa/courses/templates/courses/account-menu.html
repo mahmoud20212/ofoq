@@ -1,0 +1,16 @@
+{% if request.user.is_authenticated %}
+  <details class="account-menu">
+    <summary aria-label="قائمة الحساب">
+      {% load static %}<svg class="icon lucide-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#user" width="24" height="24"/></svg>
+    </summary>
+    <div class="account-menu-panel">
+      <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
+      {% include 'courses/account-spaces.html' %}
+      <a href="{% url 'student_course_list' %}">دوراتي</a><a href="{% url 'sso_account' %}">إدارة حساب أُفُق</a><form method="post" action="{% url 'sso_logout' %}">
+        {% csrf_token %}<button type="submit">تسجيل الخروج</button>
+      </form>
+    </div>
+  </details>
+{% else %}
+  <a class="sso-login" href="{% url 'sso_login' %}?next={{ request.get_full_path|urlencode }}">تسجيل الدخول</a><a class="button small sso-register" href="{% url 'sso_register' %}?next={{ request.get_full_path|urlencode }}">إنشاء حساب</a>
+{% endif %}

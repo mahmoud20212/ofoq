@@ -1,0 +1,7 @@
+{% extends layout %}{% load static %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet" href="{% static 'css/lab-authoring.css' %}"><script src="{% static 'js/lab-authoring.js' %}" defer></script>{% endblock %}
+{% block teacher_content %}<div class="lab-authoring">
+<header class="teacher-heading"><div><p class="eyebrow">{% if revision %}{{ revision.title }} · النسخة {{ revision.number }}{% else %}إدارة المختبر{% endif %}</p><h1>{% block lab_title %}تحديات البرمجة{% endblock %}</h1></div>{% if back_url %}<a class="text-link" href="{{ back_url }}">← العودة</a>{% endif %}</header>
+{% if revision %}{% include 'instructor/setup-steps.html' %}{% include 'instructor/assessments/tabs.html' %}{% endif %}
+{% if revision and not can_edit %}<p class="lab-notice" role="status">نسخة للقراءة فقط · {{ revision.get_status_display }}</p>{% endif %}
+{% block lab_content %}{% endblock %}</div>{% endblock %}

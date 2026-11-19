@@ -1,0 +1,5 @@
+{% if course.learning_destination %}
+<a class="button small student-learning-action" href="{% url 'student_lesson' course.pk course.learning_destination.pk %}" data-learning-link="{{ course.pk }}">{{ course.learning_action_label }} {% include 'students/dashboard/icon.html' with name='play' %}</a>
+{% else %}
+<p class="student-learning-empty">المحتوى قيد الإعداد؛ لا يوجد محتوى متاح للتعلّم حاليًا</p>
+{% endif %}

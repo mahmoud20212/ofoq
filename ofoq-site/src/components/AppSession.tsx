@@ -37,6 +37,7 @@ export function AppSessionProvider({ children }: { children: ReactNode }) {
 export function UserMenu() {
   const { user, accountUrl, loading, error } = useAppSession()
   const [open, setOpen] = useState(false)
+  const authHref = (action: string) => `/auth/${action}?next=${encodeURIComponent(typeof window === 'undefined' ? '/' : window.location.pathname + window.location.search + window.location.hash)}`
   const wrap = useRef<HTMLDivElement>(null)
   const trigger = useRef<HTMLButtonElement>(null)
   useEffect(() => {
@@ -51,7 +52,7 @@ export function UserMenu() {
   }, [open])
   if (loading) return <span className="text-xs" role="status">جارٍ التحقق…</span>
   if (!user) return <div className="flex items-center gap-3">
-    <a href="/auth/login">دخول</a><a className="button button--primary" href="/auth/register">انضم إلينا</a>
+    <a href={authHref("login")}>تسجيل الدخول</a><a className="button button--primary" href={authHref("register")}>إنشاء حساب</a>
     {error && <span className="sr-only" role="status">{error}</span>}
   </div>
   return <div ref={wrap} className="relative" onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setOpen(false) }}>
@@ -65,9 +66,9 @@ export function UserMenu() {
     {open && <div id="ofoq-user-menu" className="absolute end-0 top-full z-50 mt-3 w-64 max-w-[85vw] rounded-2xl border border-current/15 bg-[var(--bg,#10121c)] p-4 shadow-xl" aria-label="خيارات الحساب">
       <strong className="block break-words">{user.name}</strong>
       <span className="mb-3 block break-all text-sm opacity-70" dir="ltr">{user.email}</span>
-      <a className="block rounded-lg p-2 hover:bg-violet-500/15" href={accountUrl}>الملف الشخصي</a>
+      <a className="block rounded-lg p-2 hover:bg-violet-500/15" href={accountUrl}>إدارة حساب أُفُق</a>
       {/* <a className="block rounded-lg p-2 hover:bg-violet-500/15" href="/auth/my-page">مركز الحسابات</a> */}
-      <form method="post" action="/auth/logout"><button className="w-full rounded-lg p-2 text-start hover:bg-violet-500/15" type="submit">تسجيل الخروج</button></form>
+      <form method="post" action="/auth/logout"><button className="w-full rounded-lg p-2 text-start hover:bg-violet-500/15" type="submit">تسجيل الخروج من حساب أُفُق</button></form>
     </div>}
   </div>
 }

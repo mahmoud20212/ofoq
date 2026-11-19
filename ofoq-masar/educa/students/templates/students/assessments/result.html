@@ -1,0 +1,26 @@
+{% extends 'students/assessments/base.html' %}{% load course %}
+{% block assessment_heading %}{% endblock %}
+{% block assessment_content %}
+<section class="student-panel student-lesson-panel learning-material assessment-result-material" aria-labelledby="assessment-result-title" data-attempt-number="{{ attempt_data.number }}">
+  <header class="learning-material-header">
+    <p class="learning-material-kind">{% include 'students/assessments/icon.html' %}نتيجة الاختبار <span aria-hidden="true">·</span> المحاولة {{ attempt_data.number }}</p>
+    <h1 id="assessment-result-title">{{ attempt_data.title }}</h1>
+    <div class="assessment-introduction-tools">{% include 'students/assessments/history-trigger.html' %}{% include 'students/dashboard/curriculum-trigger.html' %}</div>
+  </header>
+  <div class="student-lesson-content assessment-result-body">
+    <div class="assessment-result-summary{% if attempt_data.result.passed %} is-passed{% endif %}">
+      <span class="assessment-result-symbol" aria-hidden="true">{% if attempt_data.result.passed %}{% include 'courses/icon.html' with name='circle-check' %}{% else %}{% include 'courses/icon.html' with name='circle-xmark' %}{% endif %}</span>
+      <p class="assessment-result-status">{% if attempt_data.result.passed %}ناجح{% else %}لم ينجح{% endif %}</p>
+      <p class="assessment-result-score">{{ attempt_data.result.earned_score|compact_number }} <small>من {{ attempt_data.result.total_score|compact_number }} درجة</small></p>
+    </div>
+    <dl class="student-assessment-facts assessment-result-facts"><div><dt>النسبة</dt><dd dir="ltr">{{ attempt_data.result.result_percentage|compact_number }}%</dd></div><div><dt>المحاولات المستخدمة</dt><dd>{{ attempt_data.attempts_used }}</dd></div><div><dt>المحاولات المتبقية</dt><dd>{{ attempt_data.attempts_remaining }}</dd></div></dl>
+  </div>
+  <footer class="assessment-introduction-actions assessment-result-actions">
+    {% if current_test and not current_test.is_unlocked %}<p class="student-assessment-note">{{ current_test.unlock_message }}</p>
+    {% elif current_test.active_attempt_id %}<a class="button" href="{% url 'student_assessment_solve' course.pk current_assessment_id current_test.active_attempt_id %}">{% include 'students/dashboard/icon.html' with name='play' %}استكمل المحاولة النشطة</a>
+    {% elif current_test and current_test.attempts_remaining %}<form method="post" action="{{ start_url }}" data-assessment-start>{% csrf_token %}<button type="submit" class="button">{% include 'courses/icon.html' with name='arrows-rotate' %}بدء محاولة جديدة</button></form>
+    {% elif current_test %}<p class="student-assessment-note">لا توجد محاولات متبقية</p>{% endif %}
+    <a class="student-outline-button" href="{% url 'student_course_units' course.pk %}">{% include 'students/dashboard/icon.html' with name='book' %}العودة إلى المنهج</a>
+  </footer>
+</section>
+{% endblock %}

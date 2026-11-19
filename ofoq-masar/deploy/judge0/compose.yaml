@@ -1,0 +1,57 @@
+name: ofoq-masar-judge0-dev
+
+x-runtime: &runtime
+  image: judge0/judge0:1.13.1@sha256:6b5d6a66aa19a8e878a52ea3c6a560afc1086734d96e2885b561fd5c6018f082
+  # Required by the upstream release, NOT a security boundary against the host.
+  privileged: true
+  restart: "no"
+  volumes:
+    - ./.local/judge0.conf:/judge0.conf:ro
+  networks: [runtime]
+  logging:
+    driver: json-file
+    options: {max-size: "5m", max-file: "2"}
+
+services:
+  server:
+    <<: *runtime
+    ports: ["127.0.0.1:2359:2358"]
+    depends_on:
+      db: {condition: service_healthy}
+      redis: {condition: service_healthy}
+  workers:
+    <<: *runtime
+    command: ["./scripts/workers"]
+    depends_on:
+      server: {condition: service_started}
+    # Initial development ceiling; this is not a measured production capacity.
+    cpus: 2
+    mem_limit: 1536m
+  db:
+    image: postgres:16.2
+    restart: "no"
+    env_file: ./.local/judge0.conf
+    volumes: ["database:/var/lib/postgresql/data"]
+    networks: [runtime]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U judge0 -d judge0"]
+      interval: 3s
+      timeout: 2s
+      retries: 30
+  redis:
+    image: redis:7.2.4
+    restart: "no"
+    env_file: ./.local/judge0.conf
+    command: ["bash", "-c", 'docker-entrypoint.sh --appendonly no --requirepass "$$REDIS_PASSWORD"']
+    networks: [runtime]
+    healthcheck:
+      test: ["CMD-SHELL", 'REDISCLI_AUTH="$$REDIS_PASSWORD" redis-cli ping | grep -q PONG']
+      interval: 3s
+      timeout: 2s
+      retries: 30
+
+volumes:
+  database:
+networks:
+  runtime:
+    internal: true

@@ -1,0 +1,22 @@
+{% extends 'students/assessments/base.html' %}{% load course %}
+{% block assessment_heading %}{% endblock %}
+{% block assessment_content %}
+<section class="student-panel student-lesson-panel learning-material student-assessment-introduction" aria-labelledby="assessment-introduction-title">
+<header class="learning-material-header">
+  <p class="learning-material-kind">{% include 'students/assessments/icon.html' %}اختبار تعليمي{% if selected_module %}<span aria-hidden="true">·</span><span class="learning-material-unit">{{ selected_module.title }}</span>{% endif %}</p>
+  <h1 id="assessment-introduction-title">{{ test.title }}</h1>
+  <div class="assessment-introduction-tools">{% include 'students/assessments/history-trigger.html' %}{% include 'students/dashboard/curriculum-trigger.html' %}</div>
+</header>
+<div class="student-lesson-content assessment-introduction-body">
+{% if test.instructions %}<div class="student-prose assessment-introduction-instructions">{{ test.instructions|linebreaks }}</div>{% endif %}
+<dl class="student-assessment-facts"><div><dt>الأسئلة</dt><dd>{{ test.question_count }}</dd></div><div><dt>الدرجة الإجمالية</dt><dd>{{ test.total_points|compact_number }}</dd></div><div><dt>درجة النجاح</dt><dd>{{ test.pass_mark|compact_number }}%</dd></div><div><dt>حد المحاولات</dt><dd>{{ test.max_attempts }}</dd></div><div><dt>المستخدمة</dt><dd>{{ test.attempts_used }}</dd></div><div><dt>المتبقية</dt><dd>{{ test.attempts_remaining }}</dd></div></dl>
+</div>
+<footer class="assessment-introduction-actions assessment-introduction-footer">
+{% if not test.is_unlocked %}<div class="assessment-attempts-exhausted assessment-prerequisite-notice" role="status">{% include 'courses/icon.html' with name='lock' %}<div><strong>الاختبار مقفل</strong><p>{{ test.unlock_message }}</p></div></div>
+{% elif test.active_attempt_id %}<p class="student-assessment-note">استكمل محاولتك المحفوظة دون استهلاك محاولة إضافية</p><a class="button" href="{% url 'student_assessment_solve' course.pk test.id test.active_attempt_id %}">{% include 'students/dashboard/icon.html' with name='play' %}استكمل المحاولة</a>
+{% elif test.attempts_remaining %}<p class="student-assessment-note">البدء يستهلك محاولة جديدة، والتحديث أو الاستكمال لا يستهلك محاولة إضافية</p><form method="post" action="{% url 'student_assessment_begin' course.pk test.id %}" data-assessment-start>{% csrf_token %}<button type="submit" class="button">{% include 'students/assessments/icon.html' %}ابدأ الاختبار</button></form>
+{% else %}<div class="assessment-attempts-exhausted" role="status">{% include 'courses/icon.html' with name='circle-info' %}<div><strong>لا توجد محاولات متبقية</strong><p>يمكنك مراجعة نتائجك من سجل المحاولات</p></div></div>{% endif %}
+</footer>
+</section>
+{% include 'students/assessments/navigation.html' %}
+{% endblock %}

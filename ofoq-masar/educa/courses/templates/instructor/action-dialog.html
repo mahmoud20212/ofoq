@@ -1,0 +1,9 @@
+<dialog class="teacher-action-dialog" aria-labelledby="teacher-action-title" aria-describedby="teacher-action-description">
+  <div class="teacher-action-dialog-heading"><h2 id="teacher-action-title">تأكيد الإجراء</h2><button class="student-icon-button" type="button" data-action-close aria-label="إغلاق النافذة">{% include 'students/dashboard/icon.html' with name='close' %}</button></div>
+  <blockquote class="teacher-action-item" data-action-item dir="auto" hidden></blockquote>
+  <p id="teacher-action-description"></p>
+  <form method="post" data-action-form>{% csrf_token %}
+    <label class="teacher-confirm-checkbox"><input type="checkbox" name="confirm" value="yes" required> أؤكد رغبتي في تنفيذ هذا الإجراء</label>
+    <div class="teacher-action-dialog-buttons"><button type="button" class="student-outline-button" data-action-close autofocus>إلغاء</button><button type="submit" class="teacher-danger-button" data-action-submit>تأكيد</button></div>
+  </form>
+</dialog>

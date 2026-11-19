@@ -1,0 +1,8 @@
+{% extends 'instructor/assessments/base.html' %}
+{% block assessment_content %}
+<div class="assessment-section-heading"><p>اختبارات هذه النسخة فقط · يُنشر المعتمد منها مع الدورة</p>{% if can_edit %}<a class="button small" href="{% url 'instructor:assessment_add' revision.pk %}" data-content-editor data-editor-title="إضافة اختبار">{% include 'students/dashboard/icon.html' with name='plus' %}إضافة اختبار</a>{% endif %}</div>
+<div class="assessment-list-region"><div class="assessment-list">{% for test in versions %}
+{% include 'instructor/assessments/card.html' %}
+{% empty %}<section class="student-panel student-empty"><h2>لا توجد اختبارات في هذه النسخة</h2><p>يمكن إضافة اختبار للدورة كاملة أو لإحدى وحداتها</p>{% if can_edit %}<a class="button small" href="{% url 'instructor:assessment_add' revision.pk %}" data-content-editor data-editor-title="إضافة اختبار">{% include 'students/dashboard/icon.html' with name='plus' %}إضافة أول اختبار</a>{% endif %}</section>{% endfor %}</div>
+</div>
+{% endblock %}

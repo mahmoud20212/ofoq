@@ -1,0 +1,5 @@
+{% extends 'instructor/lab/base.html' %}
+{% block lab_content %}
+<div class="lab-toolbar"><p>تُراجع التحديات وتُنشر مع نسخة الدورة</p>{% if can_edit %}<a class="button" href="{% url 'instructor:challenge_add' revision.pk %}">+ إضافة تحدٍّ</a>{% endif %}</div>
+<div class="lab-card-grid">{% for item in versions %}<article class="student-panel lab-card"><small>{{ item.module.title|default:'الدورة كاملة' }}</small><h2>{{ item.title|default:'تحدٍّ بلا عنوان' }}</h2><p>{{ item.language|default:'لم تُحدد اللغة' }}</p><span>{{ item.get_status_display }}</span><p>{% if item.readiness %}غير جاهز · {{ item.readiness|length }} ملاحظة{% else %}جاهز للمراجعة{% endif %}</p><a class="student-outline-button" href="{% url 'instructor:challenge_detail' revision.pk item.pk %}">إعداد التحدي ومراجعته</a></article>{% empty %}<section class="student-panel lab-card"><h2>لم تُضف تحديات بعد</h2><p>أضف تحديًا للدورة أو لإحدى وحداتها</p></section>{% endfor %}</div>
+{% endblock %}

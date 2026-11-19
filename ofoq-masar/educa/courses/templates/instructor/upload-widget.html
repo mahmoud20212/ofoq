@@ -1,0 +1,39 @@
+<div class="teacher-upload" data-upload>
+  <template data-upload-image-icon>
+    {% include 'students/dashboard/icon.html' with name='image' %}
+  </template>
+  <template data-upload-file-icon>
+    {% include 'students/dashboard/icon.html' with name='file' %}
+  </template>
+  <div class="teacher-upload-preview" data-upload-preview>
+    {% if widget.is_initial and widget.attrs.accept == 'image/*' %}
+    <img src="{{ widget.value.url }}" alt="معاينة الصورة الحالية">
+    {% elif widget.attrs.accept == 'image/*' %}
+    {% include 'students/dashboard/icon.html' with name='image' %}
+    {% else %}
+    {% include 'students/dashboard/icon.html' with name='file' %}
+    {% endif %}
+  </div>
+  <div class="teacher-upload-content">
+    <strong data-upload-title>
+    {% if widget.attrs.accept == 'image/*' %}صورة الغلاف{% else %}ملف المحتوى{% endif %}
+  </strong>
+  <p data-upload-name>
+    {% if widget.is_initial %}يوجد ملف مرفق{% else %}{% if widget.attrs.accept == 'image/*' %}اختر صورة واضحة بتنسيق PNG أو JPG أو WebP{% else %}اختر ملف المحتوى من جهازك{% endif %}{% endif %}
+  </p>
+  <div class="teacher-upload-actions">
+    <span class="teacher-upload-picker">
+      <input type="{{ widget.type }}" name="{{ widget.name }}"{% include 'django/forms/widgets/attrs.html' %}>
+      <label for="{{ widget.attrs.id }}">
+        {% if widget.is_initial %}استبدال{% else %}اختيار{% endif %} {% if widget.attrs.accept == 'image/*' %}الصورة{% else %}الملف{% endif %}
+      </label>
+    </span>
+    {% if widget.is_initial %}
+    <a class="text-link" href="{{ widget.value.url }}" target="_blank" rel="noopener">عرض الحالي</a>
+    {% if not widget.required %}
+    <label class="teacher-upload-remove">
+      <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.checked %} checked{% endif %}{% if widget.attrs.disabled %} disabled{% endif %}> إزالة الحالي</label>
+      {% endif %}{% endif %}
+    </div>
+  </div>
+</div>

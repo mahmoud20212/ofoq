@@ -1,0 +1,19 @@
+{% extends 'students/dashboard/base.html' %}
+{% block student_content %}
+<div class="student-favorites-page" data-favorites-page>
+<header class="student-page-heading"><p class="eyebrow">مساحتك التعليمية</p><h1>المفضلة <span class="favorite-count" data-favorite-count>{{ favorite_count }}</span></h1></header>
+<div class="favorite-grid">
+{% for course in courses %}
+<article class="student-panel favorite-card" data-favorite-card>
+<a class="student-course-cover" href="{% url 'course_detail' course.slug %}" tabindex="-1" aria-hidden="true">{% if course.cover %}<img src="{{ course.cover.url }}" alt="" loading="lazy">{% else %}{% include 'students/dashboard/icon.html' with name='cap' %}{% endif %}</a>
+<div class="favorite-card-body"><div class="favorite-card-top"><p class="student-kicker">{{ course.subject.title }}</p>{% include 'students/dashboard/favorite-button.html' %}</div>
+<h2><a href="{% url 'course_detail' course.slug %}">{{ course.title }}</a></h2>
+<p class="favorite-teacher">المعلم: {{ course.owner.get_full_name|default:course.owner.username }}</p>
+<div class="favorite-card-footer"><div class="favorite-facts"><strong>{% if course.favorite_price %}{% include 'courses/price.html' with amount=course.favorite_price %}{% elif course.is_paid %}السعر غير متاح حاليًا{% else %}مجانية{% endif %}</strong>{% if course.is_joined %}<span class="student-design-label">ملتحق بها</span>{% endif %}</div>
+{% if course.is_joined %}<a class="button small" href="{% url 'student_course_learn' course.pk %}">متابعة التعلّم {% include 'courses/arrow-icon.html' %}</a>{% else %}<a class="button small" href="{% url 'course_detail' course.slug %}">تفاصيل الدورة {% include 'courses/arrow-icon.html' %}</a>{% endif %}
+</div></div></article>
+{% endfor %}
+</div>
+<section class="student-empty student-panel" data-favorites-empty {% if courses %}hidden{% endif %}>{% include 'students/dashboard/icon.html' with name='heart' %}<h2>لم تحفظ دورات بعد</h2><p>احفظ الدورات التي تهمّك باستخدام زر القلب لتجدها هنا.</p><a class="button" href="{% url 'course_list' %}">استكشف الدورات</a></section>
+</div>
+{% endblock %}

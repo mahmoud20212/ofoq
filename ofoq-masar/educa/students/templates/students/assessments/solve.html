@@ -1,0 +1,45 @@
+{% extends 'students/assessments/base.html' %}{% load course %}
+{% block assessment_content %}
+<div class="assessment-attempt-toolbar" aria-label="معلومات المحاولة">
+  <div class="assessment-attempt-details"><span>المحاولة <strong>{{ attempt_data.number }}</strong></span><span>درجة النجاح <strong dir="ltr">{{ attempt_data.pass_mark|compact_number }}%</strong></span></div>
+  <button type="button" class="student-outline-button" data-history-url="{{ history_url }}" data-assessment-history-open>{% include 'courses/icon.html' with name='clock-rotate-left' %}سجل المحاولات</button>
+</div>
+{% if form_error %}<p class="student-assessment-notice is-error" role="alert">{{ form_error }} · لم تُحفظ التغييرات، وتبقى اختياراتك في النموذج</p>{% endif %}
+{% if confirm_submission %}
+<section class="student-panel student-assessment-panel"><h2>تأكيد تسليم المحاولة</h2><p>عدد الأسئلة غير المجابة: <strong>{{ unanswered_count }}</strong>، وتُحسب درجتها صفرًا</p><p>ستُسلّم اختياراتك الحالية، ولن تتمكن من تعديل الإجابات بعدها</p><form method="post">{% csrf_token %}{% for question in attempt_data.questions %}<input type="hidden" name="answer_{{ question.question_key }}" value="{{ question.selected_option_key }}">{% endfor %}<input type="hidden" name="confirm_submit" value="yes"><div class="student-assessment-actions"><button type="submit" name="action" value="submit" class="button">تأكيد التسليم</button><button type="submit" name="action" value="edit" class="student-outline-button">العودة إلى الإجابات</button></div></form></section>
+{% else %}
+<form method="post" class="student-assessment-form student-assessment-pager" data-assessment-preview data-assessment-form data-assessment-autosave="true" data-save-url="{{ save_url }}" data-submit-url="{{ submit_url }}" data-read-url="{{ read_url }}" data-result-url="{{ result_url }}" data-login-url="{{ login_url }}">
+{% csrf_token %}
+<aside class="student-panel student-assessment-index" aria-label="التنقل بين أسئلة الاختبار">
+  <h2>الأسئلة</h2>
+  <nav class="student-assessment-numbers">{% for question in attempt_data.questions %}<a class="student-outline-button" href="#attempt-question-{{ question.question_key }}" data-question-number aria-label="السؤال {{ forloop.counter }}">{{ forloop.counter }}</a>{% endfor %}</nav>
+  <div class="student-assessment-legend"><span class="is-answered">مجاب</span><span class="is-unanswered">غير مجاب</span></div>
+  <p class="sr-only" data-preview-position role="status" aria-live="polite"></p>
+  <div class="student-assessment-savebar"><span>أجبت عن <b data-answered-count>{{ answered_count }}</b> من {{ attempt_data.question_count }}</span><span role="status" aria-live="polite" aria-atomic="true" data-save-status>{% if initial_unsaved %}تغييرات غير محفوظة{% else %}الإجابات المحفوظة محمّلة{% endif %}</span></div>
+  <button type="button" class="student-outline-button student-assessment-instructions-button" data-preview-info-open hidden>تعليمات الاختبار</button>
+  <div class="student-assessment-notice is-error" data-request-error role="alert" hidden></div>
+  <a class="student-outline-button" href="{{ login_url }}" data-assessment-login target="_blank" rel="noopener" hidden>تسجيل الدخول مجددًا في تبويب جديد</a>
+  <div class="student-assessment-actions student-assessment-save-actions"><button type="submit" class="student-outline-button" name="action" value="save" data-assessment-save>حفظ الإجابات</button><button type="submit" class="button" name="action" value="confirm_submit" data-assessment-submit>تسليم</button><button type="button" class="student-outline-button" data-assessment-recover hidden>التحقق من حالة المحاولة</button></div>
+</aside>
+<section class="student-panel student-assessment-stage" aria-label="سؤال الاختبار">
+  <div class="student-assessment-question-list">
+  {% for question in attempt_data.questions %}
+    <fieldset class="student-assessment-question" id="attempt-question-{{ question.question_key }}" data-preview-question data-assessment-question="{{ question.question_key }}" data-question-points="{{ question.points|compact_number }}">
+      <legend>السؤال {{ forloop.counter }} · {{ question.points|compact_number }} درجة</legend>
+      <h2 tabindex="-1">{{ question.text }}</h2>
+      {% for option in question.options %}<label class="student-assessment-option"><input type="radio" name="answer_{{ question.question_key }}" value="{{ option.option_key }}"{% if question.selected_option_key == option.option_key %} checked{% endif %}><span>{{ option.text }}</span></label>{% endfor %}
+    </fieldset>
+  {% endfor %}
+  </div>
+  <nav class="student-assessment-question-navigation" data-preview-navigation aria-label="التنقل بين أسئلة الاختبار" hidden>
+    <button type="button" class="student-outline-button" data-preview-previous>{% load static %}<svg class="icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#chevron-right" width="24" height="24"/></svg>السابق</button>
+    <button type="button" class="button" data-preview-next>التالي{% load static %}<svg class="icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#chevron-left" width="24" height="24"/></svg></button>
+  </nav>
+</section>
+<noscript><section class="student-panel student-assessment-panel"><h2>تعليمات الاختبار</h2>{{ attempt_data.instructions|linebreaks }}<p class="student-assessment-note">احفظ إجاباتك قبل مغادرة الصفحة، وسيظهر تأكيد التسليم في خطوة مستقلة</p></section></noscript>
+</form>
+{{ confirmed_answers|json_script:'assessment-confirmed-answers' }}
+<dialog class="student-assessment-dialog" data-preview-info-dialog aria-labelledby="student-assessment-instructions-title"><header><h2 id="student-assessment-instructions-title">تعليمات الاختبار</h2><button type="button" class="student-icon-button" data-preview-info-close aria-label="إغلاق">{% include 'students/dashboard/icon.html' with name='close' %}</button></header><div class="student-assessment-instructions">{{ attempt_data.instructions|linebreaks }}</div></dialog>
+<dialog class="student-assessment-dialog" data-assessment-confirm aria-labelledby="assessment-confirm-title"><header><h2 id="assessment-confirm-title">تسليم المحاولة؟</h2><button type="button" class="student-icon-button" data-assessment-cancel aria-label="إغلاق">{% include 'students/dashboard/icon.html' with name='close' %}</button></header><p>الأسئلة غير المجابة: <strong data-unanswered-count>{{ unanswered_count }}</strong>، وتُحسب درجتها صفرًا</p><p>ستُسلّم اختياراتك الحالية، ولن تتمكن من تعديل الإجابات بعدها</p><div class="student-assessment-actions"><button type="button" class="student-outline-button" data-assessment-cancel autofocus>إلغاء</button><button type="button" class="button" data-assessment-confirm-submit>تأكيد التسليم</button></div></dialog>
+{% endif %}
+{% endblock %}

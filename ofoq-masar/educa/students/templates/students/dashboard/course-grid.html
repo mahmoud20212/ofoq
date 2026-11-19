@@ -1,0 +1,32 @@
+<div class="student-enrolled-list favorite-grid" data-enrolled-card-grid>
+  {% for course in courses %}
+  <article class="student-panel favorite-card course-card">
+    <a class="student-course-cover" href="{% url 'student_course_overview' course.pk %}" tabindex="-1" aria-hidden="true">
+      {% if course.cover %}<img src="{{ course.cover.url }}" alt="" loading="lazy">{% else %}<span class="student-cover-grid" aria-hidden="true"></span>{% include 'students/dashboard/icon.html' with name='cap' %}{% endif %}
+    </a>
+    <div class="favorite-card-body">
+      <div class="favorite-card-top">
+        <p class="student-kicker">{{ course.subject.title }}</p>
+        <details class="joined-card-menu" data-course-actions>
+          <summary aria-label="خيارات الدورة: {{ course.title }}" title="خيارات الدورة">{% load static %}<svg class="icon lucide-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#ellipsis" width="24" height="24"/></svg></summary>
+          <div class="joined-card-menu-panel">
+            <a href="{% url 'student_course_overview' course.pk %}">{% include 'students/dashboard/icon.html' with name='file' %}تفاصيل الدورة</a>
+            <a href="{% url 'student_course_units' course.pk %}">{% include 'students/dashboard/icon.html' with name='book' %}عرض الوحدات</a>
+          </div>
+        </details>
+        {% if course.status == "published" or course.is_favorite %}{% include "students/dashboard/favorite-button.html" %}{% endif %}
+      </div>
+      <h2><a href="{% url 'student_course_overview' course.pk %}">{{ course.title }}</a></h2>
+      <div class="joined-card-meta"><p class="favorite-teacher">{% include 'students/dashboard/icon.html' with name='user' %}المعلم: {{ course.owner.get_full_name|default:course.owner.username }}</p><span>{% include 'students/dashboard/icon.html' with name='book' %}{{ course.modules.all|length }} وحدة · {{ course.lesson_count }} محتوى</span></div>
+      <div class="favorite-card-footer">
+        {% include 'students/dashboard/card-progress.html' with progress=course.learning_progress %}
+        {% if course.learning_destination %}<div class="joined-card-links">
+          {% include 'students/dashboard/learning-link.html' %}
+        </div>{% endif %}
+      </div>
+    </div>
+  </article>
+  {% empty %}
+  <section class="student-empty student-panel">{% include 'students/dashboard/icon.html' with name='book' %}<h2>لم تلتحق بدورات بعد</h2><p>تعرّف على دورات الأكاديمية واختر ما يناسب اهتماماتك.</p><a class="button" href="{% url 'course_list' %}">استكشف الدورات {% include 'courses/arrow-icon.html' %}</a></section>
+  {% endfor %}
+</div>

@@ -1,0 +1,7 @@
+{% extends 'instructor/assessments/base.html' %}
+{% block assessment_title %}{% if version %}إعدادات الاختبار{% else %}إضافة اختبار{% endif %}{% endblock %}
+{% block assessment_content %}
+<form method="post" class="teacher-form assessment-settings">{% csrf_token %}
+<section class="student-panel assessment-panel">{{ form.non_field_errors }}<div class="teacher-form-columns">{% include 'instructor/field.html' with field=form.title %}{% include 'instructor/field.html' with field=form.module %}</div>{% include 'instructor/field.html' with field=form.instructions %}<div class="teacher-form-columns">{% include 'instructor/field.html' with field=form.pass_percentage %}{% include 'instructor/field.html' with field=form.max_attempts %}</div><p class="teacher-note">كل محاولة يبدأها الطالب تُحتسب ضمن الحد، ويمكنه استكمال المحاولة النشطة دون استهلاك محاولة أخرى</p></section>
+<footer class="assessment-actions"><button type="submit" class="button small">{% include 'students/dashboard/icon.html' with name='file' %}حفظ المسودة</button><a class="student-outline-button" href="{% url 'instructor:assessments' revision.pk %}">إلغاء</a></footer></form>
+{% endblock %}

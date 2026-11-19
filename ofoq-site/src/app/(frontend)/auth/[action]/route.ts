@@ -5,8 +5,13 @@ import { accountUrl, myPageUrl, authFlow, authSettings, browserSession, createSe
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-function authError() {
-  return new NextResponse('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>تعذر تسجيل الدخول</title><main><h1>تعذر إكمال تسجيل الدخول</h1><p>قد تكون الجلسة انتهت أو خدمة تسجيل الدخول غير متاحة. حاول مجددًا.</p><a href="/auth/login">إعادة المحاولة</a> · <a href="/">العودة للرئيسية</a></main></html>', {
+function safeNext(value: string | null | undefined) {
+  if (!value || !value.startsWith('/') || value.startsWith('//') || /[\\\u0000-\u0020]/.test(value)) return '/'
+  const target = new URL(value, 'https://local.invalid')
+  return target.origin === 'https://local.invalid' && !target.pathname.startsWith('/auth/') ? target.pathname + target.search + target.hash : '/'
+}
+function authError(next = '/') {
+  return new NextResponse('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>تعذر تسجيل الدخول</title><style>body{margin:0;background:#f4f6fb;color:#18243b;font:18px/1.8 system-ui}main{max-width:540px;margin:12vh auto;padding:32px;border:1px solid #dce3ef;border-radius:24px;background:white}h1{font-size:26px}a{color:#3167ad;display:inline-block;padding:10px} @media(max-width:600px){main{margin:40px 16px;padding:24px}}</style><main><h1>تعذر إكمال تسجيل الدخول</h1><p>قد تكون الجلسة انتهت أو خدمة تسجيل الدخول غير متاحة. حاول مجددًا.</p><a href="/auth/login?next=' + encodeURIComponent(safeNext(next)) + '">إعادة المحاولة</a> · <a href="/">العودة للرئيسية</a></main></html>', {
     status: 503, headers: { ...noStore, 'Content-Type': 'text/html; charset=utf-8', 'Referrer-Policy': 'no-referrer' },
   })
 }
@@ -14,8 +19,15 @@ function redirect(url: URL | string) { return NextResponse.redirect(url, { statu
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ action: string }> }) {
   const { action } = await params
+  let retryNext = safeNext(request.nextUrl.searchParams.get('next'))
   try {
     const { site } = authSettings()
+    const next = safeNext(request.nextUrl.searchParams.get('next'))
+    if (['login', 'register'].includes(action) && request.headers.get('host') !== new URL(site).host) {
+      const canonical = new URL(`/auth/${action}`, site)
+      canonical.searchParams.set('next', next)
+      return redirect(canonical)
+    }
     if (action === 'my-page') {
       const record = await currentRecord()
       return redirect(record ? myPageUrl() : `${site}/auth/login`)
@@ -25,7 +37,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ user: record?.user || null, accountUrl: accountUrl() }, { headers: noStore })
     }
     if (['login', 'register', 'forgot-password', 'reset-password'].includes(action)) {
-      if (await currentRecord()) return redirect(myPageUrl())
+      if (await currentRecord()) return redirect(new URL(next, site))
       if (action === 'forgot-password' || action === 'reset-password') return redirect(`${site}/auth/login`)
     }
     if (action === 'login' || action === 'register') {
@@ -34,6 +46,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       flow.verifier = oidc.randomPKCECodeVerifier()
       flow.state = oidc.randomState()
       flow.nonce = oidc.randomNonce()
+      flow.next = next
       flow.expires = Date.now() + 600_000
       await flow.save()
       const url = oidc.buildAuthorizationUrl(config, {
@@ -47,8 +60,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     if (action === 'callback') {
       const flow = await authFlow()
       const { verifier, state, nonce, expires } = flow
+      const destination = safeNext(flow.next)
+      retryNext = destination
       flow.destroy()
-      if (!verifier || !state || !nonce || !expires || expires < Date.now()) return authError()
+      if (!verifier || !state || !nonce || !expires || expires < Date.now()) return authError(destination)
       const config = await keycloak()
       const callback = new URL(`${site}/auth/callback`)
       callback.search = request.nextUrl.search
@@ -56,19 +71,19 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         pkceCodeVerifier: verifier, expectedState: state, expectedNonce: nonce, idTokenExpected: true,
       })
       const claims = tokens.claims()
-      if (!claims?.sub || !tokens.id_token) return authError()
+      if (!claims?.sub || !tokens.id_token) return authError(destination)
       await createSession({
         user: { id: claims.sub, name: String(claims.name || claims.preferred_username || claims.email || 'مستخدم أُفُق'), email: String(claims.email || '') },
         accessToken: tokens.access_token, refreshToken: tokens.refresh_token, idToken: tokens.id_token,
         accessExpires: Date.now() + (tokens.expires_in || 60) * 1000, expires: Date.now() + 7 * 86400_000,
       })
-      return redirect(myPageUrl())
+      return redirect(new URL(destination, site))
     }
     if (action === 'logout') return new NextResponse(null, { status: 405, headers: { ...noStore, Allow: 'POST' } })
     return new NextResponse(null, { status: 404, headers: noStore })
   } catch {
     if (action === 'session') return NextResponse.json({ user: null, error: 'تعذر التحقق من الجلسة.' }, { status: 503, headers: noStore })
-    return authError()
+    return authError(retryNext)
   }
 }
 

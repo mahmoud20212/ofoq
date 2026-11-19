@@ -1,0 +1,10 @@
+{% extends 'students/dashboard/base.html' %}
+{% block student_content %}
+<div class="student-courses-page">
+  <header class="student-page-heading student-courses-heading">
+    <div><p class="eyebrow">مساحتك التعليمية</p><h1>دوراتي</h1></div>
+    <a class="text-link" href="{% url 'course_list' %}">استكشف الدورات {% include 'courses/arrow-icon.html' %}</a>
+  </header>
+  {% include 'students/dashboard/course-grid.html' %}
+</div>
+{% endblock %}

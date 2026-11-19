@@ -1,0 +1,4 @@
+<div class="learning-tools">
+  <details class="learning-help"><summary>مساعدة {% include 'students/dashboard/icon.html' with name='book' %}</summary><p>راجع المحتوى عند الحاجة، ويمكنك طرح سؤالك في مساحة النقاش والتفاعل</p></details>
+  <a class="text-link" href="{% url 'chat:course_chat_room' course.pk %}">{% include 'students/dashboard/icon.html' with name='comments' %}النقاش والتفاعل</a>
+</div>

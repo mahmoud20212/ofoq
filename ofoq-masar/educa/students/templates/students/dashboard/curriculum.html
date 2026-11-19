@@ -1,0 +1,28 @@
+<aside class="learning-curriculum student-panel" id="learning-curriculum" aria-labelledby="learning-curriculum-title">
+  <header class="learning-curriculum-header">
+    <div><h2 id="learning-curriculum-title">منهج الدورة</h2><p>{{ course.title }}</p></div>
+    <button type="button" class="student-icon-button learning-curriculum-close" data-curriculum-close aria-label="إغلاق منهج الدورة">{% include 'students/dashboard/icon.html' with name='close' %}</button>
+    <div class="student-learning-progress learning-total" data-course-progress="{{ course.pk }}">
+    {% if course_progress.available_content_count %}<div class="student-progress-label"><span data-progress-count>أكملت {{ course_progress.completed_content_count }} من {{ course_progress.available_content_count }}</span><bdi data-progress-percent>{{ course_progress.completion_percentage }}%</bdi></div><progress max="100" value="{{ course_progress.completion_percentage }}" aria-label="تقدم محتوى الدورة" data-progress-bar>{{ course_progress.completion_percentage }}%</progress>
+    {% else %}<p class="student-progress-empty">المحتوى قيد الإعداد</p>{% endif %}
+    </div>
+  </header>
+  <div class="learning-curriculum-scroll" data-curriculum-scroll>
+  {% for module in modules %}<details class="learning-unit"{% if module.pk == selected_module.pk %} open{% endif %}>
+    <summary><span>{{ module.title }}</span>{% include 'students/dashboard/icon.html' with name='chevron' %}</summary>
+    <ul>{% for content in module.lesson_rows %}<li class="learning-content-row{% if content.pk == lesson.pk %} is-current{% endif %}"{% if content.pk == lesson.pk %} data-current-content{% endif %}>
+      <form method="post" action="{% if content.is_completed %}{% url 'student_content_incomplete' course.pk content.pk %}{% else %}{% url 'student_content_complete' course.pk content.pk %}{% endif %}" data-completion-form data-course-id="{{ course.pk }}" data-content-id="{{ content.pk }}" data-completed="{{ content.is_completed|yesno:'true,false' }}" data-complete-url="{% url 'student_content_complete' course.pk content.pk %}" data-incomplete-url="{% url 'student_content_incomplete' course.pk content.pk %}">
+        {% csrf_token %}<input type="hidden" name="response_format" value="html"><input type="hidden" name="completion_checkbox" value="1">{% if lesson %}<input type="hidden" name="return_content_id" value="{{ lesson.pk }}">{% endif %}
+        <label class="learning-completion-hit"><input type="checkbox" name="desired_completed" value="true"{% if content.is_completed %} checked{% endif %} aria-label="إكمال المحتوى: {{ content.item.title }}" data-completion-checkbox></label>
+        <noscript><button type="submit" class="student-outline-button learning-native-save">حفظ</button></noscript>
+      </form>
+      <a href="{% url 'student_lesson' course.pk content.pk %}"{% if content.pk == lesson.pk %} aria-current="page"{% endif %} data-curriculum-link>{% include 'students/dashboard/lesson-icon.html' with lesson=content %}<span>{{ content.item.title }}</span></a>
+    </li>{% empty %}<li class="learning-unit-empty">لا توجد محتويات متاحة في هذه الوحدة</li>{% endfor %}{% for test in module.assessment_rows %}{% include 'students/assessments/syllabus-row.html' %}{% endfor %}</ul>
+  </details>{% empty %}<p class="learning-unit-empty">لم تُضف وحدات بعد</p>{% endfor %}
+  {% if course_assessment_rows %}<section class="learning-course-assessments" aria-label="اختبارات الدورة"><h3>اختبارات الدورة</h3><ul>{% for test in course_assessment_rows %}{% include 'students/assessments/syllabus-row.html' %}{% endfor %}</ul></section>{% endif %}
+  </div>
+  <footer class="learning-curriculum-footer">
+    <a href="{% url 'chat:course_chat_room' course.pk %}">{% include 'students/dashboard/icon.html' with name='comments' %}النقاش والتفاعل</a>
+    <a href="{% if lesson %}#lesson-comments-title{% else %}{% url 'student_course_overview' course.pk %}{% endif %}" data-open-help aria-haspopup="dialog" aria-controls="learning-help-dialog">{% load static %}<svg class="icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#circle-question" width="24" height="24"/></svg>تحتاج مساعدة؟</a>
+  </footer>
+</aside>

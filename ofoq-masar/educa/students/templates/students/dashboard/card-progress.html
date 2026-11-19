@@ -1,0 +1,6 @@
+<p class="student-card-progress-text">
+{% if not progress.available_content_count %}المحتوى قيد الإعداد
+{% elif progress.is_content_complete %}{% load static %}<svg class="icon lucide-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#check" width="24" height="24"/></svg>مكتملة المحتوى
+{% elif not progress.has_started %}لم تبدأ بعد
+{% else %}<bdi>{{ progress.completion_percentage }}%</bdi> مكتمل{% endif %}
+</p>

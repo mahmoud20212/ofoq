@@ -1,0 +1,196 @@
+/* Shared Ofuq controls. Loaded after each page's layout styles. */
+:root {
+  --control-radius: 999px;
+  --field-radius: 12px;
+  --control-height: 44px;
+  --control-gap: 8px;
+  --control-focus: var(--link);
+  --control-danger: #b63845;
+}
+:root[data-theme=dark] { --control-danger: #f2a3ad; }
+/* Decorative rings must remain inside the hero on narrow tablet layouts. */
+.hero-art.learning-scene .scene-ring { max-width:100%; height:auto; aspect-ratio:1; }
+
+/* Layouts retain their widths and placement; the controls share one appearance. */
+html body.academy-landing :is(main,.header,.student-topbar,dialog) :is(.button,.student-outline-button,.teacher-order-button,.teacher-item-action,.teacher-danger-button) {
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:var(--control-gap); min-height:var(--control-height); height:auto;
+  padding:10px 20px; border-radius:var(--control-radius);
+  font-family:inherit; font-size:12px; font-weight:500; line-height:1.65;
+  text-align:center; text-decoration:none; max-width:100%; white-space:normal;
+  box-shadow:none; transform:none;
+  transition:background-color .16s ease,border-color .16s ease,color .16s ease;
+}
+html body.academy-landing :is(main,.header,.student-topbar,dialog) .button {
+  background:var(--gradient); color:#fff; border:1px solid transparent;
+}
+html body.academy-landing :is(main,.header,.student-topbar,dialog) .button:not(:disabled):not([aria-disabled=true]):hover {
+  background:linear-gradient(135deg,#326fc5,#2057aa); color:#fff;
+  box-shadow:0 2px 6px #2459a815; transform:none; filter:none;
+}
+html body.academy-landing :is(main,.header,.student-topbar,dialog) :is(.student-outline-button,.teacher-order-button,.teacher-item-action,.button.secondary) {
+  background:var(--surface); color:var(--link); border:1px solid var(--border);
+}
+html body.academy-landing :is(main,.header,.student-topbar,dialog) :is(.student-outline-button,.teacher-order-button,.teacher-item-action,.button.secondary):not(:disabled):not([aria-disabled=true]):hover {
+  background:var(--surface-alt); color:var(--link); border-color:var(--link); box-shadow:none;
+}
+html body.academy-landing :is(main,.header,.student-topbar,dialog) :is(.teacher-danger-button,.teacher-delete-button.teacher-item-action) {
+  color:var(--control-danger); background:color-mix(in srgb,var(--control-danger) 6%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--control-danger) 30%,var(--border));
+}
+html body.academy-landing :is(main,.header,.student-topbar,dialog) :is(.teacher-danger-button,.teacher-delete-button.teacher-item-action):not(:disabled):hover {
+  color:var(--control-danger); background:color-mix(in srgb,var(--control-danger) 12%,var(--surface)); border-color:var(--control-danger);
+}
+html body.academy-landing :is(main,.header,.student-topbar,dialog) :is(.button,.student-outline-button,.teacher-order-button,.teacher-item-action,.teacher-danger-button):is(:disabled,[aria-disabled=true]),
+html body.academy-landing :is(main,.header,.student-topbar,dialog) :is(.button,.student-outline-button,.teacher-order-button,.teacher-item-action,.teacher-danger-button):is(:disabled,[aria-disabled=true]):hover {
+  background:var(--surface-alt); color:var(--secondary); border:1px solid var(--border);
+  cursor:not-allowed; opacity:.65; box-shadow:none; transform:none;
+}
+html body.academy-landing :is(.button,.student-outline-button,.teacher-order-button,.teacher-item-action,.teacher-danger-button,.text-link) > svg,
+html body.academy-landing :is(.button,.student-outline-button,.text-link) > span[aria-hidden] > svg {
+  width:18px; height:18px; flex:none; color:inherit;
+}
+html body.academy-landing .text-link { gap:8px; line-height:1.8; }
+html body.academy-landing :is(a,button,summary,input,select,textarea):focus-visible {
+  outline:2px solid var(--control-focus); outline-offset:3px;
+}
+html body.academy-landing :is(.teacher-form,.teacher-filter,.review-composer,.student-review-dialog) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=hidden]),select,textarea) {
+  border-radius:var(--field-radius); border:1px solid var(--border);
+  background:var(--bg); color:var(--text); font-family:inherit;
+}
+html body.academy-landing :is(.teacher-form,.teacher-filter) :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=hidden]),select) { min-height:44px; }
+html body.academy-landing :is(input,textarea)::placeholder { color:var(--muted); opacity:1; }
+html body.academy-landing .errorlist { color:var(--control-danger); font-size:12px; line-height:1.8; }
+html body.academy-landing :is(.pagination,.teacher-pagination,.student-notification-pages) a { display:inline-flex;align-items:center;justify-content:center;min-height:40px;min-width:40px;border-radius:10px; }
+@media(prefers-reduced-motion:reduce) {
+  html body.academy-landing :is(.button,.student-outline-button,.teacher-order-button,.teacher-item-action,.teacher-danger-button) { transition:none; }
+}
+
+/* Shared USD presentation across public, student and teacher pages. */
+html body.academy-landing .masar-price {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 7px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+.masar-price-amount { font-variant-numeric: tabular-nums; white-space: nowrap; }
+html body.academy-landing .masar-price-currency { font-size: 12px; font-weight: 500; color: var(--secondary); white-space: nowrap; }
+html body.academy-landing :is(.enrollment-price,.cart-total) .masar-price { font-size: 28px; font-weight: 700; }
+html body.academy-landing :is(.teacher-card-facts,.teacher-review-screen-facts) .masar-price { font-size: 16px; }
+html body.academy-landing .teacher-price-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  direction: ltr;
+  min-height: 44px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+html body.academy-landing .teacher-form .teacher-price-input > input {
+  min-width: 0;
+  width: 100%;
+  height: 42px;
+  min-height: 42px;
+  padding: 8px 12px !important;
+  border: 0 !important;
+  background: transparent;
+  box-shadow: none !important;
+  outline: none !important;
+  direction: ltr;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+html body.academy-landing .teacher-price-input > span {
+  position: static;
+  transform: none;
+  width: auto;
+  min-width: 0;
+  padding: 0 12px;
+  border-left: 1px solid var(--border);
+  direction: rtl;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 24px;
+}
+html body.academy-landing .teacher-price-input:focus-within {
+  border-color: var(--link);
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+/* Circular completion checkboxes are limited to the course curriculum. */
+@property --masar-check-sweep { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox] {
+  position:relative;
+  appearance:none;
+  -webkit-appearance:none;
+  display:inline-block;
+  flex:0 0 22px;
+  width:22px;
+  height:22px;
+  min-width:22px;
+  min-height:22px;
+  max-width:22px;
+  padding:0;
+  margin:0;
+  box-sizing:border-box;
+  border:1.5px solid var(--secondary);
+  border-radius:50%;
+  background-color:var(--surface);
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:13px 13px;
+  vertical-align:middle;
+  cursor:pointer;
+  box-shadow:none;
+  transition:background-color .15s ease,border-color .15s ease;
+}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:checked {
+  background-color:transparent;
+  border-color:transparent;
+  background-image:none;
+}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:checked:not(:indeterminate)::before,
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:checked:not(:indeterminate)::after {
+  content:'';position:absolute;inset:-1.5px;pointer-events:none;
+  mask-position:center;mask-size:contain;mask-repeat:no-repeat;
+  -webkit-mask-position:center;-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;
+}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:checked:not(:indeterminate)::before {
+  --masar-check-sweep:360deg;
+  background:conic-gradient(from 0deg,var(--link) var(--masar-check-sweep),transparent 0);
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 3a9 9 0 1 0 9 9'/%3E%3C/svg%3E");
+  animation:masar-check-ring .3s ease-out both;
+}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:checked:not(:indeterminate)::after {
+  background:var(--link);
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7.5 11.5 4 4L21 6'/%3E%3C/svg%3E");
+  animation:masar-check-tick .2s .16s ease-out both;
+}
+@keyframes masar-check-ring {from{--masar-check-sweep:0deg}to{--masar-check-sweep:360deg}}
+@keyframes masar-check-tick {from{clip-path:inset(0 100% 0 0);opacity:0}to{clip-path:inset(0);opacity:1}}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:indeterminate {
+  background-color:#306fc6;
+  border-color:#306fc6;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 8h8'/%3E%3C/svg%3E");
+}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:hover:not(:disabled):not(:checked) {border-color:var(--link)}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:focus-visible {outline:2px solid var(--link);outline-offset:3px}
+html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]:disabled {opacity:.5;cursor:not-allowed}
+@media(prefers-reduced-motion:reduce) {
+  html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox] {transition:none}
+  html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]::before,html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]::after {animation:none!important}
+}
+@media(forced-colors:active) {
+  html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox] {appearance:auto;-webkit-appearance:auto;background-image:none;forced-color-adjust:auto}
+  html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]::before,html body.academy-landing .learning-curriculum input[type=checkbox][data-completion-checkbox]::after {content:none!important}
+}
+/* Header utilities share the dashboard's neutral icon tone. */
+html body.academy-landing .header-actions :is(.cart-link,.theme-toggle,.menu-toggle,.account-trigger,.account-menu>summary,.account-login)>svg {
+  color:var(--secondary);
+}

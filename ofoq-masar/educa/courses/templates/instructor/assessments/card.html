@@ -1,0 +1,12 @@
+{% load course %}
+<article class="student-panel assessment-card" id="assessment-version-{{ test.pk }}">
+  <header class="assessment-card-identity">
+    <div><span class="teacher-state">{% if test.readiness_errors %}غير مكتمل{% else %}جاهز للمراجعة{% endif %}</span><h2><a href="{% url 'instructor:assessment' revision.pk test.pk %}">{{ test.title|default:'اختبار بلا عنوان' }}</a></h2></div>
+  </header>
+  <p class="assessment-card-scope">{% include 'students/dashboard/icon.html' with name='book' %}<span>{% if test.module %}{{ test.module.title }}{% else %}الدورة كاملة{% endif %}</span></p>
+  <dl class="assessment-card-facts"><div><dt>عدد الأسئلة</dt><dd>{{ test.questions.all|length }}</dd></div><div><dt>حد المحاولات</dt><dd>{{ test.max_attempts }}</dd></div><div><dt>درجة النجاح</dt><dd><bdi dir="ltr">{{ test.pass_percentage|compact_number }}%</bdi></dd></div></dl>
+  <footer class="assessment-actions">
+    <a class="student-outline-button" href="{% url 'instructor:assessment' revision.pk test.pk %}" data-assessment-manager>{% if can_edit %}إدارة الأسئلة{% else %}عرض الأسئلة{% endif %}</a>
+    <div class="assessment-card-tools"><a class="student-outline-button" href="{% url 'instructor:assessment_preview' revision.pk test.pk %}">{% include 'students/dashboard/icon.html' with name='eye' %}معاينة</a>{% if can_edit %}<a class="student-outline-button" href="{% url 'instructor:assessment_edit' revision.pk test.pk %}" data-content-editor data-editor-title="تعديل الاختبار">{% include 'students/dashboard/icon.html' with name='edit' %}تعديل</a><a class="teacher-danger-button assessment-card-delete" href="{% url 'instructor:assessment_action' revision.pk test.pk 'delete' %}" data-course-action="delete" data-action-title="حذف الاختبار من النسخة" data-action-item="{{ test.title|default:'اختبار بلا عنوان' }}" data-action-description="سيُزال الاختبار من نسخة العمل فقط، وتبقى المحاولات والنتائج السابقة محفوظة. لن يتغيّر المنشور قبل اعتماد الدورة" aria-label="حذف الاختبار {{ test.title|default:'بلا عنوان' }}">{% include 'students/dashboard/icon.html' with name='trash' %}<span>حذف</span></a>{% endif %}</div>
+  </footer>
+</article>

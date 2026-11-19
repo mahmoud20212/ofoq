@@ -1,0 +1,2 @@
+{% extends 'students/dashboard/base.html' %}
+{% block student_content %}<header class="student-page-heading"><p class="eyebrow">مساحتك التعليمية</p><h1>{{ page_title }}</h1></header><section class="student-empty student-panel"><span class="student-empty-symbol">{% include 'students/dashboard/icon.html' with name=empty_icon %}</span><span class="student-design-label">قريبًا</span><h2>{{ empty_title }}</h2><p>{{ empty_text }}</p><a class="text-link" href="{% url 'student_dashboard' %}">العودة إلى لوحة التحكم {% include 'courses/arrow-icon.html' %}</a></section>{% endblock %}

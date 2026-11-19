@@ -1,0 +1,20 @@
+<section class="detail-panel syllabus-panel">
+  <p class="eyebrow">خطوة بعد خطوة</p><h2>محتوى الدورة</h2>
+  <p class="syllabus-count">{{ modules|length }} وحدة · {{ lesson_count }} درس ومادة تعليمية{% if assessment_count %} · {{ assessment_count }} اختبار{% endif %}</p>
+  {% for module in modules %}
+  <details class="syllabus-module">
+    <summary><span><small>الوحدة {{ forloop.counter }}</small><strong>{{ module.title }}</strong></span><span class="module-count">{{ module.lesson_rows|length }} درس{% if module.public_assessments %} · {{ module.public_assessments|length }} اختبار{% endif %}</span>{% include 'courses/icon.html' with name='chevron' %}</summary>
+    {% if module.description %}<p class="module-description">{{ module.description }}</p>{% endif %}
+    <ul class="syllabus-lessons">
+      {% for lesson in module.lesson_rows %}
+      <li><span><small>{% if lesson.content_type.model == 'video' %}فيديو{% elif lesson.content_type.model == 'image' %}صورة{% elif lesson.content_type.model == 'file' %}ملف{% else %}درس نصي{% endif %}</small>{{ lesson.item.title }}</span>
+        {% if lesson.is_preview %}<button class="lesson-preview-trigger" type="button" data-preview-url="{% url 'lesson_preview' object.slug lesson.pk %}" data-preview-title="{{ lesson.item.title }}">معاينة الدرس {% include 'courses/icon.html' with name='play' %}</button>
+        {% else %}<span class="lesson-locked">{% include 'courses/icon.html' with name='lock' %}<span class="sr-only">المحتوى غير متاح للمعاينة</span></span>{% endif %}
+      </li>
+      {% empty %}{% if not module.public_assessments %}<li class="lesson-empty">ستُضاف الدروس إلى هذه الوحدة لاحقًا.</li>{% endif %}{% endfor %}
+      {% for test in module.public_assessments %}{% include 'courses/course/syllabus-assessment.html' %}{% endfor %}
+    </ul>
+  </details>
+  {% empty %}<p class="detail-prose">سيظهر منهج الدورة عند إضافة الوحدات التعليمية.</p>{% endfor %}
+  {% if public_course_assessments %}<details class="syllabus-module"><summary><span><strong>اختبارات الدورة</strong></span><span class="module-count">{{ public_course_assessments|length }} اختبار</span>{% include 'courses/icon.html' with name='chevron' %}</summary><ul class="syllabus-lessons">{% for test in public_course_assessments %}{% include 'courses/course/syllabus-assessment.html' %}{% endfor %}</ul></details>{% endif %}
+</section>

@@ -1,0 +1,27 @@
+/* Keep navigation available as an icon rail on desktop. */
+.student-sidebar-account>.account-menu-panel{transition:none;animation:none}
+@media(min-width:801px){
+  .student-app .student-shell.container{transition:grid-template-columns .28s cubic-bezier(.2,.7,.2,1)}
+  .student-app .student-sidebar{transition:padding .28s ease;min-width:0;z-index:15}
+  .student-sidebar-toggle{transition:inset-inline-start .28s cubic-bezier(.2,.7,.2,1),color .15s ease,border-color .15s ease}
+  .student-sidebar-toggle svg{transition:transform .28s ease}
+  .student-navigation nav a{min-width:0;overflow:hidden;white-space:nowrap;transition:padding .28s ease,gap .28s ease,background-color .15s ease}
+  .student-navigation nav a>.icon{width:20px;height:20px;flex:none}
+  .student-nav-label{min-width:0;overflow:hidden;opacity:1;transition:opacity .16s ease;white-space:nowrap}
+  .student-app.is-sidebar-collapsed{--student-sidebar-width:76px}
+  .student-app.is-sidebar-collapsed .student-sidebar{display:block;padding:18px 8px;overflow:visible}
+  .student-app.is-sidebar-collapsed .student-nav-content{padding:18px 0}
+  .student-app.is-sidebar-collapsed .student-navigation nav{gap:8px}
+  .student-app.is-sidebar-collapsed .student-navigation nav a{justify-content:center;width:44px;height:44px;padding:12px;gap:0;margin-inline:auto}
+  .student-app.is-sidebar-collapsed .student-nav-label{opacity:0;width:0;flex:0 0 0}
+  .student-app.is-sidebar-collapsed .student-sidebar-toggle{inset-inline-start:calc(var(--student-sidebar-width) - 18px)}
+  .student-app.is-sidebar-collapsed .student-sidebar .student-identity{padding:16px 0 0;justify-content:center}
+  .student-app.is-sidebar-collapsed .student-sidebar-account>summary{justify-content:center;padding:4px;width:44px;min-height:44px;margin-inline:auto}
+  .student-app.is-sidebar-collapsed .student-sidebar-account>summary>.student-account-name,
+  .student-app.is-sidebar-collapsed .student-sidebar-account>summary>.icon{display:none}
+  .student-app.is-sidebar-collapsed .student-sidebar-account>.account-menu-panel{width:220px;max-width:calc(100vw - 24px);min-width:220px}
+  .student-app.is-sidebar-collapsed .student-sidebar-account>.student-rail-account-popover{position:fixed;inset:auto;left:var(--account-popover-left,12px);top:var(--account-popover-top,82px);width:220px;max-height:calc(100dvh - 24px);overflow-y:auto;z-index:100}
+}
+@media(prefers-reduced-motion:reduce){
+  .student-app .student-shell.container,.student-app .student-sidebar,.student-sidebar-toggle,.student-sidebar-toggle svg,.student-navigation nav a,.student-nav-label{transition:none}
+}

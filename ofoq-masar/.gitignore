@@ -1,0 +1,19 @@
+
+.env.local
+deploy/judge0/.local/
+.env
+educa/private-revisions/
+educa/db.sqlite3.teacher-backup-*
+
+educa/private-applications/
+
+# Local runtime data and user uploads
+__pycache__/
+*.py[cod]
+*.sqlite3*
+*.log
+*.pem
+*.key
+.venv/
+educa/media/
+educa/staticfiles/

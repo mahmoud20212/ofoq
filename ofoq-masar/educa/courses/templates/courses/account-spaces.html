@@ -1,0 +1,2 @@
+<a class="account-space-link" href="{% url 'student_dashboard' %}"><span class="account-space-title">مساحة الطالب</span><small>لوحة تحكم الطالب</small></a>
+{% if perms.courses.manage_own_courses or perms.courses.add_course or perms.courses.change_course %}<a class="account-space-link" href="{% url 'instructor:dashboard' %}"><span class="account-space-title">مساحة المعلّم</span><small>لوحة تحكم المعلّم</small></a>{% endif %}

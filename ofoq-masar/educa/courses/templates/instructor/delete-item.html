@@ -1,0 +1,1 @@
+<form method="post" action="{% url 'instructor:structure' revision.pk kind item.pk 'delete' %}" data-confirm-delete data-action-title="حذف {{ item.title }}">{% csrf_token %}<button class="teacher-delete-button teacher-item-action">{% include 'students/dashboard/icon.html' with name='trash' %}حذف</button></form>

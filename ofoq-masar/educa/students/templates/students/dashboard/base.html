@@ -1,0 +1,70 @@
+{% load static %}
+<!doctype html>
+<html data-icon-sprite="{% static 'vendor/lucide/masar-icons.svg' %}" lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a12">
+  <title>{% block title %}{{ page_title }} | أُفُق مَسار{% endblock %}</title>
+  <link rel="icon" type="image/png" href="{% static 'img/masar-logo.png' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+  <link rel="stylesheet" href="{% static 'css/catalogue.css' %}">
+  <link rel="stylesheet" href="{% static 'css/student-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/student-progress.css' %}">
+  <script src="{% static 'js/student-progress.js' %}" defer></script>
+  <link rel="stylesheet" href="{% static 'css/sidebar-rail.css' %}">
+  <script src="{% static 'js/student-dashboard.js' %}" defer></script>
+  {% block extra_head %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'css/ui-components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/feedback.css' %}">
+  <link rel="stylesheet" href="{% static 'css/student-learning.css' %}">
+  <link rel="stylesheet" href="{% static 'css/student-assessments.css' %}">
+  <script src="{% static 'js/student-curriculum.js' %}" defer></script>
+  <script src="{% static 'js/student-media.js' %}" defer></script>
+  <script src="{% static 'js/feedback.js' %}" defer></script>
+<script src="{% static 'js/alerts.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'css/favorites.css' %}?v=10">
+<script src="{% static 'js/favorites.js' %}" defer></script>
+  <link rel="stylesheet" href="{% static 'css/lucide-icons.css' %}">
+</head>
+<body class="academy-landing student-app{% if learning_mode %} student-learning-mode is-sidebar-collapsed{% endif %}">
+<a class="skip" href="#main">انتقل إلى المحتوى</a>
+<header class="student-topbar">
+  {% block workspace_brand %}<a class="student-brand" href="{% url 'student_dashboard' %}" aria-label="أُفُق مَسار، لوحة الطالب"><img src="{% static 'img/masar-logo.png' %}" width="42" height="42" alt=""><span><strong>أُفُق مَسار</strong><small>مساحة الطالب</small></span></a>{% endblock %}
+  <div class="student-topbar-actions">
+    <a class="student-site-link" href="{% url 'landing' %}">العودة للأكاديمية {% include 'students/dashboard/icon.html' with name='home' %}</a>
+    {% block workspace_notifications %}<a class="student-icon-button student-notification-bell" href="{% url 'student_notifications' %}" aria-label="مركز الإشعارات">{% if unread_notification_count %}<span class="student-notification-badge" aria-label="{{ unread_notification_count }} غير مقروء">{{ unread_notification_count }}</span>{% endif %}{% include 'students/dashboard/icon.html' with name='bell' %}</a>{% endblock %}
+    <button class="theme-toggle student-icon-button" type="button" aria-label="تفعيل الوضع الفاتح" aria-pressed="false">{% include 'students/dashboard/icon.html' with name='theme' %}</button>
+  </div>
+</header>
+<div class="container student-shell">
+  <aside id="student-sidebar" class="student-sidebar" aria-label="التنقّل في لوحة الطالب">
+    <details class="student-navigation" open>
+      <summary>مساحتي التعليمية {% include 'students/dashboard/icon.html' with name='chevron' %}</summary>
+      <div class="student-nav-content">
+        {% block workspace_navigation %}<nav aria-label="صفحات الطالب">
+          <a href="{% url 'student_dashboard' %}" {% if section == 'dashboard' %}aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='dashboard' %}لوحة التحكم</a>
+          <a href="{% url 'student_course_list' %}" {% if section == 'courses' %}aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='book' %}دوراتي</a>
+          <a href="{% url 'student_challenges' %}" {% if section == 'challenges' %}aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='code' %}التحديات البرمجية</a>
+          <a href="{% url 'student_favorites' %}" {% if section == 'favorites' %}aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='heart' %}المفضلة</a>
+          <a href="{% url 'student_purchases' %}" {% if section == 'purchases' %}aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='bag' %}مشترياتي</a>
+          <a href="{% url 'student_notifications' %}" {% if section == 'notifications' %}aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='bell' %}الإشعارات</a>
+          {% if not application_nav_teacher %}<a href="{% url 'student_teacher_application' %}" {% if section == 'teacher_application' %}aria-current="page"{% endif %}>{% include 'students/dashboard/icon.html' with name='cap' %}{% if application_nav_submitted %}طلب الانضمام{% else %}انضم كمعلم{% endif %}</a>{% endif %}
+        </nav>{% endblock %}
+        <div class="student-identity">{% include 'students/dashboard/account-menu.html' %}</div>
+      </div>
+    </details>
+  </aside>
+  <button class="student-sidebar-toggle" type="button" aria-controls="student-sidebar" aria-expanded="true" aria-label="إغلاق القائمة الجانبية" title="إغلاق القائمة الجانبية" hidden>{% load static %}<svg class="icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#chevron-right" width="24" height="24"/></svg></button>
+  <main id="main" class="student-main" tabindex="-1">
+    <nav class="student-breadcrumbs" aria-label="مسار التنقّل"><ol>{% for crumb in breadcrumbs %}<li>{% if crumb.url %}<a href="{{ crumb.url }}" title="{{ crumb.label }}">{{ crumb.label }}</a>{% else %}<span aria-current="page">{{ crumb.label }}</span>{% endif %}</li>{% endfor %}</ol></nav>
+    {% include 'courses/alerts.html' %}
+    {% if course and not hide_course_sidebar and not learning_mode and request.resolver_match.url_name != 'student_lesson' and request.resolver_match.url_name != 'student_course_learn' %}<div class="student-course-page-layout"><div class="student-course-page-content">{% endif %}
+    {% block student_content %}{% endblock %}
+    {% if course and not hide_course_sidebar and not learning_mode and request.resolver_match.url_name != 'student_lesson' and request.resolver_match.url_name != 'student_course_learn' %}</div><aside class="student-course-page-help" aria-label="مساعدة ونقاش الدورة">{% include 'students/dashboard/help-card.html' %}{% include 'students/dashboard/chat-card.html' %}</aside></div>{% endif %}
+  </main>
+</div>
+{% include 'feedback/dialog.html' %}</body>
+</html>

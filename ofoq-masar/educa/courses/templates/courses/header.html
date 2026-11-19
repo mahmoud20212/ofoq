@@ -1,0 +1,25 @@
+{% load static %}
+<header class="header">
+  <div class="container header-inner">
+    <a class="brand" href="{% url 'landing' %}" aria-label="أفق مسار، الصفحة الرئيسية"><img class="brand-logo" src="{% static 'img/masar-logo.png' %}" alt="" width="48" height="42" /><span><strong>أُفُق <span class="brand-masar">مَسار</span></strong><small>أكاديمية أُفُق</small></span></a>
+    <nav class="desktop-nav" aria-label="التنقل الرئيسي">
+      <a href="{% url 'landing' %}">الرئيسية</a>
+      <a href="{% url 'landing' %}#courses">استكشف</a>
+      <a href="{% url 'landing' %}#fields">مجالات التعلّم</a>
+      <a href="{% url 'landing' %}#about">عن الأكاديمية</a>
+      <a href="{% url 'landing' %}#guide">المرشد الذكي</a>
+      <a class="lab-nav-link" href="{% url 'landing' %}#lab">{% include 'courses/lab-icon.html' %}مختبر البرمجة</a>
+    </nav>
+    <div class="header-actions">
+      <a class="cart-link" href="{% url 'cart_detail' %}" aria-label="سلة المشتريات، {{ cart_count|default:0 }} دورة">{% include 'courses/cart-icon.html' %}<span class="cart-count">{{ cart_count|default:0 }}</span></a><button class="theme-toggle" type="button" aria-label="تفعيل الوضع الفاتح" aria-pressed="false">
+        {% load static %}<svg class="icon lucide-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#sun" width="24" height="24"/></svg>
+      </button>{% include 'courses/account-menu.html' %}<button class="menu-toggle" aria-label="فتح القائمة" aria-expanded="false" aria-controls="mobile-nav" type="button">
+        {% load static %}<svg class="icon lucide-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#bars" width="24" height="24"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav container" aria-label="التنقل على الهاتف" hidden>
+    <a href="{% url 'landing' %}">الرئيسية</a><a href="{% url 'landing' %}#courses">استكشف</a><a href="{% url 'landing' %}#fields">مجالات التعلّم</a><a href="{% url 'landing' %}#about">عن الأكاديمية</a><a href="{% url 'landing' %}#guide">المرشد الذكي</a>
+    <a class="lab-nav-link" href="{% url 'landing' %}#lab">{% include 'courses/lab-icon.html' %}مختبر البرمجة</a>
+  </nav>
+</header>

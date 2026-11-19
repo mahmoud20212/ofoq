@@ -1,0 +1,45 @@
+{% extends 'courses/site.html' %}
+{% load static %}
+{% block title %}سلة المشتريات | أكاديمية أُفُق{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/cart.css' %}">{% endblock %}
+{% block content %}
+<div class="masar-cart container">
+  <header class="masar-cart-heading"><h1>سلة المشتريات</h1></header>
+  {% if cart_rows %}
+    <div class="masar-cart-layout">
+      <section class="masar-cart-items" aria-labelledby="cart-items-heading">
+        <h2 id="cart-items-heading">{{ cart_count }} دورة في السلة</h2>
+        {% for row in cart_rows %}
+          <article class="masar-cart-item">
+            <a class="masar-cart-cover" href="{% url 'course_detail' row.course.slug %}" tabindex="-1" aria-hidden="true">
+              {% if row.course.cover %}<img src="{{ row.course.cover.url }}" alt="">{% else %}{% include 'students/dashboard/icon.html' with name='cap' %}{% endif %}
+            </a>
+            <div class="masar-cart-info">
+              <h3><a href="{% url 'course_detail' row.course.slug %}">{{ row.course.title }}</a></h3>
+              <p class="masar-cart-teacher">إعداد <a href="{% url 'instructor:public_profile' row.course.owner_id %}">{{ row.course.owner.get_full_name|default:row.course.owner.username }}</a></p>
+              <span class="masar-cart-subject">{{ row.course.subject.title }}</span>
+            </div>
+            <strong class="masar-cart-price">{% include 'courses/price.html' with amount=row.price %}</strong>
+            <form class="masar-cart-remove" action="{% url 'cart_remove' row.course.pk %}" method="post">
+              {% csrf_token %}<button type="submit" aria-label="حذف {{ row.course.title }} من السلة">{% include 'students/dashboard/icon.html' with name='trash' %} إزالة</button>
+            </form>
+          </article>
+        {% endfor %}
+      </section>
+      <aside class="masar-cart-summary" aria-labelledby="cart-total-heading">
+        <h2 id="cart-total-heading">المجموع</h2>
+        <div class="cart-total">{% include 'courses/price.html' with amount=cart_total %}</div>
+        <p class="masar-cart-summary-note">المجموع حسب الأسعار الحالية للدورات</p>
+        <a class="button" href="{% url 'course_list' %}">متابعة استكشاف الدورات {% include 'courses/arrow-icon.html' %}</a>
+        <p class="masar-cart-payment-note">{% include 'students/dashboard/icon.html' with name='lock' %} الدفع الإلكتروني غير متاح حاليًا</p>
+      </aside>
+    </div>
+  {% else %}
+    <section class="catalogue-empty cart-empty">
+      <span class="empty-course-icon" aria-hidden="true">{% include 'courses/cart-icon.html' %}</span>
+      <h2>سلتك فارغة حاليًا</h2><p>اختر الدورات التي ترغب في تعلّمها وأضفها إلى سلتك</p>
+      <a class="button" href="{% url 'course_list' %}">استكشف الدورات {% include 'courses/arrow-icon.html' %}</a>
+    </section>
+  {% endif %}
+</div>
+{% endblock %}

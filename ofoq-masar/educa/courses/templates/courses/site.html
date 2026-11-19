@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html data-icon-sprite="{% static 'vendor/lucide/masar-icons.svg' %}" lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="أكاديمية أُفُق مَسار للتعلّم عبر الإنترنت. استكشف الدورات، وتعرّف على محتواها، وتعلّم من خلال وحدات تجمع الفيديو والنصوص والمواد التعليمية.">
+  <meta name="theme-color" content="#080a12">
+  <title>{% block title %}أكاديمية أُفُق{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+  <script src="{% static 'js/landing.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'css/catalogue.css' %}">
+<link rel="stylesheet" href="{% static 'css/detail.css' %}">
+{% block extra_head %}{% endblock %}
+<link rel="stylesheet" href="{% static 'css/ui-components.css' %}">
+<link rel="stylesheet" href="{% static 'css/feedback.css' %}">
+<script src="{% static 'js/feedback.js' %}" defer></script>
+<script src="{% static 'js/alerts.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'css/favorites.css' %}?v=9">
+<script src="{% static 'js/favorites.js' %}" defer></script>
+  <link rel="stylesheet" href="{% static 'css/lucide-icons.css' %}">
+</head>
+<body class="academy-landing site-page"><a class="skip" href="#main">انتقل إلى المحتوى</a>
+{% include 'courses/header.html' %}
+<main id="main">{% include 'courses/alerts.html' %}{% block content %}{% endblock %}</main>
+{% include 'courses/footer.html' %}
+<script src="{% static 'js/catalogue.js' %}" defer></script>{% include 'feedback/dialog.html' %}</body></html>

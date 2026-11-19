@@ -1,0 +1,38 @@
+{% extends 'instructor/assessments/base.html' %}{% load course %}
+{% block assessment_title %}{{ version.title|default:'اختبار بلا عنوان' }}{% endblock %}
+{% block assessment_content %}
+{% if not assessment_dialog %}
+<section class="student-panel assessment-panel"><div class="assessment-section-heading"><p>{% if version.module %}{{ version.module.title }}{% else %}الدورة كاملة{% endif %} · {{ questions|length }} سؤال</p><div class="assessment-actions"><a class="student-outline-button" href="{% url 'instructor:assessment_preview' revision.pk version.pk %}">{% include 'students/dashboard/icon.html' with name='eye' %}معاينة</a>{% if can_edit %}<a class="student-outline-button" href="{% url 'instructor:assessment_edit' revision.pk version.pk %}">{% include 'students/dashboard/icon.html' with name='settings' %}إعدادات الاختبار</a>{% endif %}</div></div>{% include 'instructor/assessments/readiness.html' %}</section>
+{% endif %}
+<div class="assessment-section-heading">{% if assessment_dialog %}<p>{{ questions|length }} سؤال</p>{% else %}<h2>الأسئلة</h2>{% endif %}{% if can_edit %}<a class="button small" href="{% url 'instructor:assessment_question_add' revision.pk version.pk %}">{% include 'students/dashboard/icon.html' with name='plus' %}إضافة سؤال</a>{% endif %}</div>
+<div data-curriculum-builder data-sort-url="{% url 'instructor:assessment_question_order' revision.pk version.pk %}">
+{% csrf_token %}
+<span id="teacher-drag-instructions" class="sr-only">اسحب المقبض لترتيب الأسئلة، أو استخدم سهمي الأعلى والأسفل من لوحة المفاتيح</span>
+<span data-sort-status class="sr-only" role="status" aria-live="polite"></span>
+<button type="button" class="student-outline-button assessment-question-refresh" data-sort-reload hidden>{% load static %}<svg class="icon lucide-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="{% static 'vendor/lucide/masar-icons.svg' %}#arrows-rotate" width="24" height="24"/></svg>تحديث الأسئلة</button>
+<ol class="assessment-question-list"{% if can_edit %} data-sort-list="question"{% endif %}>
+{% for question in questions %}
+<li class="student-panel assessment-panel assessment-question-row" data-sort-id="{{ question.pk }}">
+  <div class="assessment-question-position">{% if can_edit %}{% include 'instructor/drag-handle.html' with title=question.text %}{% endif %}<span class="assessment-number" data-position>{{ forloop.counter }}</span></div>
+  <div class="assessment-question-info"><h3 data-sort-title dir="auto">{{ question.text|default:'سؤال بلا نص' }}</h3><p class="assessment-question-metadata"><span>عدد الخيارات: {{ question.options.all|length }}</span><span>الدرجة: <bdi>{{ question.points|compact_number }}</bdi></span></p></div>
+  {% if can_edit %}
+  <div class="assessment-actions assessment-question-tools">
+    <a class="student-outline-button" href="{% url 'instructor:assessment_question_edit' revision.pk version.pk question.pk %}">{% include 'students/dashboard/icon.html' with name='edit' %}تعديل</a>
+    <form class="assessment-question-order" method="post" action="{% url 'instructor:assessment_question_action' revision.pk version.pk question.pk 'up' %}">{% csrf_token %}<button type="submit" class="student-outline-button" aria-label="نقل السؤال {{ forloop.counter }} للأعلى"{% if forloop.first %} disabled{% endif %}>↑</button></form>
+    <form class="assessment-question-order" method="post" action="{% url 'instructor:assessment_question_action' revision.pk version.pk question.pk 'down' %}">{% csrf_token %}<button type="submit" class="student-outline-button" aria-label="نقل السؤال {{ forloop.counter }} للأسفل"{% if forloop.last %} disabled{% endif %}>↓</button></form>
+    <a class="teacher-danger-button" href="{% url 'instructor:assessment_question_action' revision.pk version.pk question.pk 'delete' %}" data-course-action="delete" data-action-title="حذف السؤال" data-action-description="سيُحذف السؤال وخياراته من نسخة العمل فقط، دون تغيير نتائج المحاولات السابقة">{% include 'students/dashboard/icon.html' with name='trash' %}حذف</a>
+  </div>
+  {% if assessment_dialog %}<dialog class="assessment-question-confirm" data-question-confirm aria-labelledby="question-delete-{{ question.pk }}" aria-describedby="question-delete-note-{{ question.pk }}"><form method="post" action="{% url 'instructor:assessment_question_action' revision.pk version.pk question.pk 'delete' %}">
+    {% csrf_token %}<input type="hidden" name="confirm" value="yes">
+    <div class="assessment-delete-heading"><h3 id="question-delete-{{ question.pk }}">حذف السؤال؟</h3><button type="button" class="student-icon-button" data-question-delete-cancel aria-label="إغلاق">{% include 'students/dashboard/icon.html' with name='close' %}</button></div><blockquote class="assessment-delete-question" dir="auto">{{ question.text|default:'سؤال بلا نص' }}</blockquote><p id="question-delete-note-{{ question.pk }}">سيُحذف السؤال وخياراته من نسخة العمل فقط، وتبقى النتائج السابقة محفوظة</p>
+    <div class="assessment-actions"><button type="button" class="student-outline-button" data-question-delete-cancel>إلغاء</button><button type="submit" class="teacher-danger-button">حذف السؤال</button></div>
+  </form></dialog>{% endif %}
+  {% endif %}
+</li>
+{% empty %}
+<li class="student-panel student-empty">{% if assessment_dialog %}<p>لم تُضف أسئلة بعد</p>{% else %}<h3>أضف السؤال الأول</h3><p>يمكنك حفظ السؤال كمسودة ثم استكماله لاحقًا</p>{% endif %}</li>
+{% endfor %}
+</ol>
+</div>
+{% if can_edit and not assessment_dialog %}<div class="assessment-actions assessment-danger-zone"><a class="teacher-danger-button" href="{% url 'instructor:assessment_action' revision.pk version.pk 'delete' %}" data-course-action="delete" data-action-title="حذف الاختبار من النسخة" data-action-item="{{ version.title|default:'اختبار بلا عنوان' }}" data-action-description="سيُزال الاختبار من نسخة العمل. لن يتغيّر المنشور قبل اعتماد الدورة، وتبقى المحاولات والنتائج السابقة محفوظة">{% include 'students/dashboard/icon.html' with name='trash' %}حذف الاختبار من النسخة</a></div>{% endif %}
+{% endblock %}

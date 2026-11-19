@@ -1,0 +1,2 @@
+{% extends 'students/assessments/base.html' %}
+{% block assessment_content %}{% include 'students/assessments/history-list.html' %}{% if history.pages > 1 %}<nav class="student-assessment-actions" aria-label="صفحات سجل المحاولات">{% if history.page > 1 %}<a class="student-outline-button" href="?page={{ history.page|add:'-1' }}">الأحدث</a>{% endif %}<span>{{ history.page }} من {{ history.pages }}</span>{% if history.page < history.pages %}<a class="student-outline-button" href="?page={{ history.page|add:'1' }}">الأقدم</a>{% endif %}</nav>{% endif %}{% endblock %}

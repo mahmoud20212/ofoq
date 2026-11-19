@@ -1,0 +1,12 @@
+<details class="account-menu student-sidebar-account">
+  <summary aria-label="قائمة الحساب">
+    <span class="student-avatar" aria-hidden="true">{% include 'students/dashboard/icon.html' with name='user' %}</span>
+    <span class="student-account-name" dir="auto" title="{{ request.user.get_full_name|default:request.user.username }}"><span class="student-account-name-text">{{ request.user.get_full_name|default:request.user.username }}</span></span>
+    {% include 'students/dashboard/icon.html' with name='chevron' %}
+  </summary>
+  <div class="account-menu-panel">
+    {% include 'courses/account-spaces.html' %}
+    <a href="{% url 'sso_account' %}">إدارة حساب أُفُق</a>
+    <form method="post" action="{% url 'sso_logout' %}">{% csrf_token %}<button type="submit">تسجيل الخروج</button></form>
+  </div>
+</details>

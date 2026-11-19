@@ -1,0 +1,68 @@
+/* Keep technical identifiers readable within the Arabic administration. */
+input[type="url"],
+.field-slug input,
+.field-slug .readonly,
+.field-url .readonly,
+.file-upload a,
+.vFileUploadField {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+.field-url .readonly,
+.file-upload a {
+  overflow-wrap: anywhere;
+}
+
+.login h1 {
+  line-height: 1.7;
+}
+
+/* Revision review: readable sections within the standard admin layout. */
+.model-courserevision.change-form #content { padding: 24px; }
+.model-courserevision.change-form #content-main { min-width: 0; }
+.model-courserevision.change-form .module {
+  margin-bottom: 20px;
+  border: 1px solid var(--hairline-color);
+  border-radius: 0;
+  overflow: hidden;
+  background: var(--body-bg);
+}
+.model-courserevision.change-form .module h2 {
+  padding: 14px 20px;
+  font-size: 14px;
+}
+.model-courserevision.change-form .form-row { padding: 14px 20px; }
+.model-courserevision.change-form .form-row label {
+  line-height: 1.8;
+  width: 160px;
+  padding-block: 4px;
+}
+.model-courserevision.change-form .readonly {
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.model-courserevision.change-form textarea {
+  box-sizing: border-box;
+  width: min(100%, 680px);
+  max-width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  border-radius: 0;
+  font: inherit;
+  line-height: 1.9;
+  resize: vertical;
+}
+.model-courserevision.change-form .submit-row {
+  padding: 16px;
+  border-radius: 0;
+}
+.model-courserevision.change-form .submit-row :is(input, button, a) { border-radius: 0; }
+@media (max-width: 767px) {
+  .model-courserevision.change-form #content { padding: 16px; }
+  .model-courserevision.change-form .form-row { padding: 12px 16px; }
+  .model-courserevision.change-form .form-row label { width: auto; }
+  .model-courserevision.change-form .form-multiline > div { width: 100%; }
+}

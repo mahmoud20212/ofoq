@@ -1,0 +1,30 @@
+{% extends 'students/dashboard/base.html' %}
+{% block student_content %}
+
+<header class="student-page-heading"><p class="eyebrow">{{ course.subject.title }}</p><h1>{{ course.title }}</h1>{% if course.short_description %}<p>{{ course.short_description }}</p>{% endif %}</header>
+<section class="student-course-intro student-panel">
+  <div class="student-course-cover">{% if course.cover %}<img src="{{ course.cover.url }}" alt="غلاف {{ course.title }}">{% else %}<span class="student-cover-grid" aria-hidden="true"></span>{% include 'students/dashboard/icon.html' with name='cap' %}{% endif %}</div>
+  <div class="student-course-summary">
+    <p>المعلّم: <a class="text-link" href="{% url 'instructor:public_profile' course.owner_id %}">{{ course.owner.get_full_name|default:course.owner.username }}</a></p>
+    <p>{{ modules|length }} وحدة تعليمية <span aria-hidden="true">·</span> {{ lesson_count }} درس ومادة تعليمية</p>
+    {% if not course.learning_destination %}<p class="student-learning-empty">المحتوى قيد الإعداد</p>{% endif %}
+    {% if course.learning_destination or modules %}<div class="student-course-primary-actions">
+      {% if course.learning_destination %}{% include 'students/dashboard/learning-link.html' %}{% endif %}
+      {% if modules %}<a class="student-outline-button" href="{% url 'student_course_units' course.pk %}" data-course-units-url="{% url 'student_course_units' course.pk %}">{% include 'students/dashboard/icon.html' with name='book' %}استعرض الوحدات</a>{% endif %}
+    </div>{% endif %}
+    <div class="student-course-secondary-actions">
+      {% if own_review %}<a class="student-outline-button" href="#reviews">{% include 'students/dashboard/icon.html' with name='edit' %}تقييمك للدورة</a>{% else %}<button type="button" class="student-outline-button" data-review-open>{% include 'students/dashboard/icon.html' with name='edit' %}قيّم الدورة</button>{% endif %}
+      {% if course.status == "published" or course.is_favorite %}{% include "students/dashboard/favorite-button.html" %}{% endif %}
+    </div>
+  </div>
+</section>
+
+
+{% if outcomes %}<section class="student-panel student-info-section"><h2>ماذا ستتعلّم؟</h2><ul>{% for line in outcomes %}<li>{{ line }}</li>{% endfor %}</ul></section>{% endif %}
+{% if course.overview %}<section class="student-panel student-info-section"><h2>عن الدورة</h2><div class="student-prose">{{ course.overview|linebreaks }}</div></section>{% endif %}
+{% if requirements or audience %}<div class="student-course-info-cards">{% if requirements %}<section class="student-panel student-info-section"><h2>المتطلبات</h2><ul>{% for line in requirements %}<li>{{ line }}</li>{% endfor %}</ul></section>{% endif %}{% if audience %}<section class="student-panel student-info-section"><h2>لمن هذه الدورة؟</h2><ul>{% for line in audience %}<li>{{ line }}</li>{% endfor %}</ul></section>{% endif %}</div>{% endif %}
+
+{% if not own_review %}{% include 'students/dashboard/review.html' %}{% endif %}
+{% include 'students/assessments/list.html' with assessment_rows=all_assessment_rows %}
+{% include 'feedback/reviews.html' with review_in_dialog=True %}
+{% endblock %}

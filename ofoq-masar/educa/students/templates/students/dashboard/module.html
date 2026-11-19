@@ -1,0 +1,29 @@
+{% extends 'students/dashboard/base.html' %}
+{% block student_content %}
+  <header class="student-page-heading">
+    <h1>{{ selected_module.title }}</h1><p>{{ selected_module.lesson_rows|length }} درس ومادة</p>
+    {% if selected_module.description %}
+      <p>{{ selected_module.description|linebreaksbr }}</p>
+    {% endif %}
+  </header>
+  
+  <div class="student-panel student-module-lesson-list">
+    {% for content in selected_module.lesson_rows %}
+      <a class="student-unit-lesson" href="{% url 'student_lesson' course.pk content.pk %}">
+        <span class="student-lesson-index" aria-hidden="true">
+          {{ forloop.counter }}
+        </span>
+        <span class="student-unit-lesson-title">
+          <strong>{{ content.item.title }}</strong>
+          {% include 'students/dashboard/completion-badge.html' %}
+        </span>
+        <span class="student-lesson-kind">{% include 'students/dashboard/lesson-type.html' with lesson=content %}</span>
+        {% include 'courses/arrow-icon.html' %}</a>
+    {% empty %}
+      <section class="student-empty">
+        {% include 'students/dashboard/icon.html' with name='book' %}<h2>لا توجد دروس في هذه الوحدة بعد</h2><p>يمكنك العودة إلى الدورة واستعراض الوحدات الأخرى.</p><a class="text-link" href="{% url 'student_course_units' course.pk %}">العودة إلى وحدات الدورة{% include 'courses/arrow-icon.html' %}</a>
+      </section>
+    {% endfor %}
+  </div>
+  {% include 'students/assessments/list.html' with assessment_rows=selected_module.assessment_rows assessment_heading='اختبارات الوحدة' %}
+{% endblock %}
